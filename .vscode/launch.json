@@ -1,0 +1,45 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "doctor-app",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_doctor.dart"
+        },
+        {
+            "name": "doctor-app (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_doctor.dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "doctor-app (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_doctor.dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "nurse-app",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_nurse.dart"
+        },
+        {
+            "name": "nurse-app (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_nurse.dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "nurse-app (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_nurse.dart",
+            "flutterMode": "release"
+        }
+    ]
+}
