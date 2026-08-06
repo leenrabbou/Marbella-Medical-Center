@@ -159,6 +159,7 @@ class _PatientMedicationDetailsViewState
                   MedicationCard(
                     medication: medication,
                     showDescreption: false,
+                    isFromDetailsView: false,
                   ),
                   Positioned(
                     top: 20.h,

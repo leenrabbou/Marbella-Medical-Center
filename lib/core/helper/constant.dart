@@ -45,6 +45,7 @@ class Constant {
       case 'registered':
       case 'inactive':
       case 'remission':
+      case 'low':
         return const Color(0xFF3B82F6);
 
       case 'booked':
@@ -66,16 +67,20 @@ class Constant {
 
       case 'cancelled':
       case 'refuted':
+      case 'severe':
+      case 'high':
         return const Color(0xFFEF4444);
-
+      case 'moderate':
+        return const Color.fromARGB(255, 249, 151, 22);
       case 'no_show':
+      case 'unknown':
         return const Color(0xFF9E9E9E);
       case 'recurrence':
       case 'relapse':
       case 'entered-in-error':
       case 'provisional':
       default:
-        return const Color(0xFFF97316);
+        return const Color.fromARGB(255, 249, 22, 241);
     }
   }
 

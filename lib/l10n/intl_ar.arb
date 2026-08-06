@@ -506,5 +506,14 @@
   "resolved": "تم الحل",
   "differential": "تشخيص تفريقي",
   "failed_to_load_image": "فشل في تحميل الصورة",
-  "close": "إغلاق"
+  "close": "إغلاق",
+  "drugInteractionsTitle": "التفاعلات الدوائية",
+  "medicationsTab": "أدوية",
+  "conditionsTab": "حالات مرضية",
+  "noDrugInteractions": "لا توجد تفاعلات دوائية معروفة لهذا الدواء",
+  "noConditionInteractions": "لا توجد تفاعلات مع حالات مرضية معروفة",
+  "conditions_interactions": "Conditions Interactions",
+  "medication_conflict_title": "تم اكتشاف تعارض دوائي",
+  "medication_conflict_warning": "قد يتعارض هذا الدواء مع أدوية أو حالات المريض الحالية. هل تريد المتابعة رغم ذلك؟",
+  "continue_anyway": "المتابعة رغم ذلك"
 }

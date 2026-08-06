@@ -102,6 +102,7 @@ class _MedicationViewState extends State<MedicationView> {
                     );
                   },
                   showDescreption: true,
+                  isFromDetailsView: false,
                 );
               },
             ),

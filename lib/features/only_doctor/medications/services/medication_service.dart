@@ -5,6 +5,7 @@ import 'package:marbella/core/databases/api/end_points.dart';
 import 'package:marbella/core/errors/error_model.dart';
 import 'package:marbella/core/errors/exceptions.dart';
 import 'package:marbella/core/params/params.dart';
+import 'package:marbella/features/only_doctor/medications/models/medication_response_model.dart';
 import 'package:marbella/features/only_doctor/medications/models/medications_list_model.dart';
 import 'package:marbella/generated/l10n.dart';
 
@@ -25,6 +26,31 @@ class MedicationService {
 
       if (response[ApiKey.status] == 1) {
         final data = MedicationsListModel.fromJson(response);
+
+        return Right(data);
+      }
+      return Left(ErrorModel.fromJson(response));
+    } on ServerException catch (e) {
+      return Left(e.errorModel);
+    } catch (e) {
+      return Left(ErrorModel(status: 0, errorMessage: e.toString()));
+    }
+  }
+
+  Future<Either<ErrorModel, MedicationResponseModel>> getMedicationDetails(
+    String locale,
+    String? token,
+    int medicationId,
+  ) async {
+    try {
+      String url = '${EndPoints.medication}/$medicationId';
+      final response = await apiService.get(
+        url,
+        headers: {"locale": locale, "Authorization": 'Bearer $token'},
+      );
+
+      if (response[ApiKey.status] == 1) {
+        final data = MedicationResponseModel.fromJson(response);
 
         return Right(data);
       }

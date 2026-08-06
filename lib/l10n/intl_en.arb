@@ -506,5 +506,14 @@
   "resolved": "Resolved",
   "differential": "Differential",
   "failed_to_load_image": "Failed to load image",
-  "close": "Close"
+  "close": "Close",
+  "drugInteractionsTitle": "Drug Interactions",
+  "medicationsTab": "Medications",
+  "conditionsTab": "Medical Conditions",
+  "noDrugInteractions": "No known drug interactions for this medication",
+  "noConditionInteractions": "No known interactions with medical conditions",
+  "conditions_interactions": "Conditions Interactions",
+  "medication_conflict_title": "Medication Conflict Detected",
+  "medication_conflict_warning": "This medication may interact with the patient's existing medications or conditions. Do you want to continue anyway?",
+  "continue_anyway": "Continue Anyway"
 }

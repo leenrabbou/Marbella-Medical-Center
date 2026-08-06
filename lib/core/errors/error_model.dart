@@ -4,8 +4,10 @@ import 'package:marbella/generated/l10n.dart';
 class ErrorModel {
   int? status;
   final String errorMessage;
+  final Map<String, dynamic>? rawData;
 
-  ErrorModel({this.status, required this.errorMessage});
+  ErrorModel({this.status, required this.errorMessage, this.rawData});
+
   factory ErrorModel.fromJson(Map jsonData) {
     dynamic message = jsonData[ApiKey.message];
     String messageText = '';
@@ -17,15 +19,14 @@ class ErrorModel {
           .map((e) => (e is List ? e.join('\n') : e.toString()))
           .join('\n');
     } else if (message is List) {
-      if (message.isEmpty) {
-        messageText = "";
-      } else {
-        messageText = message.join('\n');
-      }
+      messageText = message.isEmpty ? "" : message.join('\n');
     } else if (message == null) {
       messageText = S().unknown_error;
     }
 
-    return ErrorModel(errorMessage: messageText);
+    return ErrorModel(
+      errorMessage: messageText,
+      rawData: Map<String, dynamic>.from(jsonData),
+    );
   }
 }

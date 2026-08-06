@@ -30,9 +30,9 @@ class EncounterNoteDialogs {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    String selectedDurationUnit = note?.durationUnit ?? S().days;
+    String selectedDurationUnit = note?.durationUnit ?? 'days';
     bool isDorationSelected = false;
-    final durationUnits = [S().days, S().weeks, S().months];
+    final durationUnits = ['days', 'weeks', 'months'];
 
     bool isSubmitting = false;
     String? localErrorMessage;

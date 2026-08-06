@@ -1,6 +1,8 @@
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:marbella/core/helper/constant.dart';
 import 'package:marbella/core/widgets/style_widget.dart';
+import 'package:marbella/features/only_doctor/medications/models/drug_interaction_model.dart';
 import 'package:marbella/features/shared/auth/viewmodels/auth_viewmodel.dart';
 import 'package:marbella/features/only_doctor/medications/viewmodels/medication_viewmodel.dart';
 import 'package:marbella/features/shared/patient_medications/viewmodel/patient_medication_viewmodel.dart';
@@ -36,8 +38,8 @@ class PatientMedicationDialogs {
     final colorScheme = theme.colorScheme;
 
     int? selectedMedicationId = patientMedication?.medication.id;
-    String selectedDurationUnit = patientMedication?.durationUnit ?? S().days;
-    final durationUnits = [S().days, S().weeks, S().months];
+    String selectedDurationUnit = patientMedication?.durationUnit ?? 'days';
+    final durationUnits = ['days', 'weeks', 'months'];
     bool isSubmitting = false;
     String? localErrorMessage;
     bool isMedicationSelected = false;
@@ -529,6 +531,7 @@ class PatientMedicationDialogs {
                                               durationUnit:
                                                   selectedDurationUnit,
                                               notes: notesController.text,
+                                              override: 0,
                                             );
                                         success =
                                             await patientMedicationProvider
@@ -552,15 +555,70 @@ class PatientMedicationDialogs {
                                             type: SnackbarType.success,
                                           );
                                         });
+                                      } else if (patientMedicationProvider
+                                              .medicationConflictInteractions !=
+                                          null) {
+                                        setState(() => isSubmitting = false);
+                                        final continueAnyway =
+                                            await _showConflictDialog(
+                                              context,
+                                              patientMedicationProvider
+                                                      .conflictMessage ??
+                                                  S().medication_conflict_warning,
+                                              patientMedicationProvider
+                                                  .medicationConflictInteractions!,
+                                            );
+                                        if (continueAnyway == 1 &&
+                                            context.mounted) {
+                                          setState(() => isSubmitting = true);
+                                          final forcedParams =
+                                              AddPatientMedicationParams(
+                                                encounterId: encounterId!,
+                                                medicationId:
+                                                    selectedMedicationId!,
+                                                dosage: dosageController.text,
+                                                route: routeController.text,
+                                                durationValue: durationValue,
+                                                durationUnit:
+                                                    selectedDurationUnit,
+                                                notes: notesController.text,
+                                                override: 1,
+                                              );
+                                          final forcedSuccess =
+                                              await patientMedicationProvider
+                                                  .addMedication(
+                                                    forcedParams,
+                                                    locale,
+                                                    token,
+                                                  );
+                                          if (!context.mounted) return;
+                                          if (forcedSuccess) {
+                                            Navigator.pop(context);
+                                            WidgetsBinding.instance
+                                                .addPostFrameCallback((_) {
+                                                  AppSnackbar.show(
+                                                    context,
+                                                    message: S()
+                                                        .medication_added_successfully,
+                                                    type: SnackbarType.success,
+                                                  );
+                                                });
+                                          } else {
+                                            setState(() {
+                                              isSubmitting = false;
+                                              localErrorMessage =
+                                                  patientMedicationProvider
+                                                      .addErrorMessage ??
+                                                  S().error;
+                                            });
+                                          }
+                                        }
                                       } else {
                                         setState(() {
                                           isSubmitting = false;
                                           localErrorMessage =
-                                              (isEditMode
-                                                  ? patientMedicationProvider
-                                                        .updateErrorMessage
-                                                  : patientMedicationProvider
-                                                        .addErrorMessage) ??
+                                              patientMedicationProvider
+                                                  .addErrorMessage ??
                                               S().error;
                                         });
                                       }
@@ -598,6 +656,102 @@ class PatientMedicationDialogs {
               ),
             );
           },
+        );
+      },
+    );
+  }
+
+  static Future<int?> _showConflictDialog(
+    BuildContext context,
+    String message,
+    List<DrugInteractionModel> interactions,
+  ) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    return showDialog<int>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) {
+        final theme = Theme.of(dialogContext);
+        return AlertDialog(
+          backgroundColor: colorScheme.surface,
+          title: Row(
+            children: [
+              const Icon(Icons.warning_amber_rounded, color: Colors.red),
+              const SizedBox(width: 8),
+              Text(S().medication_conflict_title),
+            ],
+          ),
+          content: SizedBox(
+            width: 500.w,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(message, style: theme.textTheme.bodyMedium),
+                const SizedBox(height: 12),
+                ...interactions.map(
+                  (i) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.circle,
+                          size: 8,
+                          color: Constant.statusColor(i.severity),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            "${i.drugInteraction.code.display} (${i.severity})",
+                            style: theme.textTheme.bodyMedium,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            CustomButtonWidget(
+              onPressed: () => Navigator.pop(dialogContext, 0),
+              height: 40,
+              width: 120,
+              left: 0,
+              right: 0,
+              top: 5,
+              bottom: 0,
+              textSize: 15,
+              color: colorScheme.surface,
+              textColor: colorScheme.primary,
+              elevation: 0,
+              child: Text(S().cancel, style: theme.textTheme.bodySmall),
+            ),
+            CustomButtonWidget(
+              onPressed: () => Navigator.pop(dialogContext, 1),
+              height: 40,
+              width: 160,
+              left: 0,
+              right: 0,
+              top: 5,
+              bottom: 0,
+              textSize: 18,
+              color: Colors.redAccent,
+              elevation: 3,
+              textColor: Colors.white,
+
+              child: Text(
+                S().continue_anyway,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         );
       },
     );

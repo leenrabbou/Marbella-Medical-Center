@@ -170,6 +170,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Condition updated successfully.",
     ),
     "conditions": MessageLookupByLibrary.simpleMessage("Conditions"),
+    "conditionsTab": MessageLookupByLibrary.simpleMessage("Medical Conditions"),
+    "conditions_interactions": MessageLookupByLibrary.simpleMessage(
+      "Conditions Interactions",
+    ),
     "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
     "confirm_password": MessageLookupByLibrary.simpleMessage(
       "Confirm Password",
@@ -177,6 +181,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "contact_information": MessageLookupByLibrary.simpleMessage(
       "Contact Information",
     ),
+    "continue_anyway": MessageLookupByLibrary.simpleMessage("Continue Anyway"),
     "continue_button": MessageLookupByLibrary.simpleMessage("Continue"),
     "cost": MessageLookupByLibrary.simpleMessage("Cost"),
     "crown": MessageLookupByLibrary.simpleMessage("Crown"),
@@ -220,6 +225,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "documents": MessageLookupByLibrary.simpleMessage("Documents"),
     "dosage_hint": MessageLookupByLibrary.simpleMessage("e.g. once daily"),
     "drPrefix": MessageLookupByLibrary.simpleMessage("Dr."),
+    "drugInteractionsTitle": MessageLookupByLibrary.simpleMessage(
+      "Drug Interactions",
+    ),
     "duration": MessageLookupByLibrary.simpleMessage("Duration"),
     "duration_day": MessageLookupByLibrary.simpleMessage("day"),
     "duration_days": MessageLookupByLibrary.simpleMessage("days"),
@@ -469,6 +477,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "medication_added_successfully": MessageLookupByLibrary.simpleMessage(
       "Medication added successfully.",
     ),
+    "medication_conflict_title": MessageLookupByLibrary.simpleMessage(
+      "Medication Conflict Detected",
+    ),
+    "medication_conflict_warning": MessageLookupByLibrary.simpleMessage(
+      "This medication may interact with the patient\'s existing medications or conditions. Do you want to continue anyway?",
+    ),
     "medication_delete_warning": MessageLookupByLibrary.simpleMessage(
       "This medication will be permanently deleted.",
     ),
@@ -495,6 +509,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "medication_updated_successfully": MessageLookupByLibrary.simpleMessage(
       "Medication updated successfully.",
     ),
+    "medicationsTab": MessageLookupByLibrary.simpleMessage("Medications"),
     "medications_in_use": MessageLookupByLibrary.simpleMessage(
       "Medications in Use",
     ),
@@ -518,6 +533,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "nice_to_see_you": MessageLookupByLibrary.simpleMessage(
       "Nice to see you again",
+    ),
+    "noConditionInteractions": MessageLookupByLibrary.simpleMessage(
+      "No known interactions with medical conditions",
+    ),
+    "noDrugInteractions": MessageLookupByLibrary.simpleMessage(
+      "No known drug interactions for this medication",
     ),
     "no_active_conditions": MessageLookupByLibrary.simpleMessage(
       "No active conditions",

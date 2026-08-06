@@ -13,11 +13,11 @@ class MedicationsListModel {
   });
 
   factory MedicationsListModel.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> patientsListJson = json[ApiKey.data];
+    final List<dynamic> listJson = json[ApiKey.data];
     return MedicationsListModel(
       status: json[ApiKey.status],
       message: json[ApiKey.message],
-      data: patientsListJson
+      data: listJson
           .map((item) => MedicationModel.fromJson(item as Map<String, dynamic>))
           .toList(),
     );

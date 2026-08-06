@@ -1,3 +1,5 @@
+import 'package:marbella/core/errors/conflict_error.dart';
+import 'package:marbella/features/only_doctor/medications/models/drug_interaction_model.dart';
 import 'package:marbella/features/shared/patient_medications/models/patient_medication_model.dart';
 import 'package:marbella/features/shared/patient_medications/services/patient_medications_service.dart';
 import 'package:flutter/foundation.dart';
@@ -182,6 +184,9 @@ class PatientMedicationViewmodel extends ChangeNotifier {
     );
   }
 
+  List<DrugInteractionModel>? medicationConflictInteractions;
+  String? conflictMessage;
+
   Future<bool> addMedication(
     AddPatientMedicationParams params,
     String locale,
@@ -189,7 +194,10 @@ class PatientMedicationViewmodel extends ChangeNotifier {
   ) async {
     addisLoading = true;
     addErrorMessage = null;
+    medicationConflictInteractions = null;
+    conflictMessage = null;
     notifyListeners();
+
     final isConnected = await networkInfo.isConnected;
     if (isConnected == false) {
       addErrorMessage = S().no_internet_message;
@@ -203,16 +211,24 @@ class PatientMedicationViewmodel extends ChangeNotifier {
       notifyListeners();
       return false;
     }
+
     final result = await patientMedicationsService.addPatientMedication(
       locale,
       token,
       params,
     );
+
     return result.fold(
       (failure) {
-        addErrorMessage = failure.errorMessage;
-        if (kDebugMode) {
-          print("add Patient Medications failed: ${failure.errorMessage}");
+        if (failure is ConflictError) {
+          medicationConflictInteractions = failure.interactions;
+          conflictMessage = failure.errorMessage;
+          if (kDebugMode) print("Medication conflict detected");
+        } else {
+          addErrorMessage = failure.errorMessage;
+          if (kDebugMode) {
+            print("add Patient Medications failed: ${failure.errorMessage}");
+          }
         }
         addisLoading = false;
         notifyListeners();

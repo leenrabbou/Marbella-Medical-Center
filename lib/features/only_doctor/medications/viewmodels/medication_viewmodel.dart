@@ -18,6 +18,11 @@ class MedicationViewmodel extends ChangeNotifier {
   List<MedicationModel> mediactionsList = [];
   String? getListErrorMessage;
 
+  bool isLoadingDetails = false;
+  bool getDetailsSuccessfully = false;
+  MedicationModel? medicationDetails;
+  String? getDetailsErrorMessage;
+
   bool updateisLoading = false;
   String? updateErrorMessage;
 
@@ -65,6 +70,55 @@ class MedicationViewmodel extends ChangeNotifier {
     );
 
     isLoadingList = false;
+    notifyListeners();
+  }
+
+  Future<void> getMedicationDetails(
+    String locale,
+    String? token,
+    int medicationId,
+  ) async {
+    isLoadingDetails = true;
+    getDetailsErrorMessage = null;
+    medicationDetails = null;
+    notifyListeners();
+
+    if (token == null) {
+      getDetailsErrorMessage = S().token_missing;
+      isLoadingDetails = false;
+      notifyListeners();
+      return;
+    }
+
+    final isConnected = await networkInfo.isConnected;
+    if (isConnected == false) {
+      getDetailsErrorMessage = S().no_internet_message;
+      isLoadingDetails = false;
+      notifyListeners();
+      return;
+    }
+
+    final result = await medicationService.getMedicationDetails(
+      locale,
+      token,
+      medicationId,
+    );
+
+    result.fold(
+      (failure) {
+        getDetailsErrorMessage = failure.errorMessage;
+        if (kDebugMode) {
+          print("failed fetch medications Details: ${failure.errorMessage}");
+        }
+      },
+      (response) {
+        getDetailsSuccessfully = true;
+        medicationDetails = response.data;
+        if (kDebugMode) print("fetch medications Details success");
+      },
+    );
+
+    isLoadingDetails = false;
     notifyListeners();
   }
 

@@ -174,6 +174,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "تم تحديث التشخيص بنجاح.",
     ),
     "conditions": MessageLookupByLibrary.simpleMessage("التشخيصات"),
+    "conditionsTab": MessageLookupByLibrary.simpleMessage("حالات مرضية"),
+    "conditions_interactions": MessageLookupByLibrary.simpleMessage(
+      "Conditions Interactions",
+    ),
     "confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
     "confirm_password": MessageLookupByLibrary.simpleMessage(
       "تأكيد كلمة المرور",
@@ -181,6 +185,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "contact_information": MessageLookupByLibrary.simpleMessage(
       "معلومات الاتصال",
     ),
+    "continue_anyway": MessageLookupByLibrary.simpleMessage("المتابعة رغم ذلك"),
     "continue_button": MessageLookupByLibrary.simpleMessage("متابعة"),
     "cost": MessageLookupByLibrary.simpleMessage("التكلفة"),
     "crown": MessageLookupByLibrary.simpleMessage("تاج"),
@@ -214,6 +219,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "documents": MessageLookupByLibrary.simpleMessage("المستندات"),
     "dosage_hint": MessageLookupByLibrary.simpleMessage("مثال: حبة يومياً"),
     "drPrefix": MessageLookupByLibrary.simpleMessage("د."),
+    "drugInteractionsTitle": MessageLookupByLibrary.simpleMessage(
+      "التفاعلات الدوائية",
+    ),
     "duration": MessageLookupByLibrary.simpleMessage("المدة"),
     "duration_day": MessageLookupByLibrary.simpleMessage("يوم"),
     "duration_days": MessageLookupByLibrary.simpleMessage("أيام"),
@@ -471,6 +479,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "medication_added_successfully": MessageLookupByLibrary.simpleMessage(
       "تمت إضافة الدواء بنجاح.",
     ),
+    "medication_conflict_title": MessageLookupByLibrary.simpleMessage(
+      "تم اكتشاف تعارض دوائي",
+    ),
+    "medication_conflict_warning": MessageLookupByLibrary.simpleMessage(
+      "قد يتعارض هذا الدواء مع أدوية أو حالات المريض الحالية. هل تريد المتابعة رغم ذلك؟",
+    ),
     "medication_delete_warning": MessageLookupByLibrary.simpleMessage(
       "سيتم حذف هذا الدواء نهائياً.",
     ),
@@ -493,6 +507,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "medication_updated_successfully": MessageLookupByLibrary.simpleMessage(
       "تم تحديث الدواء بنجاح.",
     ),
+    "medicationsTab": MessageLookupByLibrary.simpleMessage("أدوية"),
     "medications_in_use": MessageLookupByLibrary.simpleMessage(
       "الأدوية المستخدمة",
     ),
@@ -514,6 +529,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "next_appointment": MessageLookupByLibrary.simpleMessage("الموعد القادم"),
     "nice_to_see_you": MessageLookupByLibrary.simpleMessage(
       "سعيدون برؤيتك مجدداً",
+    ),
+    "noConditionInteractions": MessageLookupByLibrary.simpleMessage(
+      "لا توجد تفاعلات مع حالات مرضية معروفة",
+    ),
+    "noDrugInteractions": MessageLookupByLibrary.simpleMessage(
+      "لا توجد تفاعلات دوائية معروفة لهذا الدواء",
     ),
     "no_active_conditions": MessageLookupByLibrary.simpleMessage(
       "لا توجد تشخيصات نشطة",

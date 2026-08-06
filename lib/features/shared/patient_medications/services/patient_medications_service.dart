@@ -1,9 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:marbella/core/databases/api/api_services.dart';
 import 'package:marbella/core/databases/api/end_points.dart';
+import 'package:marbella/core/errors/conflict_error.dart';
 import 'package:marbella/core/errors/error_model.dart';
 import 'package:marbella/core/errors/exceptions.dart';
 import 'package:marbella/core/params/params.dart';
+import 'package:marbella/features/only_doctor/medications/models/drug_interaction_model.dart';
+import 'package:marbella/features/only_doctor/medications/models/interaction_list_model.dart';
 import 'package:marbella/features/shared/patient_medications/models/patient_medications_list.dart';
 import 'package:marbella/features/shared/patient_medications/models/patient_medications_response.dart';
 import 'package:marbella/generated/l10n.dart';
@@ -130,11 +133,40 @@ class PatientMedicationsService {
           ApiKey.durationValue: params.durationValue,
           ApiKey.durationUnit: params.durationUnit,
           ApiKey.notes: params.notes,
+          ApiKey.override: params.override,
         },
       );
+
       if (response.statusCode == 201) {
         return Right(null);
       }
+
+      if (response.statusCode == 409) {
+        final rawData = response.error?.rawData;
+        if (rawData == null) {
+          return Left(
+            ErrorModel(
+              status: 409,
+              errorMessage: response.error?.errorMessage ?? S().unknown_error,
+            ),
+          );
+        }
+
+        final interactionList =
+            InteractionListModel<DrugInteractionModel>.fromJson(
+              rawData,
+              DrugInteractionModel.fromJson,
+              dataKey: ApiKey.medications,
+            );
+        return Left(
+          ConflictError(
+            status: 409,
+            errorMessage: interactionList.message,
+            interactions: interactionList.data,
+          ),
+        );
+      }
+
       final error = ErrorModel(
         status: response.statusCode,
         errorMessage: response.error?.errorMessage ?? S().unknown_error,

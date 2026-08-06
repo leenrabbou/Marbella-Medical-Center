@@ -335,6 +335,7 @@ class AddPatientMedicationParams {
   int? durationValue;
   String? durationUnit;
   String? notes;
+  int override;
   AddPatientMedicationParams({
     required this.encounterId,
     required this.medicationId,
@@ -343,6 +344,7 @@ class AddPatientMedicationParams {
     required this.durationUnit,
     required this.durationValue,
     required this.notes,
+    required this.override,
   });
 }
 
@@ -425,5 +427,30 @@ class AddPatientLabTestParams {
   AddPatientLabTestParams({
     required this.patientId,
     required this.medicalTestId,
+  });
+}
+
+class InteractionParams {
+  final int medicationId;
+  final String interactableType;
+  InteractionParams({
+    required this.medicationId,
+    required this.interactableType,
+  });
+}
+
+class AddInteractionParams {
+  final int medicationId;
+  final String interactableType;
+  final int interactableId;
+  final String severity;
+  final String? description;
+
+  AddInteractionParams({
+    required this.interactableId,
+    required this.severity,
+    required this.description,
+    required this.medicationId,
+    required this.interactableType,
   });
 }

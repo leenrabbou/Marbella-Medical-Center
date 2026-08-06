@@ -4158,6 +4158,96 @@ class S {
   String get close {
     return Intl.message('Close', name: 'close', desc: '', args: []);
   }
+
+  /// `Drug Interactions`
+  String get drugInteractionsTitle {
+    return Intl.message(
+      'Drug Interactions',
+      name: 'drugInteractionsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Medications`
+  String get medicationsTab {
+    return Intl.message(
+      'Medications',
+      name: 'medicationsTab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Medical Conditions`
+  String get conditionsTab {
+    return Intl.message(
+      'Medical Conditions',
+      name: 'conditionsTab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No known drug interactions for this medication`
+  String get noDrugInteractions {
+    return Intl.message(
+      'No known drug interactions for this medication',
+      name: 'noDrugInteractions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No known interactions with medical conditions`
+  String get noConditionInteractions {
+    return Intl.message(
+      'No known interactions with medical conditions',
+      name: 'noConditionInteractions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conditions Interactions`
+  String get conditions_interactions {
+    return Intl.message(
+      'Conditions Interactions',
+      name: 'conditions_interactions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Medication Conflict Detected`
+  String get medication_conflict_title {
+    return Intl.message(
+      'Medication Conflict Detected',
+      name: 'medication_conflict_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This medication may interact with the patient's existing medications or conditions. Do you want to continue anyway?`
+  String get medication_conflict_warning {
+    return Intl.message(
+      'This medication may interact with the patient\'s existing medications or conditions. Do you want to continue anyway?',
+      name: 'medication_conflict_warning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue Anyway`
+  String get continue_anyway {
+    return Intl.message(
+      'Continue Anyway',
+      name: 'continue_anyway',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
