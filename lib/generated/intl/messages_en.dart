@@ -22,11 +22,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "abatement_date": MessageLookupByLibrary.simpleMessage(
-      "Abatement Date (optional)",
-    ),
+    "abatement_date": MessageLookupByLibrary.simpleMessage("Abatement Date"),
     "account_banned": MessageLookupByLibrary.simpleMessage(
       "Your account has been banned.",
+    ),
+    "account_permanently_locked": MessageLookupByLibrary.simpleMessage(
+      "Your account has been locked. Please contact support.",
     ),
     "active": MessageLookupByLibrary.simpleMessage("Active"),
     "active_conditions": MessageLookupByLibrary.simpleMessage(
@@ -275,6 +276,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "efficient_patient_management": MessageLookupByLibrary.simpleMessage(
       "Efficient Patient Management",
     ),
+    "encounter": MessageLookupByLibrary.simpleMessage("Encounter"),
     "encounter_details": MessageLookupByLibrary.simpleMessage(
       "Encounter Details",
     ),
@@ -365,6 +367,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "enter_unit": MessageLookupByLibrary.simpleMessage("Enter Unit"),
     "enter_value": MessageLookupByLibrary.simpleMessage("Enter Value"),
     "error": MessageLookupByLibrary.simpleMessage("Error"),
+    "event_created": MessageLookupByLibrary.simpleMessage("Created"),
+    "event_deleted": MessageLookupByLibrary.simpleMessage("Deleted"),
+    "event_updated": MessageLookupByLibrary.simpleMessage("Updated"),
     "experiences": MessageLookupByLibrary.simpleMessage("Experiences"),
     "extraction": MessageLookupByLibrary.simpleMessage("Extraction"),
     "failed_to_fetch": MessageLookupByLibrary.simpleMessage(
@@ -570,6 +575,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_cancelled_appointments": MessageLookupByLibrary.simpleMessage(
       "No cancelled appointments",
     ),
+    "no_changes_detected": MessageLookupByLibrary.simpleMessage(
+      "No changes to display",
+    ),
     "no_data": MessageLookupByLibrary.simpleMessage("No Data"),
     "no_date": MessageLookupByLibrary.simpleMessage("No Date"),
     "no_encounter_data": MessageLookupByLibrary.simpleMessage(
@@ -618,6 +626,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "not_available": MessageLookupByLibrary.simpleMessage("Not available"),
     "not_banned": MessageLookupByLibrary.simpleMessage("Not Banned"),
+    "not_set": MessageLookupByLibrary.simpleMessage("Not set"),
     "note": MessageLookupByLibrary.simpleMessage("Note"),
     "note_added_successfully": MessageLookupByLibrary.simpleMessage(
       "Note added successfully.",
@@ -633,6 +642,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "notes": MessageLookupByLibrary.simpleMessage("Notes"),
     "notes_hint": MessageLookupByLibrary.simpleMessage("e.g. take after food"),
+    "nurse": MessageLookupByLibrary.simpleMessage("Nurse"),
     "nurse_added_successfully": MessageLookupByLibrary.simpleMessage(
       "Nurse added successfully.",
     ),
@@ -697,12 +707,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwords_do_not_match": MessageLookupByLibrary.simpleMessage(
       "Passwords do not match",
     ),
+    "patient": MessageLookupByLibrary.simpleMessage("Patient"),
     "patient_info": MessageLookupByLibrary.simpleMessage("Patient Info"),
     "patient_job": MessageLookupByLibrary.simpleMessage("Patient Job"),
     "patient_name": MessageLookupByLibrary.simpleMessage("Patient Name"),
     "patient_profile": MessageLookupByLibrary.simpleMessage("Patient Profile"),
     "patients": MessageLookupByLibrary.simpleMessage("Patients"),
     "pending": MessageLookupByLibrary.simpleMessage("Pending"),
+    "performed_at": MessageLookupByLibrary.simpleMessage("Performed At"),
     "personal_data": MessageLookupByLibrary.simpleMessage("Personal Data"),
     "personal_information": MessageLookupByLibrary.simpleMessage(
       "Personal Information",
@@ -741,6 +753,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "profile_image": MessageLookupByLibrary.simpleMessage("Profile Image"),
     "queue": MessageLookupByLibrary.simpleMessage("Order"),
+    "reason": MessageLookupByLibrary.simpleMessage("Reason"),
     "reference_range": MessageLookupByLibrary.simpleMessage("Reference Range"),
     "remove": MessageLookupByLibrary.simpleMessage("Remove"),
     "remove_nurse": MessageLookupByLibrary.simpleMessage("Remove Nurse"),
@@ -788,6 +801,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Search result for",
     ),
     "sec": MessageLookupByLibrary.simpleMessage("sec"),
+    "seconds_short": MessageLookupByLibrary.simpleMessage("sec"),
     "see_all": MessageLookupByLibrary.simpleMessage("See all"),
     "select": MessageLookupByLibrary.simpleMessage("Select"),
     "select_a_conversation": MessageLookupByLibrary.simpleMessage(
@@ -888,6 +902,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "treatment_plan_type": MessageLookupByLibrary.simpleMessage(
       "Treatment Plan Type",
     ),
+    "try_again_in": MessageLookupByLibrary.simpleMessage("Try again in"),
     "tuesday": MessageLookupByLibrary.simpleMessage("Tuesday"),
     "type_a_message_hint": MessageLookupByLibrary.simpleMessage(
       "Type a message...",

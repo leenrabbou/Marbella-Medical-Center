@@ -1,9 +1,14 @@
+import 'package:marbella/app/app_role.dart';
+import 'package:marbella/core/databases/api/end_points.dart';
 import 'package:marbella/core/helper/constant.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/core/widgets/style_widget.dart';
+import 'package:marbella/features/only_doctor/audit/views/audit_view.dart';
 import 'package:marbella/features/shared/encounters/models/encounter_note_model.dart';
 import 'package:marbella/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class EncounterNoteCard extends StatelessWidget {
   const EncounterNoteCard({
@@ -44,11 +49,16 @@ class EncounterNoteCard extends StatelessWidget {
     final statusColor = _isActive
         ? colorScheme.primary
         : colorScheme.onSurface.withAlpha((0.35 * 255).toInt());
+    final role = context.read<AppRole>();
 
+    bool isMobile = DeviceInfo.isMobile(context);
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.h),
+      padding: EdgeInsets.symmetric(vertical: isMobile ? 3.h : 4.h),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 30.w : 12.w,
+          vertical: isMobile ? 10.h : 12.h,
+        ),
         decoration: StyleWidget.cardDecoration(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,8 +106,21 @@ class EncounterNoteCard extends StatelessWidget {
                       ),
                       color: colorScheme.surface,
                       onSelected: (value) {
-                        if (value == 'edit') onEdit?.call();
-                        if (value == 'delete') onDelete?.call();
+                        if (value == 'edit') {
+                          onEdit?.call();
+                        } else if (value == 'audit') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => AuditView(
+                                id: note.id,
+                                endPoint: EndPoints.encounterNote,
+                              ),
+                            ),
+                          );
+                        } else if (value == 'delete') {
+                          onDelete?.call();
+                        }
                       },
                       itemBuilder: (_) => [
                         PopupMenuItem(
@@ -119,6 +142,27 @@ class EncounterNoteCard extends StatelessWidget {
                             ],
                           ),
                         ),
+                        if (role == AppRole.doctor) ...[
+                          PopupMenuItem(
+                            value: 'audit',
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.manage_history_rounded,
+                                  size: 19,
+                                  color: colorScheme.onSurface.withAlpha(
+                                    (0.6 * 255).toInt(),
+                                  ),
+                                ),
+                                SizedBox(width: 10.w),
+                                Text(
+                                  'Audit',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                         PopupMenuItem(
                           value: 'delete',
                           child: Row(

@@ -2,6 +2,7 @@ import 'package:marbella/app/app_role.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/core/params/params.dart';
 import 'package:marbella/core/widgets/state_widget.dart';
 import 'package:marbella/features/shared/auth/viewmodels/auth_viewmodel.dart';
@@ -97,6 +98,7 @@ class _ConditionsViewState extends State<ConditionsView> {
     final colorScheme = Theme.of(context).colorScheme;
     final conditionsProvider = context.watch<ConditionViewmodel>();
     final conditions = conditionsProvider.conditionsFor(_params);
+    bool isMobile = DeviceInfo.isMobile(context);
     return Scaffold(
       floatingActionButton: isEditable && role == AppRole.doctor
           ? FloatingActionButton(
@@ -138,7 +140,10 @@ class _ConditionsViewState extends State<ConditionsView> {
             onRetry: _handleRefresh,
             noDataMsg: S().no_data,
             child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? 40.w : 20.w,
+                vertical: isMobile ? 0.h : 5.h,
+              ),
               physics: AlwaysScrollableScrollPhysics(),
               itemCount: conditions.length,
               itemBuilder: (BuildContext context, int index) {

@@ -2969,10 +2969,10 @@ class S {
     return Intl.message('Onset Date', name: 'onset_date', desc: '', args: []);
   }
 
-  /// `Abatement Date (optional)`
+  /// `Abatement Date`
   String get abatement_date {
     return Intl.message(
-      'Abatement Date (optional)',
+      'Abatement Date',
       name: 'abatement_date',
       desc: '',
       args: [],
@@ -4247,6 +4247,91 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Created`
+  String get event_created {
+    return Intl.message('Created', name: 'event_created', desc: '', args: []);
+  }
+
+  /// `Updated`
+  String get event_updated {
+    return Intl.message('Updated', name: 'event_updated', desc: '', args: []);
+  }
+
+  /// `Deleted`
+  String get event_deleted {
+    return Intl.message('Deleted', name: 'event_deleted', desc: '', args: []);
+  }
+
+  /// `No changes to display`
+  String get no_changes_detected {
+    return Intl.message(
+      'No changes to display',
+      name: 'no_changes_detected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not set`
+  String get not_set {
+    return Intl.message('Not set', name: 'not_set', desc: '', args: []);
+  }
+
+  /// `Nurse`
+  String get nurse {
+    return Intl.message('Nurse', name: 'nurse', desc: '', args: []);
+  }
+
+  /// `Your account has been locked. Please contact support.`
+  String get account_permanently_locked {
+    return Intl.message(
+      'Your account has been locked. Please contact support.',
+      name: 'account_permanently_locked',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try again in`
+  String get try_again_in {
+    return Intl.message(
+      'Try again in',
+      name: 'try_again_in',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `sec`
+  String get seconds_short {
+    return Intl.message('sec', name: 'seconds_short', desc: '', args: []);
+  }
+
+  /// `Performed At`
+  String get performed_at {
+    return Intl.message(
+      'Performed At',
+      name: 'performed_at',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reason`
+  String get reason {
+    return Intl.message('Reason', name: 'reason', desc: '', args: []);
+  }
+
+  /// `Patient`
+  String get patient {
+    return Intl.message('Patient', name: 'patient', desc: '', args: []);
+  }
+
+  /// `Encounter`
+  String get encounter {
+    return Intl.message('Encounter', name: 'encounter', desc: '', args: []);
   }
 }
 

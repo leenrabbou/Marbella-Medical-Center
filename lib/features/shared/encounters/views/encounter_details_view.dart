@@ -1,4 +1,6 @@
 import 'package:marbella/app/app_role.dart';
+import 'package:marbella/core/databases/api/end_points.dart';
+import 'package:marbella/features/only_doctor/audit/views/audit_view.dart';
 import 'package:marbella/features/shared/encounter_services/views/encounter_service_tab.dart';
 import 'package:marbella/features/shared/encounters/views/encounter_notes_tab.dart';
 import 'package:marbella/features/only_doctor/nurses/views/nurses_view.dart';
@@ -91,6 +93,23 @@ class _EncounterDetailsViewState extends State<EncounterDetailsView>
           icon: const Icon(Icons.arrow_back_ios, size: 15),
         ),
         title: const SizedBox.shrink(),
+        actions: [
+          if (role == AppRole.doctor)
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AuditView(
+                      id: widget.encounter.id,
+                      endPoint: EndPoints.encounter,
+                    ),
+                  ),
+                );
+              },
+              icon: Icon(Icons.manage_history_rounded),
+            ),
+        ],
       ),
       bottomNavigationBar: hasChanges && isEditable
           ? SafeArea(child: _bottomActionsBar(colorScheme))
@@ -188,8 +207,12 @@ class _EncounterDetailsViewState extends State<EncounterDetailsView>
   Widget _bottomActionsBar(ColorScheme colorScheme) {
     final encounter = context.watch<EncounterViewmodel>();
     final role = context.read<AppRole>();
+    bool isMobile = DeviceInfo.isMobile(context);
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 40.w : 20.w,
+        vertical: 7.h,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -207,7 +230,7 @@ class _EncounterDetailsViewState extends State<EncounterDetailsView>
               onPressed: () {
                 Navigator.pop(context);
               },
-              height: 40.h,
+              height: isMobile ? 30.h : 40.h,
               left: 0,
               right: 0,
               top: 0,
@@ -235,7 +258,7 @@ class _EncounterDetailsViewState extends State<EncounterDetailsView>
                   : () {
                       _saveChanges(null);
                     },
-              height: 40.h,
+              height: isMobile ? 30.h : 40.h,
               left: 0,
               right: 0,
               top: 0,

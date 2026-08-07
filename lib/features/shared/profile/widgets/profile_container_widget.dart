@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:marbella/core/helper/device_info.dart';
 
 class ProfileContainerWidget extends StatelessWidget {
   const ProfileContainerWidget({
@@ -14,8 +15,9 @@ class ProfileContainerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    bool isMobile = DeviceInfo.isMobile(context);
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 4.h),
+      margin: EdgeInsets.symmetric(vertical: isMobile ? 3.h : 4.h),
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(12.r),

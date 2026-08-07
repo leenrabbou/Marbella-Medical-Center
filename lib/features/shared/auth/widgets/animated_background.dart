@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:marbella/features/shared/auth/widgets/medical_pattern_painter.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +17,6 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
   @override
   void initState() {
     super.initState();
-
     controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 18),
@@ -42,21 +39,18 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
             Positioned(
               left: -120 + controller.value * 60,
               top: -80,
-              child: _blurCircle(280, widget.color.withAlpha(25)),
+              child: _glowCircle(280, widget.color),
             ),
-
             Positioned(
               right: -100,
               bottom: -60 + controller.value * 70,
-              child: _blurCircle(240, Colors.cyan.withAlpha(25)),
+              child: _glowCircle(240, Colors.cyan),
             ),
-
             Positioned(
               right: 40 - controller.value * 40,
               top: 220,
-              child: _blurCircle(170, Colors.teal.withAlpha(25)),
+              child: _glowCircle(170, Colors.teal),
             ),
-
             Positioned.fill(
               child: CustomPaint(painter: MedicalPatternPainter(widget.color)),
             ),
@@ -67,13 +61,15 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
   }
 }
 
-Widget _blurCircle(double size, Color color) {
-  return ImageFiltered(
-    imageFilter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-    child: Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+Widget _glowCircle(double size, Color color) {
+  return Container(
+    width: size,
+    height: size,
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      gradient: RadialGradient(
+        colors: [color.withAlpha(35), color.withAlpha(0)],
+      ),
     ),
   );
 }

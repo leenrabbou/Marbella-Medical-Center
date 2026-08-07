@@ -1,4 +1,5 @@
 import 'package:marbella/core/helper/constant.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/core/widgets/style_widget.dart';
 import 'package:marbella/features/shared/encounters/models/encounter_model.dart';
 import 'package:marbella/features/shared/encounters/views/encounter_details_view.dart';
@@ -24,8 +25,12 @@ class EncounterCard extends StatelessWidget {
 
     final Color statusColor = Constant.statusColor(encounter.status);
 
+    bool isMobile = DeviceInfo.isMobile(context);
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 4.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 40.w : 30.w,
+        vertical: isMobile ? 3.h : 4.h,
+      ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(

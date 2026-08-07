@@ -1,5 +1,4 @@
-﻿import 'package:marbella/core/widgets/style_widget.dart';
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:marbella/core/helper/device_info.dart';
@@ -31,300 +30,316 @@ class _SettingsPageState extends State<SettingsView> {
     Locale? currentLocale = language.language;
     return Scaffold(
       appBar: AppBar(title: Text(S().settings)),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildSettingContainer(
-                  height: 60.h,
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.language,
-                      color: colorScheme.primary,
-                      size: 20,
-                    ),
-                    title: Text(
-                      S().language,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(),
-                    ),
-                    trailing: DropdownButton<Locale>(
-                      value: currentLocale,
-                      underline: const SizedBox(),
-                      onChanged: (Locale? locale) {
-                        language.setLanguage(locale);
-                      },
-                      items: [
-                        DropdownMenuItem(
-                          value: const Locale('en'),
-                          child: Text(
-                            S().english,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildSettingContainer(
+                height: 50,
+                onTap: null,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.language_outlined,
+                            color: colorScheme.primary,
+                            size: 20,
+                          ),
+                          SizedBox(width: 30.w),
+                          Text(
+                            S().language,
                             style: Theme.of(
                               context,
-                            ).textTheme.bodySmall?.copyWith(),
+                            ).textTheme.bodyMedium?.copyWith(),
                           ),
-                        ),
-                        DropdownMenuItem(
-                          value: const Locale('ar'),
-                          child: Text(
-                            S().arabic,
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodySmall?.copyWith(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                _buildSettingContainer(
-                  height: 60.h,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.dark_mode,
-                              color: colorScheme.primary,
-                              size: 20,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              S().dark_theme,
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodyMedium?.copyWith(),
-                            ),
-                          ],
-                        ),
-                        FlutterSwitch(
-                          width: 35,
-                          height: 20,
-                          toggleSize: 15,
-                          activeColor: colorScheme.primary,
-                          value: themeProvider.isDark,
-                          onToggle: (value) => themeProvider.toggleTheme(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                _buildSettingContainer(
-                  height: 120.h,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.palette,
-                              color: colorScheme.primary,
-                              size: 20,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              S().app_theme_color,
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodyMedium?.copyWith(),
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        SizedBox(
-                          height: 40.h,
-                          child: Center(
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemCount: Constant.listColors.length,
-                              itemBuilder: (context, index) {
-                                final color = Constant.listColors[index];
-                                final isSelected =
-                                    themeProvider.selectedColor == color;
-                                return GestureDetector(
-                                  onTap: () =>
-                                      themeProvider.updatePrimaryColor(color),
-                                  child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200),
-                                    margin: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                    ),
-                                    width: isSelected ? 30 : 25,
-                                    height: isSelected ? 30 : 25,
-                                    decoration: BoxDecoration(
-                                      color: color,
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: isSelected
-                                            ? colorScheme.primary
-                                            : Colors.transparent,
-                                        width: 2.5,
-                                      ),
-                                      boxShadow: [
-                                        if (isSelected)
-                                          BoxShadow(
-                                            color: color.withAlpha(
-                                              (0.3 * 255).toInt(),
-                                            ),
-                                            blurRadius: 8,
-                                          ),
-                                      ],
-                                    ),
-                                    child: isSelected
-                                        ? const Icon(
-                                            Icons.check,
-                                            color: Colors.white,
-                                            size: 18,
-                                          )
-                                        : null,
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        const Spacer(),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                _buildSettingContainer(
-                  height: 120.h,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.format_size,
-                              color: colorScheme.primary,
-                              size: 20,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              S().text_size_scale,
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodyMedium?.copyWith(),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Aa",
-                                    style: Theme.of(context).textTheme.bodySmall
-                                        ?.copyWith(
-                                          color: colorScheme.onSurface,
-                                        ),
-                                  ),
-                                  Text(
-                                    "Aa",
-                                    style: Theme.of(context).textTheme.bodyLarge
-                                        ?.copyWith(
-                                          color: colorScheme.onSurface,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SliderTheme(
-                              data: SliderTheme.of(context).copyWith(
-                                trackHeight: 2.0,
-                                thumbShape: const RoundSliderThumbShape(
-                                  enabledThumbRadius: 6,
-                                ),
-                                overlayShape: const RoundSliderOverlayShape(
-                                  overlayRadius: 14,
-                                ),
-                              ),
-                              child: Slider(
-                                value: themeProvider.fontSizeScale,
-                                min: 0.8,
-                                max: 1.4,
-                                divisions: 6,
-                                label:
-                                    "${(themeProvider.fontSizeScale * 100).toInt()}%",
-                                onChanged: (value) =>
-                                    themeProvider.updateFontSize(value),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                _buildSettingContainer(
-                  height: 60.h,
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.lock_outline,
-                      color: colorScheme.primary,
-                      size: 20,
-                    ),
-                    title: Text(
-                      S().change_password,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                      color: colorScheme.onSurface.withAlpha(
-                        (0.4 * 255).toInt(),
+                        ],
                       ),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const ChangePasswordView(),
-                        ),
-                      );
-                    },
+                      DropdownButton<Locale>(
+                        value: currentLocale,
+                        underline: const SizedBox(),
+                        onChanged: (Locale? locale) {
+                          language.setLanguage(locale);
+                        },
+                        items: [
+                          DropdownMenuItem(
+                            value: const Locale('en'),
+                            child: Text(
+                              S().english,
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.copyWith(),
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: const Locale('ar'),
+                            child: Text(
+                              S().arabic,
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.copyWith(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 8.h),
-                _buildSettingContainer(
-                  height: 60.h,
-                  child: GestureDetector(
-                    onTap: () {
-                      showLogoutConfirmationDialog(context);
-                    },
-                    child: ListTile(
-                      leading: Icon(Icons.logout, color: Colors.red, size: 20),
-                      title: Text(
+              ),
+              SizedBox(height: 5.h),
+              _buildSettingContainer(
+                height: 50,
+                onTap: null,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.dark_mode,
+                            color: colorScheme.primary,
+                            size: 20,
+                          ),
+                          SizedBox(width: 30.w),
+                          Text(
+                            S().dark_theme,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium?.copyWith(),
+                          ),
+                        ],
+                      ),
+                      FlutterSwitch(
+                        width: 30,
+                        height: 18,
+                        toggleSize: 12,
+                        activeColor: colorScheme.primary,
+                        value: themeProvider.isDark,
+                        onToggle: (value) => themeProvider.toggleTheme(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 5.h),
+              _buildSettingContainer(
+                height: 100,
+                onTap: null,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.palette,
+                            color: colorScheme.primary,
+                            size: 20,
+                          ),
+                          SizedBox(width: 30.w),
+                          Text(
+                            S().app_theme_color,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium?.copyWith(),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        height: 40,
+                        child: Center(
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: Constant.listColors.length,
+                            itemBuilder: (context, index) {
+                              final color = Constant.listColors[index];
+                              final isSelected =
+                                  themeProvider.selectedColor == color;
+                              return GestureDetector(
+                                onTap: () =>
+                                    themeProvider.updatePrimaryColor(color),
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 200),
+                                  margin: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                  ),
+                                  width: isSelected ? 30 : 25,
+                                  height: isSelected ? 30 : 25,
+                                  decoration: BoxDecoration(
+                                    color: color,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: isSelected
+                                          ? colorScheme.primary
+                                          : Colors.transparent,
+                                      width: 2.5,
+                                    ),
+                                    boxShadow: [
+                                      if (isSelected)
+                                        BoxShadow(
+                                          color: color.withAlpha(
+                                            (0.3 * 255).toInt(),
+                                          ),
+                                          blurRadius: 8,
+                                        ),
+                                    ],
+                                  ),
+                                  child: isSelected
+                                      ? const Icon(
+                                          Icons.check,
+                                          color: Colors.white,
+                                          size: 18,
+                                        )
+                                      : null,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 5.h),
+              _buildSettingContainer(
+                height: 100,
+                onTap: null,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.format_size,
+                            color: colorScheme.primary,
+                            size: 20,
+                          ),
+                          SizedBox(width: 30.w),
+                          Text(
+                            S().text_size_scale,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium?.copyWith(),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Aa",
+                                  style: Theme.of(context).textTheme.bodySmall
+                                      ?.copyWith(color: colorScheme.onSurface),
+                                ),
+                                Text(
+                                  "Aa",
+                                  style: Theme.of(context).textTheme.bodyLarge
+                                      ?.copyWith(color: colorScheme.onSurface),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SliderTheme(
+                            data: SliderTheme.of(context).copyWith(
+                              trackHeight: 1.0,
+                              thumbShape: const RoundSliderThumbShape(
+                                enabledThumbRadius: 6,
+                              ),
+                              overlayShape: const RoundSliderOverlayShape(
+                                overlayRadius: 14,
+                              ),
+                            ),
+                            child: Slider(
+                              value: themeProvider.fontSizeScale,
+                              min: 0.8,
+                              max: 1.4,
+                              divisions: 6,
+                              label:
+                                  "${(themeProvider.fontSizeScale * 100).toInt()}%",
+                              onChanged: (value) =>
+                                  themeProvider.updateFontSize(value),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 5.h),
+              _buildSettingContainer(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ChangePasswordView(),
+                    ),
+                  );
+                },
+                height: 50,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.lock_outline,
+                            color: colorScheme.primary,
+                            size: 20,
+                          ),
+                          SizedBox(width: 30.w),
+                          Text(
+                            S().change_password,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 5.h),
+              _buildSettingContainer(
+                height: 50,
+                onTap: () {
+                  showLogoutConfirmationDialog(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout, color: Colors.red, size: 20),
+                      SizedBox(width: 30.w),
+                      Text(
                         S().log_out,
                         style: Theme.of(
                           context,
                         ).textTheme.titleSmall?.copyWith(color: Colors.red),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -334,12 +349,28 @@ class _SettingsPageState extends State<SettingsView> {
   Widget _buildSettingContainer({
     required Widget child,
     required double height,
+    required void Function()? onTap,
   }) {
-    return Container(
-      width: double.infinity,
-      height: height,
-      decoration: StyleWidget.cardDecoration(context),
-      child: child,
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        height: height,
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 10,
+              color: Colors.black.withAlpha((0.05 * 255).toInt()),
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: child,
+      ),
     );
   }
 }

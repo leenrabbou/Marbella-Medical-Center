@@ -2,7 +2,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:marbella/core/helper/constant.dart';
 import 'package:marbella/core/widgets/style_widget.dart';
-import 'package:marbella/features/only_doctor/medications/models/drug_interaction_model.dart';
+import 'package:marbella/features/only_doctor/medications/models/conflict_interaction.dart';
 import 'package:marbella/features/shared/auth/viewmodels/auth_viewmodel.dart';
 import 'package:marbella/features/only_doctor/medications/viewmodels/medication_viewmodel.dart';
 import 'package:marbella/features/shared/patient_medications/viewmodel/patient_medication_viewmodel.dart';
@@ -617,8 +617,11 @@ class PatientMedicationDialogs {
                                         setState(() {
                                           isSubmitting = false;
                                           localErrorMessage =
-                                              patientMedicationProvider
-                                                  .addErrorMessage ??
+                                              (isEditMode
+                                                  ? patientMedicationProvider
+                                                        .updateErrorMessage
+                                                  : patientMedicationProvider
+                                                        .addErrorMessage) ??
                                               S().error;
                                         });
                                       }
@@ -664,7 +667,7 @@ class PatientMedicationDialogs {
   static Future<int?> _showConflictDialog(
     BuildContext context,
     String message,
-    List<DrugInteractionModel> interactions,
+    List<ConflictInteraction> interactions,
   ) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
@@ -697,15 +700,19 @@ class PatientMedicationDialogs {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Icon(
-                          Icons.circle,
-                          size: 8,
-                          color: Constant.statusColor(i.severity),
+                          i.type == ConflictType.medication
+                              ? Icons.medication_outlined
+                              : Icons.warning_amber_rounded,
+                          size: 14,
+                          color: i.severity == 'high'
+                              ? Colors.red
+                              : Colors.orange,
                         ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            "${i.drugInteraction.code.display} (${i.severity})",
-                            style: theme.textTheme.bodyMedium,
+                            "${i.displayName} (${i.severity})",
+                            style: theme.textTheme.bodySmall,
                           ),
                         ),
                       ],

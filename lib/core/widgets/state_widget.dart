@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/generated/l10n.dart';
 
 class StateWidget extends StatelessWidget {
@@ -25,6 +26,7 @@ class StateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
+    bool isMobile = DeviceInfo.isMobile(context);
     if (isLoading) {
       return ListView(
         physics: const AlwaysScrollableScrollPhysics(),
@@ -80,8 +82,11 @@ class StateWidget extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/no_data.png', width: 150.w, height: 150.h),
-                SizedBox(height: 16.h),
+                Image.asset(
+                  'assets/no_data.png',
+                  width: isMobile ? 350.w : 150.w,
+                  height: 150.h,
+                ),
                 Text(
                   noDataMsg,
                   textAlign: TextAlign.center,

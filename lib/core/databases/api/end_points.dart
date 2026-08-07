@@ -1,5 +1,5 @@
 class EndPoints {
-  static const String baseUrl = "http://192.168.1.102:8000/api/";
+  static const String baseUrl = "http://192.168.1.101:8000/api/";
 
   static const String login = "login";
   static const String getProfile = "employee/me/profile";
@@ -28,6 +28,7 @@ class EndPoints {
   static const medicalTest = 'medical-test';
   static const doctorCertificate = 'doctor-certificate';
   static const medicationInteraction = 'medication-interaction';
+  static const audit = 'audit';
 }
 
 class ApiKey {
@@ -139,4 +140,10 @@ class ApiKey {
   static String interactableId = 'interactable_id';
   static String medications = 'medications';
   static String override = 'override';
+  static String updatedAt = 'updated_at';
+  static String newValues = 'new_values';
+  static String oldValues = 'old_values';
+  static String event = 'event';
+  static String user = 'user';
+  static String conditions = 'conditions';
 }

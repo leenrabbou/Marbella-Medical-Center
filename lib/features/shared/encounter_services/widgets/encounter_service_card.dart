@@ -1,6 +1,9 @@
 import 'package:marbella/app/app_role.dart';
+import 'package:marbella/core/databases/api/end_points.dart';
 import 'package:marbella/core/helper/constant.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/core/widgets/style_widget.dart';
+import 'package:marbella/features/only_doctor/audit/views/audit_view.dart';
 import 'package:marbella/features/shared/encounter_services/models/encounter_service_model.dart';
 import 'package:marbella/generated/l10n.dart';
 import 'package:flutter/material.dart';
@@ -31,14 +34,19 @@ class EncounterServiceCard extends StatelessWidget {
     final bool hasNotes = encounterService.notes != null ? true : false;
     final statusColor = Constant.statusColor(encounterService.status);
     final role = context.read<AppRole>();
+    bool isMobile = DeviceInfo.isMobile(context);
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.h),
+      padding: EdgeInsets.symmetric(vertical: isMobile ? 3.h : 4.h),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 30.w : 12.w,
+          vertical: isMobile ? 10.h : 12.h,
+        ),
         decoration: StyleWidget.cardDecoration(context),
         child: Column(
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   padding: EdgeInsets.all(8.r),
@@ -86,8 +94,8 @@ class EncounterServiceCard extends StatelessWidget {
                 ),
                 if (isEditable)
                   SizedBox(
-                    height: 25.h,
-                    width: 20.w,
+                    height: isMobile ? 10.h : 25.h,
+                    width: isMobile ? 60.w : 20.w,
                     child: PopupMenuButton<String>(
                       padding: EdgeInsets.zero,
                       icon: Icon(
@@ -102,8 +110,21 @@ class EncounterServiceCard extends StatelessWidget {
                       ),
                       color: colorScheme.surface,
                       onSelected: (value) {
-                        if (value == 'edit') onEdit?.call();
-                        if (value == 'delete') onDelete?.call();
+                        if (value == 'edit') {
+                          onEdit?.call();
+                        } else if (value == 'audit') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => AuditView(
+                                id: encounterService.id,
+                                endPoint: EndPoints.encounterService,
+                              ),
+                            ),
+                          );
+                        } else if (value == 'delete') {
+                          onDelete?.call();
+                        }
                       },
                       itemBuilder: (_) => [
                         PopupMenuItem(
@@ -126,6 +147,26 @@ class EncounterServiceCard extends StatelessWidget {
                           ),
                         ),
                         if (role == AppRole.doctor) ...[
+                          PopupMenuItem(
+                            value: 'audit',
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.manage_history_rounded,
+                                  size: 19,
+                                  color: colorScheme.onSurface.withAlpha(
+                                    (0.6 * 255).toInt(),
+                                  ),
+                                ),
+                                SizedBox(width: 10.w),
+                                Text(
+                                  'Audit',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
+                            ),
+                          ),
+
                           PopupMenuItem(
                             value: 'delete',
                             child: Row(

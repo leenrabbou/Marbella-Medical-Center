@@ -48,6 +48,8 @@ class _LoginViewDoctorState extends State<LoginViewDoctor> {
                     width: 900.w,
                     height: 190.h,
                     fit: BoxFit.cover,
+                    cacheWidth: 900,
+                    cacheHeight: 190,
                   ),
                   SizedBox(height: 25.h),
                   _buildForm(context),
@@ -68,6 +70,8 @@ class _LoginViewDoctorState extends State<LoginViewDoctor> {
                         'assets/h (6).png',
                         height: 350.h,
                         width: 450.w,
+                        cacheWidth: 450,
+                        cacheHeight: 350,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -163,6 +167,72 @@ class _LoginViewDoctorState extends State<LoginViewDoctor> {
               ),
             ),
             SizedBox(height: isMobile ? 5.h : 10.h),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const ForgotPasswordView();
+                      },
+                    ),
+                  );
+                },
+                child: Text(
+                  S().forgot_password,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: colorScheme.primary),
+                ),
+              ),
+            ),
+            SizedBox(height: isMobile ? 5.h : 10.h),
+
+            if (auth.isPermanentlyLocked)
+              Padding(
+                padding: EdgeInsets.only(bottom: 10.h),
+                child: Row(
+                  children: [
+                    Icon(Icons.lock_outline, size: 16, color: Colors.red),
+                    SizedBox(width: 6.w),
+                    Expanded(
+                      child: Text(
+                        S().account_permanently_locked,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.copyWith(color: Colors.red),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else
+              ValueListenableBuilder<int>(
+                valueListenable: auth.rateLimitSecondsNotifier,
+                builder: (context, seconds, _) {
+                  if (seconds <= 0) return const SizedBox.shrink();
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: 10.h),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.timer_outlined,
+                          size: 16,
+                          color: Colors.orange,
+                        ),
+                        SizedBox(width: 6.w),
+                        Text(
+                          '${S().try_again_in} $seconds ${S().seconds_short}',
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: Colors.orange.shade800),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
 
             CustomButtonWidget(
               onPressed: auth.isLoadingLogIn || auth.rateLimitSeconds > 0

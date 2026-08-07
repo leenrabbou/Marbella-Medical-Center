@@ -1,3 +1,6 @@
+import 'package:marbella/app/app_role.dart';
+import 'package:marbella/core/databases/api/end_points.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/core/widgets/style_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:marbella/core/helper/constant.dart';
 import 'package:marbella/core/widgets/custom_button_widget.dart';
 import 'package:marbella/core/widgets/snackbar_widget.dart';
+import 'package:marbella/features/only_doctor/audit/views/audit_view.dart';
 import 'package:marbella/features/shared/auth/viewmodels/auth_viewmodel.dart';
 import 'package:marbella/features/shared/observations/models/observation_model.dart';
 import 'package:marbella/features/shared/observations/viewmodels/observation_viewmodel.dart';
@@ -32,15 +36,19 @@ class _ObservationCardState extends State<ObservationCard> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
+    bool isMobile = DeviceInfo.isMobile(context);
     final hasNote =
         widget.observation.note != null &&
         widget.observation.note!.trim().isNotEmpty;
-
+    final role = context.read<AppRole>();
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.h),
+      padding: EdgeInsets.symmetric(vertical: isMobile ? 3.h : 4.h),
       child: Container(
         decoration: StyleWidget.cardDecoration(context),
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 30.w : 12.w,
+          vertical: isMobile ? 10.h : 12.h,
+        ),
         child: IntrinsicHeight(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -95,8 +103,8 @@ class _ObservationCardState extends State<ObservationCard> {
                         ),
                         if (widget.isEditable)
                           SizedBox(
-                            height: 25.h,
-                            width: 20.w,
+                            height: isMobile ? 10.h : 25.h,
+                            width: isMobile ? 50.w : 20.w,
                             child: PopupMenuButton<String>(
                               padding: EdgeInsets.zero,
                               icon: Icon(
@@ -118,6 +126,16 @@ class _ObservationCardState extends State<ObservationCard> {
                                         widget.observation,
                                         0,
                                       );
+                                } else if (value == 'audit') {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => AuditView(
+                                        id: widget.observation.id,
+                                        endPoint: EndPoints.observation,
+                                      ),
+                                    ),
+                                  );
                                 } else if (value == 'delete') {
                                   _showDeleteDialog(context);
                                 }
@@ -144,6 +162,28 @@ class _ObservationCardState extends State<ObservationCard> {
                                     ],
                                   ),
                                 ),
+                                if (role == AppRole.doctor) ...[
+                                  PopupMenuItem(
+                                    value: 'audit',
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.manage_history_rounded,
+                                          size: 19,
+                                          color: colorScheme.onSurface
+                                              .withAlpha((0.6 * 255).toInt()),
+                                        ),
+                                        SizedBox(width: 10.w),
+                                        Text(
+                                          'Audit',
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodySmall,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                                 PopupMenuItem(
                                   value: 'delete',
                                   child: Row(

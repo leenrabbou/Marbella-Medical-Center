@@ -22,8 +22,9 @@ class AuthViewmodel extends ChangeNotifier {
   String? errorMessageLogOut;
 
   bool logoutSuccessfully = false;
+  final ValueNotifier<int> rateLimitSecondsNotifier = ValueNotifier<int>(0);
+  int get rateLimitSeconds => rateLimitSecondsNotifier.value;
 
-  int rateLimitSeconds = 0;
   bool isPermanentlyLocked = false;
   Timer? _rateLimitTimer;
 
@@ -36,12 +37,14 @@ class AuthViewmodel extends ChangeNotifier {
 
   void _startRateLimitTimer() {
     _rateLimitTimer?.cancel();
-    if (rateLimitSeconds <= 0) return;
+    if (rateLimitSecondsNotifier.value <= 0) return;
 
     _rateLimitTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      rateLimitSeconds--;
-      notifyListeners();
-      if (rateLimitSeconds <= 0) timer.cancel();
+      rateLimitSecondsNotifier.value--;
+      if (rateLimitSecondsNotifier.value <= 0) {
+        timer.cancel();
+        notifyListeners();
+      }
     });
   }
 
@@ -70,7 +73,7 @@ class AuthViewmodel extends ChangeNotifier {
     errorMessageLogIn = null;
     response = null;
     isPermanentlyLocked = false;
-    rateLimitSeconds = 0;
+    rateLimitSecondsNotifier.value = 0;
     notifyListeners();
 
     final result = await authRepository.logIn(params, locale);
@@ -81,7 +84,7 @@ class AuthViewmodel extends ChangeNotifier {
         errorMessageLogIn = msg;
         if (failure.status == 429) {
           final seconds = _extractSeconds(msg);
-          rateLimitSeconds = seconds;
+          rateLimitSecondsNotifier.value = seconds;
           _startRateLimitTimer();
           notifyListeners();
           return;
@@ -90,7 +93,7 @@ class AuthViewmodel extends ChangeNotifier {
         if (failure.status == 423) {
           final seconds = _convertDurationToSeconds(msg);
           if (seconds > 0) {
-            rateLimitSeconds = seconds;
+            rateLimitSecondsNotifier.value = seconds;
             _startRateLimitTimer();
             isPermanentlyLocked = false;
           } else {
@@ -201,7 +204,7 @@ class AuthViewmodel extends ChangeNotifier {
     response = null;
     userFromCache = null;
     isVerified = false;
-    rateLimitSeconds = 0;
+    rateLimitSecondsNotifier.value = 0;
     isPermanentlyLocked = false;
     _rateLimitTimer?.cancel();
   }
@@ -237,6 +240,7 @@ class AuthViewmodel extends ChangeNotifier {
   @override
   void dispose() {
     _rateLimitTimer?.cancel();
+    rateLimitSecondsNotifier.dispose();
     super.dispose();
   }
 }

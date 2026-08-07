@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/core/params/params.dart';
 import 'package:marbella/core/widgets/state_widget.dart';
 import 'package:marbella/features/shared/auth/viewmodels/auth_viewmodel.dart';
@@ -79,6 +80,7 @@ class _ObservationViewState extends State<ObservationView> {
     final colorScheme = Theme.of(context).colorScheme;
     final observationsProvider = context.watch<ObservationViewmodel>();
     final observations = observationsProvider.observations;
+    bool isMobile = DeviceInfo.isMobile(context);
     return Scaffold(
       floatingActionButton: isEditable
           ? FloatingActionButton(
@@ -119,7 +121,10 @@ class _ObservationViewState extends State<ObservationView> {
             onRetry: _handleRefresh,
             noDataMsg: S().no_data,
             child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? 40.w : 20.w,
+                vertical: isMobile ? 0.h : 5.h,
+              ),
               physics: AlwaysScrollableScrollPhysics(),
               itemCount: observations.length,
               itemBuilder: (BuildContext context, int index) {

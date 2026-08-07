@@ -1,4 +1,5 @@
 ﻿import 'package:marbella/app/app_role.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/core/widgets/app_avatar.dart';
 import 'package:marbella/features/only_doctor/doctor_certificate/views/certificates_view.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,7 @@ class _ProfileViewState extends State<ProfileView> {
     final profileProvider = context.watch<ProfileViewmodel>();
     final profile = profileProvider.profileData;
     final role = context.read<AppRole>();
+    bool isMobile = DeviceInfo.isMobile(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(S.of(context).profile),
@@ -93,71 +95,76 @@ class _ProfileViewState extends State<ProfileView> {
                     physics: const AlwaysScrollableScrollPhysics(),
                     children: const [SizedBox(height: 500)],
                   )
-                : SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Column(
-                      children: [
-                        _buildHeader(context),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15.w),
-                          child: Column(
-                            children: [
-                              SizedBox(height: 12.h),
-                              _buildSectionTitle(
-                                context,
-                                S().professional_info,
-                              ),
-                              ProfileContainerWidget(
-                                title: S().specialization,
-                                text: safeText(profile.specialization),
-                                icon: Icons.work_outline_rounded,
-                              ),
-                              ProfileContainerWidget(
-                                title: S().experiences,
-                                text: safeText(profile.experiences),
-                                icon: Icons.history_edu_outlined,
-                              ),
-                              SizedBox(height: 12.h),
-                              _buildSectionTitle(context, S().personal_data),
-                              ProfileContainerWidget(
-                                title: S().phone_label,
-                                text: safeText(profile.phoneNumber),
-                                icon: Icons.phone_android_outlined,
-                              ),
-                              ProfileContainerWidget(
-                                title: S().birth_date,
-                                text:
-                                    "${Constant.formatDate(context, profile.birthDate)} "
-                                    "(${profile.age} ${S().years_old})",
-                                icon: Icons.cake_outlined,
-                              ),
-                              ProfileContainerWidget(
-                                title: S().ssn,
-                                text: safeText(profile.ssn),
-                                icon: Icons.badge_outlined,
-                              ),
-                              ProfileContainerWidget(
-                                title: S().address,
-                                text: safeText(profile.address),
-                                icon: Icons.location_on_outlined,
-                              ),
-                              SizedBox(height: 12.h),
-                              _buildSectionTitle(context, S().social_status),
-                              ProfileContainerWidget(
-                                title: S().marital_status,
-                                text: safeText(profile.maritalStatus),
-                                icon: Icons.favorite_outline_rounded,
-                              ),
-                              ProfileContainerWidget(
-                                title: S().social_history,
-                                text: safeText(profile.socialHistory),
-                                icon: Icons.article_outlined,
-                              ),
-                              SizedBox(height: 20.h),
-                            ],
+                : Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isMobile ? 30.w : 0.w,
+                    ),
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Column(
+                        children: [
+                          _buildHeader(context),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15.w),
+                            child: Column(
+                              children: [
+                                SizedBox(height: isMobile ? 8.h : 12.h),
+                                _buildSectionTitle(
+                                  context,
+                                  S().professional_info,
+                                ),
+                                ProfileContainerWidget(
+                                  title: S().specialization,
+                                  text: safeText(profile.specialization),
+                                  icon: Icons.work_outline_rounded,
+                                ),
+                                ProfileContainerWidget(
+                                  title: S().experiences,
+                                  text: safeText(profile.experiences),
+                                  icon: Icons.history_edu_outlined,
+                                ),
+                                SizedBox(height: isMobile ? 8.h : 12.h),
+                                _buildSectionTitle(context, S().personal_data),
+                                ProfileContainerWidget(
+                                  title: S().phone_label,
+                                  text: safeText(profile.phoneNumber),
+                                  icon: Icons.phone_android_outlined,
+                                ),
+                                ProfileContainerWidget(
+                                  title: S().birth_date,
+                                  text:
+                                      "${Constant.formatDate(context, profile.birthDate)} "
+                                      "(${profile.age} ${S().years_old})",
+                                  icon: Icons.cake_outlined,
+                                ),
+                                ProfileContainerWidget(
+                                  title: S().ssn,
+                                  text: safeText(profile.ssn),
+                                  icon: Icons.badge_outlined,
+                                ),
+                                ProfileContainerWidget(
+                                  title: S().address,
+                                  text: safeText(profile.address),
+                                  icon: Icons.location_on_outlined,
+                                ),
+                                SizedBox(height: isMobile ? 8.h : 12.h),
+                                _buildSectionTitle(context, S().social_status),
+                                ProfileContainerWidget(
+                                  title: S().marital_status,
+                                  text: safeText(profile.maritalStatus),
+                                  icon: Icons.favorite_outline_rounded,
+                                ),
+                                ProfileContainerWidget(
+                                  title: S().social_history,
+                                  text: safeText(profile.socialHistory),
+                                  icon: Icons.article_outlined,
+                                ),
+                                SizedBox(height: isMobile ? 10.h : 20.h),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
           ),
@@ -173,10 +180,11 @@ class _ProfileViewState extends State<ProfileView> {
         : Constant.listColors[(profileProvider.profileData!.firstName.length +
                   profileProvider.profileData!.lastName.length) %
               Constant.listColors.length];
+    bool isMobile = DeviceInfo.isMobile(context);
     return Column(
       children: [
         AppAvatar(
-          size: 100.r,
+          size: isMobile ? 220.r : 100.r,
           imageUrl: profileProvider.profileData?.image?.url,
           fallbackAsset: profileProvider.profileData!.gender == "male"
               ? "assets/doctor_male.png"
@@ -184,7 +192,7 @@ class _ProfileViewState extends State<ProfileView> {
           color: avatarColor,
           border: false,
         ),
-        SizedBox(height: 10.h),
+        SizedBox(height: isMobile ? 5.h : 10.h),
         Text(
           "${profileProvider.profileData!.firstName} ${profileProvider.profileData!.lastName}",
           style: Theme.of(
@@ -203,19 +211,20 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Widget _buildSectionTitle(BuildContext context, String title) {
+    bool isMobile = DeviceInfo.isMobile(context);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5.h),
       child: Row(
         children: [
           Container(
-            width: 4.w,
+            width: isMobile ? 6.w : 4.w,
             height: 18.h,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-          SizedBox(width: 8.w),
+          SizedBox(width: isMobile ? 10.w : 8.w),
           Text(
             title,
             style: Theme.of(

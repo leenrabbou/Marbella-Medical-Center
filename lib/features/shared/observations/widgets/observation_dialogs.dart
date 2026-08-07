@@ -1,6 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:marbella/app/app_role.dart';
 import 'package:marbella/core/helper/constant.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/core/widgets/style_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -288,6 +289,7 @@ class ObservationDialogs {
     final observationProvider = context.read<ObservationViewmodel>();
     final isEditMode = observation != null;
 
+    bool isMobile = DeviceInfo.isMobile(context);
     final valueController = TextEditingController(
       text: observation?.value ?? '',
     );
@@ -309,18 +311,17 @@ class ObservationDialogs {
     final colorScheme = theme.colorScheme;
 
     int? selectedCode = observation?.code.id;
-    String selectedStatus =
-        observation?.status ?? S().observation_status_registered;
+    String selectedStatus = observation?.status ?? 'registered';
 
     bool isSubmitting = false;
     String? localErrorMessage;
 
     final statuses = [
-      S().observation_status_registered,
-      S().observation_status_preliminary,
-      S().observation_status_final,
-      S().observation_status_amended,
-      S().cancelled,
+      "registered",
+      "preliminary",
+      "final",
+      "amended",
+      "cancelled",
     ];
     final provider = context.read<CodeViewmodel>();
     if (provider.getCodesByCategory('observation').isEmpty &&
@@ -472,9 +473,8 @@ class ObservationDialogs {
                                 else if (codesError != null && codes.isEmpty)
                                   Container(
                                     width: double.infinity,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                      vertical: 12,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w,
                                     ),
                                     decoration: BoxDecoration(
                                       color: Colors.orange.withAlpha(
@@ -527,7 +527,16 @@ class ObservationDialogs {
                                                   ),
                                                 );
                                           },
-                                          child: Text(S().retry),
+                                          child: Text(
+                                            S().retry,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                  color: Colors.orange.shade800,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -630,7 +639,7 @@ class ObservationDialogs {
                           ],
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: isMobile ? 8.h : 16.h),
 
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -667,7 +676,7 @@ class ObservationDialogs {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: isMobile ? 8.h : 16.h),
 
                       InkWell(
                         onTap: () async {
@@ -693,7 +702,7 @@ class ObservationDialogs {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: isMobile ? 8.h : 16.h),
 
                       InkWell(
                         onTap: () async {
@@ -719,7 +728,7 @@ class ObservationDialogs {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: isMobile ? 8.h : 16.h),
 
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -735,21 +744,34 @@ class ObservationDialogs {
                               isValidation: true,
                             ),
                           ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            flex: 1,
-                            child: CustomTextField(
-                              controller: unitController,
-                              icon: Icons.scale_outlined,
-                              text: S().unit,
-                              hint: S().enter_unit,
-                              isPhone: false,
-                              isValidation: false,
+                          if (role == AppRole.doctor) ...[
+                            const SizedBox(width: 16),
+                            Expanded(
+                              flex: 1,
+                              child: CustomTextField(
+                                controller: unitController,
+                                icon: Icons.scale_outlined,
+                                text: S().unit,
+                                hint: S().enter_unit,
+                                isPhone: false,
+                                isValidation: false,
+                              ),
                             ),
-                          ),
+                          ],
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      if (role == AppRole.nurse) ...[
+                        SizedBox(height: isMobile ? 8.h : 16.h),
+                        CustomTextField(
+                          controller: unitController,
+                          icon: Icons.scale_outlined,
+                          text: S().unit,
+                          hint: S().enter_unit,
+                          isPhone: false,
+                          isValidation: false,
+                        ),
+                      ],
+                      SizedBox(height: isMobile ? 8.h : 16.h),
                       CustomTextField(
                         controller: noteController,
                         icon: Icons.description_outlined,
@@ -758,7 +780,7 @@ class ObservationDialogs {
                         isValidation: false,
                         isPhone: false,
                       ),
-                      const SizedBox(height: 24),
+                      SizedBox(height: isMobile ? 15.h : 24.h),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -770,10 +792,10 @@ class ObservationDialogs {
                                     Navigator.pop(context);
                                   },
                             height: 40,
-                            width: 120,
-                            left: 40,
-                            right: 40,
-                            top: 5,
+                            width: isMobile ? 300.w : 120.w,
+                            left: 50.w,
+                            right: 0,
+                            top: 0,
                             bottom: 0,
                             textSize: 15,
                             color: Theme.of(context).colorScheme.surface,
@@ -884,10 +906,10 @@ class ObservationDialogs {
                                     }
                                   },
                             height: 40,
-                            width: 120,
-                            left: 40,
-                            right: 40,
-                            top: 5,
+                            width: isMobile ? 300.w : 120.w,
+                            left: 50.w,
+                            right: 0,
+                            top: 0,
                             bottom: 0,
                             textSize: 18,
                             color: colorScheme.primary,

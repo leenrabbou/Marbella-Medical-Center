@@ -1,9 +1,14 @@
+import 'package:marbella/app/app_role.dart';
+import 'package:marbella/core/databases/api/end_points.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/core/widgets/style_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:marbella/core/helper/constant.dart';
+import 'package:marbella/features/only_doctor/audit/views/audit_view.dart';
 import 'package:marbella/features/shared/conditions/models/condition_model.dart';
 import 'package:marbella/generated/l10n.dart';
+import 'package:provider/provider.dart';
 
 class ConditionCard extends StatefulWidget {
   const ConditionCard({
@@ -37,11 +42,15 @@ class _ConditionCardState extends State<ConditionCard> {
     final isResolved =
         widget.condition.abatementDate != null &&
         widget.condition.abatementDate!.trim().isNotEmpty;
-
+    bool isMobile = DeviceInfo.isMobile(context);
+    final role = context.read<AppRole>();
     return Padding(
-      padding: EdgeInsets.only(bottom: 8.h),
+      padding: EdgeInsets.symmetric(vertical: isMobile ? 3.h : 4.h),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 30.w : 12.w,
+          vertical: isMobile ? 10.h : 12.h,
+        ),
         decoration: StyleWidget.cardDecoration(context),
         child: Column(
           children: [
@@ -59,7 +68,7 @@ class _ConditionCardState extends State<ConditionCard> {
                     size: 20,
                   ),
                 ),
-                SizedBox(width: 10.w),
+                SizedBox(width: isMobile ? 14.w : 10.w),
                 Expanded(
                   child: Text(
                     widget.condition.code.display,
@@ -72,7 +81,7 @@ class _ConditionCardState extends State<ConditionCard> {
                 Column(
                   children: [
                     Container(
-                      width: 100.w,
+                      width: isMobile ? 250.w : 100.w,
                       padding: EdgeInsets.symmetric(vertical: 3.h),
                       decoration: BoxDecoration(
                         color: clinicalColor.withAlpha((0.07 * 255).toInt()),
@@ -93,7 +102,7 @@ class _ConditionCardState extends State<ConditionCard> {
                     Row(
                       children: [
                         Container(
-                          width: 100.w,
+                          width: isMobile ? 250.w : 100.w,
                           padding: EdgeInsets.symmetric(vertical: 3.h),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
@@ -135,8 +144,21 @@ class _ConditionCardState extends State<ConditionCard> {
                       ),
                       color: colorScheme.surface,
                       onSelected: (value) {
-                        if (value == 'edit') widget.onEdit?.call();
-                        if (value == 'delete') widget.onDelete?.call();
+                        if (value == 'edit') {
+                          widget.onEdit?.call();
+                        } else if (value == 'audit') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => AuditView(
+                                id: widget.condition.id,
+                                endPoint: EndPoints.condition,
+                              ),
+                            ),
+                          );
+                        } else if (value == 'delete') {
+                          widget.onDelete?.call();
+                        }
                       },
                       itemBuilder: (_) => [
                         PopupMenuItem(
@@ -158,6 +180,27 @@ class _ConditionCardState extends State<ConditionCard> {
                             ],
                           ),
                         ),
+                        if (role == AppRole.doctor) ...[
+                          PopupMenuItem(
+                            value: 'audit',
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.manage_history_rounded,
+                                  size: 19,
+                                  color: colorScheme.onSurface.withAlpha(
+                                    (0.6 * 255).toInt(),
+                                  ),
+                                ),
+                                SizedBox(width: 10.w),
+                                Text(
+                                  'Audit',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                         PopupMenuItem(
                           value: 'delete',
                           child: Row(
@@ -209,21 +252,21 @@ class _ConditionCardState extends State<ConditionCard> {
 
             if (widget.condition.note != null &&
                 widget.condition.note!.trim().isNotEmpty) ...[
-              SizedBox(height: 10.h),
+              SizedBox(height: isMobile ? 8.h : 10.h),
               Divider(
                 height: 0.5,
                 color: colorScheme.onSurface.withAlpha((0.08 * 255).toInt()),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: isMobile ? 8.h : 10.h),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(
                     Icons.sticky_note_2_outlined,
                     color: colorScheme.primary,
-                    size: 20,
+                    size: isMobile ? 16 : 20,
                   ),
-                  SizedBox(width: 10.w),
+                  SizedBox(width: isMobile ? 14.w : 10.w),
                   Expanded(
                     child: Text(
                       widget.condition.note!,

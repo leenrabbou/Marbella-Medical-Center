@@ -27,22 +27,45 @@ class PatientInfoView extends StatefulWidget {
   State<PatientInfoView> createState() => _PatientInfoViewState();
 }
 
-class _PatientInfoViewState extends State<PatientInfoView> {
+class _PatientInfoViewState extends State<PatientInfoView>
+    with SingleTickerProviderStateMixin {
   late PatientModel localPatient;
+  late final TabController _tabController;
+  final Set<int> _visitedTabs = {0};
+
   @override
   void initState() {
     super.initState();
     localPatient = widget.patient;
+    _tabController = TabController(length: 5, vsync: this);
+    _tabController.addListener(_onTabChanged);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _fetchEncounterData();
       _fetchAppointmentData();
     });
   }
 
+  void _onTabChanged() {
+    if (_tabController.indexIsChanging) return;
+    final index = _tabController.index;
+    if (!_visitedTabs.contains(index)) {
+      setState(() => _visitedTabs.add(index));
+    }
+  }
+
+  @override
+  void dispose() {
+    _tabController.removeListener(_onTabChanged);
+    _tabController.dispose();
+    super.dispose();
+  }
+
   String? get _token =>
       context.read<AuthViewmodel>().response?.data?.token ??
       context.read<AuthViewmodel>().userFromCache?.data?.token;
   String get _locale => Localizations.localeOf(context).languageCode;
+
   Future<void> _fetchEncounterData() async {
     if (!mounted) return;
     await context.read<EncounterViewmodel>().refreshToFetchDataList(
@@ -145,43 +168,53 @@ class _PatientInfoViewState extends State<PatientInfoView> {
           color: colorScheme.primary.withAlpha((0.3 * 255).toInt()),
           backgroundColor: colorScheme.surface,
           height: 50,
-          child: DefaultTabController(
-            length: 5,
-            child: Column(
-              children: [
-                PatientHeaderWidget(
-                  patient: localPatient,
-                  initialImgBytes: widget.img,
+          child: Column(
+            children: [
+              PatientHeaderWidget(
+                patient: localPatient,
+                initialImgBytes: widget.img,
+              ),
+              SizedBox(height: 10.h),
+              _buildTabBar(colorScheme),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    OverviewTab(patient: localPatient),
+
+                    _visitedTabs.contains(1)
+                        ? EncountersTab(
+                            status: null,
+                            patientId: localPatient.id,
+                          )
+                        : const SizedBox.shrink(),
+                    _visitedTabs.contains(2)
+                        ? ConditionsView(
+                            encounter: null,
+                            clinicalStatus: 'active',
+                            patientId: localPatient.id,
+                            verificationStatus: null,
+                          )
+                        : const SizedBox.shrink(),
+                    _visitedTabs.contains(3)
+                        ? PatientMedicationView(
+                            isEditable: false,
+                            encounterId: null,
+                            patientId: widget.patient.id,
+                            status: 'active',
+                          )
+                        : const SizedBox.shrink(),
+                    _visitedTabs.contains(4)
+                        ? LabTestTab(
+                            patientId: widget.patient.id,
+                            status: 'completed',
+                            isRequest: false,
+                          )
+                        : const SizedBox.shrink(),
+                  ],
                 ),
-                SizedBox(height: 10.h),
-                _buildTabBar(colorScheme),
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      OverviewTab(patient: localPatient),
-                      EncountersTab(status: null, patientId: localPatient.id),
-                      ConditionsView(
-                        encounter: null,
-                        clinicalStatus: 'active',
-                        patientId: localPatient.id,
-                        verificationStatus: null,
-                      ),
-                      PatientMedicationView(
-                        isEditable: false,
-                        encounterId: null,
-                        patientId: widget.patient.id,
-                        status: 'active',
-                      ),
-                      LabTestTab(
-                        patientId: widget.patient.id,
-                        status: 'completed',
-                        isRequest: false,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -231,6 +264,7 @@ class _PatientInfoViewState extends State<PatientInfoView> {
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: TabBar(
+        controller: _tabController,
         dividerColor: Colors.transparent,
         tabAlignment: TabAlignment.start,
         isScrollable: true,

@@ -363,7 +363,7 @@
   "clinical_status": "الحالة السريرية",
   "verification_status": "حالة التحقق",
   "onset_date": "تاريخ البداية",
-  "abatement_date": "تاريخ الانتهاء (اختياري)",
+  "abatement_date": "تاريخ الانتهاء",
   "clear": "مسح",
   "select_condition_type": "يرجى اختيار نوع التشخيص.",
   "select_onset_date": "يرجى اختيار تاريخ البداية.",
@@ -515,5 +515,18 @@
   "conditions_interactions": "Conditions Interactions",
   "medication_conflict_title": "تم اكتشاف تعارض دوائي",
   "medication_conflict_warning": "قد يتعارض هذا الدواء مع أدوية أو حالات المريض الحالية. هل تريد المتابعة رغم ذلك؟",
-  "continue_anyway": "المتابعة رغم ذلك"
+  "continue_anyway": "المتابعة رغم ذلك",
+  "event_created": "تمت الإضافة",
+  "event_updated": "تم التعديل",
+  "event_deleted": "تم الحذف",
+  "no_changes_detected": "لا توجد تغييرات لعرضها",
+  "not_set": "غير محدد",
+  "nurse": "ممرض/ة",
+  "account_permanently_locked": "تم قفل حسابك. يرجى التواصل مع الدعم.",
+  "try_again_in": "أعد المحاولة خلال",
+  "seconds_short": "ثانية",
+  "performed_at": "وقت التنفيذ",
+  "reason": "السبب",
+  "patient": "المريض",
+  "encounter": "الزيارة"
 }

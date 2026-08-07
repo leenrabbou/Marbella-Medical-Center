@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:marbella/core/helper/device_info.dart';
-import 'package:marbella/features/shared/auth/viewmodels/auth_viewmodel.dart';
-import 'package:marbella/features/shared/settings/viewmodels/localization_viewmodel.dart';
-import 'package:marbella/features/shared/password/viewmodels/password_viewmodel.dart';
+import 'package:marbella/core/params/params.dart';
 import 'package:marbella/core/widgets/custom_button_widget.dart';
 import 'package:marbella/core/widgets/custom_textfield_widget.dart';
 import 'package:marbella/core/widgets/snackbar_widget.dart';
-import 'package:marbella/core/params/params.dart';
+import 'package:marbella/features/shared/auth/viewmodels/auth_viewmodel.dart';
+import 'package:marbella/features/shared/password/viewmodels/password_viewmodel.dart';
+import 'package:marbella/features/shared/settings/viewmodels/localization_viewmodel.dart';
 import 'package:marbella/generated/l10n.dart';
 import 'package:provider/provider.dart';
 
@@ -94,48 +94,45 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
       ),
       body: Form(
         key: formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: isMobile
-              ? SingleChildScrollView(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/change_passord.png',
-                          width: 500.w,
-                          height: 200.h,
-                        ),
-                        _buildForm(context),
-                      ],
-                    ),
-                  ),
-                )
-              : SingleChildScrollView(
+        child: isMobile
+            ? SingleChildScrollView(
+                child: Center(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 100.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Image.asset(
-                              'assets/change_passord.png',
-                              width: 350.w,
-                              height: 350.h,
-                            ),
-                          ),
-                          SizedBox(width: 50.w),
-                          _buildForm(context),
-                        ],
+                      Image.asset(
+                        'assets/change_pass.png',
+                        width: 600.w,
+                        height: 180.h,
                       ),
+                      _buildForm(context),
                     ],
                   ),
                 ),
-        ),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: 100.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Image.asset(
+                            'assets/change_passord.png',
+                            width: 350.w,
+                            height: 350.h,
+                          ),
+                        ),
+                        SizedBox(width: 50.w),
+                        _buildForm(context),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
       ),
     );
   }
@@ -159,8 +156,8 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
           text: S.of(context).current_password,
           hint: S.of(context).enter_current_password,
           controller: _currentPasswordController,
-          width: isMobile ? 850.w : 500.w,
-          height: isMobile ? 60.h : 90.h,
+          width: isMobile ? 1000.w : 500.w,
+          height: isMobile ? 70.h : 90.h,
           left: 20.w,
           right: 20.w,
           top: 0,
@@ -177,8 +174,8 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
           text: S().new_password,
           hint: S().enter_new_password,
           controller: _newPasswordController,
-          width: isMobile ? 850.w : 500.w,
-          height: isMobile ? 60.h : 90.h,
+          width: isMobile ? 1000.w : 500.w,
+          height: isMobile ? 70.h : 90.h,
           left: 20.w,
           right: 20.w,
           top: 0,
@@ -195,8 +192,8 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
           hint: S().confirm_password,
           text: S().password_label,
           controller: _confirmPasswordController,
-          width: isMobile ? 850.w : 500.w,
-          height: isMobile ? 65.h : 100.h,
+          width: isMobile ? 1000.w : 500.w,
+          height: isMobile ? 70.h : 100.h,
           left: 20.w,
           right: 20.w,
           top: 0,
@@ -213,11 +210,11 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
           onPressed: passwordProvider.isLoadingChangePassword
               ? () {}
               : onPressed,
-          height: isMobile ? 30.h : 40.h,
-          width: isMobile ? 400.w : 250.w,
+          height: isMobile ? 35.h : 40.h,
+          width: isMobile ? 800.w : 250.w,
           left: 30.w,
           right: 30.w,
-          top: 5.h,
+          top: 15.h,
           bottom: 0,
           textSize: 18,
           color: colorScheme.primary,
@@ -236,6 +233,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   ),
                 ),
         ),
+        SizedBox(height: 20.h),
       ],
     );
   }

@@ -1,5 +1,8 @@
 import 'package:marbella/app/app_role.dart';
+import 'package:marbella/core/databases/api/end_points.dart';
 import 'package:marbella/core/helper/constant.dart';
+import 'package:marbella/core/helper/device_info.dart';
+import 'package:marbella/features/only_doctor/audit/views/audit_view.dart';
 import 'package:marbella/features/shared/auth/viewmodels/auth_viewmodel.dart';
 import 'package:marbella/features/only_doctor/medications/widgets/medication_card.dart';
 import 'package:marbella/features/shared/patient_medications/models/patient_medication_model.dart';
@@ -84,6 +87,7 @@ class _PatientMedicationDetailsViewState
         ? const Color(0xFF22C55E)
         : colorScheme.onSurface.withAlpha((0.35 * 255).toInt());
 
+    bool isMobile = DeviceInfo.isMobile(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -100,8 +104,21 @@ class _PatientMedicationDetailsViewState
                     borderRadius: BorderRadius.circular(12.r),
                   ),
                   onSelected: (value) {
-                    if (value == 'edit') widget.onEdit?.call();
-                    if (value == 'delete') widget.onDelete?.call();
+                    if (value == 'edit') {
+                      widget.onEdit?.call();
+                    } else if (value == 'audit') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => AuditView(
+                            id: widget.patientMedication.id,
+                            endPoint: EndPoints.patientMedication,
+                          ),
+                        ),
+                      );
+                    } else if (value == 'delete') {
+                      widget.onDelete?.call();
+                    }
                   },
                   itemBuilder: (_) => [
                     PopupMenuItem(
@@ -117,6 +134,27 @@ class _PatientMedicationDetailsViewState
                         ],
                       ),
                     ),
+                    if (role == AppRole.doctor) ...[
+                      PopupMenuItem(
+                        value: 'audit',
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.manage_history_rounded,
+                              size: 19,
+                              color: colorScheme.onSurface.withAlpha(
+                                (0.6 * 255).toInt(),
+                              ),
+                            ),
+                            SizedBox(width: 10.w),
+                            Text(
+                              'Audit',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                     PopupMenuItem(
                       value: 'delete',
                       child: Row(
@@ -149,7 +187,10 @@ class _PatientMedicationDetailsViewState
         height: 50,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+          padding: EdgeInsets.symmetric(
+            horizontal: isMobile ? 40.w : 20.w,
+            vertical: isMobile ? 0.h : 5.h,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -206,7 +247,7 @@ class _PatientMedicationDetailsViewState
                   ),
                 ],
               ),
-              SizedBox(height: 5.h),
+              SizedBox(height: isMobile ? 0.h : 5.h),
               _sectionCard(
                 context,
                 title: S().prescription_details,
@@ -245,7 +286,7 @@ class _PatientMedicationDetailsViewState
                 ],
               ),
               if (medication.description != null) ...[
-                SizedBox(height: 10.h),
+                SizedBox(height: isMobile ? 6.h : 5.h),
                 _sectionCard(
                   context,
                   title: S().medication_description,
@@ -293,9 +334,13 @@ class _PatientMedicationDetailsViewState
   }) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    bool isMobile = DeviceInfo.isMobile(context);
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(20.r),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 30.w : 12.w,
+        vertical: isMobile ? 10.h : 12.h,
+      ),
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(18.r),
@@ -324,7 +369,7 @@ class _PatientMedicationDetailsViewState
               ),
             ],
           ),
-          SizedBox(height: 14.h),
+          SizedBox(height: isMobile ? 5.h : 14.h),
           ...children,
         ],
       ),
@@ -340,6 +385,7 @@ class _PatientMedicationDetailsViewState
   }) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    bool isMobile = DeviceInfo.isMobile(context);
     return Column(
       children: [
         Row(
@@ -352,9 +398,9 @@ class _PatientMedicationDetailsViewState
               ),
               child: Icon(icon, size: 18, color: colorScheme.primary),
             ),
-            SizedBox(width: 12.w),
+            SizedBox(width: isMobile ? 14.w : 12.w),
             SizedBox(
-              width: 100.w,
+              width: isMobile ? 300.w : 100.w,
               child: Text(
                 label,
                 style: theme.textTheme.bodyMedium?.copyWith(

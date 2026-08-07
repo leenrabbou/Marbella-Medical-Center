@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:marbella/features/only_doctor/audit/models/audit_model.dart';
 import 'package:marbella/features/shared/encounters/models/encounter_model.dart';
 import 'package:marbella/features/shared/encounters/services/encounters_service.dart';
 import 'package:marbella/core/connection/network_info.dart';
@@ -25,9 +26,17 @@ class EncounterViewmodel extends ChangeNotifier {
   final Map<int, String?> _errorMessageDetailsMap = {};
   final Map<int, EncounterModel> _encounterDetailsMap = {};
 
+  final Map<int, bool> _isLoadingAuditMap = {};
+  final Map<int, String?> _errorMessageAuditMap = {};
+  final Map<int, List<AuditModel>> _encounterAuditsMap = {};
+
   bool isLoadingDetailsFor(int id) => _isLoadingDetailsMap[id] ?? false;
   String? errorMessageDetailsFor(int id) => _errorMessageDetailsMap[id];
   EncounterModel? encounterDetailsFor(int id) => _encounterDetailsMap[id];
+
+  bool isLoadingAuditFor(int id) => _isLoadingAuditMap[id] ?? false;
+  String? errorMessageAuditFor(int id) => _errorMessageAuditMap[id];
+  List<AuditModel>? encounterAuditFor(int id) => _encounterAuditsMap[id];
 
   bool isLoadingUpdate = false;
   String? errorMessageUpdate;

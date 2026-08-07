@@ -1,3 +1,4 @@
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/core/widgets/app_avatar.dart';
 import 'package:marbella/core/widgets/style_widget.dart';
 import 'package:marbella/features/only_doctor/medications/widgets/medication_info_chip.dart';
@@ -34,6 +35,7 @@ class PatientMedicationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    bool isMobile = DeviceInfo.isMobile(context);
     final statusColor = _isActive
         ? const Color(0xFF22C55E)
         : colorScheme.onSurface.withAlpha((0.5 * 255).toInt());
@@ -52,7 +54,10 @@ class PatientMedicationCard extends StatelessWidget {
           ),
         ),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+          padding: EdgeInsets.symmetric(
+            horizontal: isMobile ? 30.w : 12.w,
+            vertical: isMobile ? 10.h : 12.h,
+          ),
           decoration: StyleWidget.cardDecoration(context),
           child: IntrinsicHeight(
             child: Row(
@@ -63,10 +68,10 @@ class PatientMedicationCard extends StatelessWidget {
                     children: [
                       AppAvatar(
                         icon: Icons.medication_outlined,
-                        size: 60.w,
+                        size: isMobile ? 150.w : 60.w,
                         imageUrl: patientMedication.medication.image?.url,
                       ),
-                      SizedBox(width: 14.w),
+                      SizedBox(width: isMobile ? 20.w : 14.w),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

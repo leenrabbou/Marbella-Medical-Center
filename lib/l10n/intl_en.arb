@@ -363,7 +363,7 @@
   "clinical_status": "Clinical Status",
   "verification_status": "Verification Status",
   "onset_date": "Onset Date",
-  "abatement_date": "Abatement Date (optional)",
+  "abatement_date": "Abatement Date",
   "clear": "Clear",
   "select_condition_type": "Please select a condition type.",
   "select_onset_date": "Please select an onset date.",
@@ -515,5 +515,18 @@
   "conditions_interactions": "Conditions Interactions",
   "medication_conflict_title": "Medication Conflict Detected",
   "medication_conflict_warning": "This medication may interact with the patient's existing medications or conditions. Do you want to continue anyway?",
-  "continue_anyway": "Continue Anyway"
+  "continue_anyway": "Continue Anyway",
+  "event_created": "Created",
+  "event_updated": "Updated",
+  "event_deleted": "Deleted",
+  "no_changes_detected": "No changes to display",
+  "not_set": "Not set",
+  "nurse": "Nurse",
+  "account_permanently_locked": "Your account has been locked. Please contact support.",
+  "try_again_in": "Try again in",
+  "seconds_short": "sec",
+  "performed_at": "Performed At",
+  "reason": "Reason",
+  "patient": "Patient",
+  "encounter": "Encounter"
 }

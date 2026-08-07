@@ -1,5 +1,5 @@
 import 'package:marbella/core/errors/conflict_error.dart';
-import 'package:marbella/features/only_doctor/medications/models/drug_interaction_model.dart';
+import 'package:marbella/features/only_doctor/medications/models/conflict_interaction.dart';
 import 'package:marbella/features/shared/patient_medications/models/patient_medication_model.dart';
 import 'package:marbella/features/shared/patient_medications/services/patient_medications_service.dart';
 import 'package:flutter/foundation.dart';
@@ -184,7 +184,7 @@ class PatientMedicationViewmodel extends ChangeNotifier {
     );
   }
 
-  List<DrugInteractionModel>? medicationConflictInteractions;
+  List<ConflictInteraction>? medicationConflictInteractions;
   String? conflictMessage;
 
   Future<bool> addMedication(

@@ -1,4 +1,5 @@
 import 'package:marbella/app/app_role.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/core/params/params.dart';
 import 'package:marbella/features/only_doctor/medications/viewmodels/medication_viewmodel.dart';
 import 'package:marbella/features/shared/patient_medications/viewmodel/patient_medication_viewmodel.dart';
@@ -93,6 +94,7 @@ class _MedicationViewState extends State<PatientMedicationView> {
     final isLoading = provider.isLoadingFor(_params);
     final errorMessage = provider.errorMessageFor(_params);
     final role = context.read<AppRole>();
+    bool isMobile = DeviceInfo.isMobile(context);
     return Scaffold(
       floatingActionButton: widget.isEditable && role == AppRole.doctor
           ? FloatingActionButton(
@@ -129,7 +131,10 @@ class _MedicationViewState extends State<PatientMedicationView> {
             onRetry: _handleRefresh,
             noDataMsg: S().no_data,
             child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? 40.w : 20.w,
+                vertical: isMobile ? 0.h : 5.h,
+              ),
               physics: const AlwaysScrollableScrollPhysics(),
               itemCount: medications.length,
               itemBuilder: (BuildContext context, int index) {

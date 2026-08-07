@@ -22,10 +22,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "abatement_date": MessageLookupByLibrary.simpleMessage(
-      "تاريخ الانتهاء (اختياري)",
-    ),
+    "abatement_date": MessageLookupByLibrary.simpleMessage("تاريخ الانتهاء"),
     "account_banned": MessageLookupByLibrary.simpleMessage("تم حظر حسابك."),
+    "account_permanently_locked": MessageLookupByLibrary.simpleMessage(
+      "تم قفل حسابك. يرجى التواصل مع الدعم.",
+    ),
     "active": MessageLookupByLibrary.simpleMessage("نشط"),
     "active_conditions": MessageLookupByLibrary.simpleMessage(
       "التشخيصات النشطة",
@@ -269,6 +270,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "efficient_patient_management": MessageLookupByLibrary.simpleMessage(
       "إدارة فعّالة للمرضى",
     ),
+    "encounter": MessageLookupByLibrary.simpleMessage("الزيارة"),
     "encounter_details": MessageLookupByLibrary.simpleMessage("تفاصيل الزيارة"),
     "encounters": MessageLookupByLibrary.simpleMessage("الزيارات"),
     "ended": MessageLookupByLibrary.simpleMessage("منتهي"),
@@ -363,6 +365,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "enter_unit": MessageLookupByLibrary.simpleMessage("أدخل الوحدة"),
     "enter_value": MessageLookupByLibrary.simpleMessage("أدخل القيمة"),
     "error": MessageLookupByLibrary.simpleMessage("خطأ"),
+    "event_created": MessageLookupByLibrary.simpleMessage("تمت الإضافة"),
+    "event_deleted": MessageLookupByLibrary.simpleMessage("تم الحذف"),
+    "event_updated": MessageLookupByLibrary.simpleMessage("تم التعديل"),
     "experiences": MessageLookupByLibrary.simpleMessage("الخبرات"),
     "extraction": MessageLookupByLibrary.simpleMessage("قلع"),
     "failed_to_fetch": MessageLookupByLibrary.simpleMessage("فشل في جلب الملف"),
@@ -566,6 +571,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_cancelled_appointments": MessageLookupByLibrary.simpleMessage(
       "لا توجد مواعيد ملغية",
     ),
+    "no_changes_detected": MessageLookupByLibrary.simpleMessage(
+      "لا توجد تغييرات لعرضها",
+    ),
     "no_data": MessageLookupByLibrary.simpleMessage("لا توجد بيانات"),
     "no_date": MessageLookupByLibrary.simpleMessage("لا يوجد تاريخ"),
     "no_encounter_data": MessageLookupByLibrary.simpleMessage(
@@ -610,6 +618,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_working_hours": MessageLookupByLibrary.simpleMessage("لا يوجد دوام"),
     "not_available": MessageLookupByLibrary.simpleMessage("غير متوفر"),
     "not_banned": MessageLookupByLibrary.simpleMessage("غير محظور"),
+    "not_set": MessageLookupByLibrary.simpleMessage("غير محدد"),
     "note": MessageLookupByLibrary.simpleMessage("ملاحظة"),
     "note_added_successfully": MessageLookupByLibrary.simpleMessage(
       "تمت إضافة الملاحظة بنجاح.",
@@ -625,6 +634,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "notes": MessageLookupByLibrary.simpleMessage("ملاحظات"),
     "notes_hint": MessageLookupByLibrary.simpleMessage("مثال: تؤخذ بعد الطعام"),
+    "nurse": MessageLookupByLibrary.simpleMessage("ممرض/ة"),
     "nurse_added_successfully": MessageLookupByLibrary.simpleMessage(
       "تمت إضافة الممرض بنجاح.",
     ),
@@ -683,12 +693,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwords_do_not_match": MessageLookupByLibrary.simpleMessage(
       "كلمات المرور غير متطابقة",
     ),
+    "patient": MessageLookupByLibrary.simpleMessage("المريض"),
     "patient_info": MessageLookupByLibrary.simpleMessage("معلومات المريض"),
     "patient_job": MessageLookupByLibrary.simpleMessage("مهنة المريض"),
     "patient_name": MessageLookupByLibrary.simpleMessage("اسم المريض"),
     "patient_profile": MessageLookupByLibrary.simpleMessage("ملف المريض"),
     "patients": MessageLookupByLibrary.simpleMessage("المرضى"),
     "pending": MessageLookupByLibrary.simpleMessage("قيد الانتظار"),
+    "performed_at": MessageLookupByLibrary.simpleMessage("وقت التنفيذ"),
     "personal_data": MessageLookupByLibrary.simpleMessage("البيانات الشخصية"),
     "personal_information": MessageLookupByLibrary.simpleMessage(
       "المعلومات الشخصية",
@@ -725,6 +737,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
     "profile_image": MessageLookupByLibrary.simpleMessage("صورة الملف الشخصي"),
     "queue": MessageLookupByLibrary.simpleMessage("الترتيب"),
+    "reason": MessageLookupByLibrary.simpleMessage("السبب"),
     "reference_range": MessageLookupByLibrary.simpleMessage("النطاق المرجعي"),
     "remove": MessageLookupByLibrary.simpleMessage("إزالة"),
     "remove_nurse": MessageLookupByLibrary.simpleMessage("إزالة الممرض"),
@@ -770,6 +783,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "search_result_for": MessageLookupByLibrary.simpleMessage("نتيجة البحث عن"),
     "sec": MessageLookupByLibrary.simpleMessage("ثانية"),
+    "seconds_short": MessageLookupByLibrary.simpleMessage("ثانية"),
     "see_all": MessageLookupByLibrary.simpleMessage("عرض الكل"),
     "select": MessageLookupByLibrary.simpleMessage("اختر"),
     "select_a_conversation": MessageLookupByLibrary.simpleMessage(
@@ -866,6 +880,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "treatment_plan_type": MessageLookupByLibrary.simpleMessage(
       "نوع الخطة العلاجية",
     ),
+    "try_again_in": MessageLookupByLibrary.simpleMessage("أعد المحاولة خلال"),
     "tuesday": MessageLookupByLibrary.simpleMessage("الثلاثاء"),
     "type_a_message_hint": MessageLookupByLibrary.simpleMessage(
       "اكتب رسالة...",

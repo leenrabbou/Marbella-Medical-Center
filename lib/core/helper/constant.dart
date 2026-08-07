@@ -41,46 +41,51 @@ class Constant {
 
   static Color statusColor(String status) {
     switch (status) {
-      case 'pending':
-      case 'registered':
-      case 'inactive':
-      case 'remission':
-      case 'low':
-        return const Color(0xFF3B82F6);
-
-      case 'booked':
-      case 'final':
-      case 'resolved':
-      case 'completed':
       case 'active':
+      case 'completed':
+      case 'resolved':
+      case 'final':
+      case 'confirmed':
+      case 'fulfilled':
+      case 'finished':
+      case 'booked':
+      case 'low':
         return const Color(0xFF22C55E);
 
+      case 'pending':
+      case 'registered':
       case 'arrived':
+      case 'provisional':
+        return const Color(0xFF3B82F6);
+
       case 'amended':
       case 'differential':
         return const Color(0xFF8B5CF6);
-
-      case 'fulfilled':
-      case 'finished':
-      case 'confirmed':
+      case 'remission':
         return const Color(0xFF14B8A6);
 
-      case 'cancelled':
-      case 'refuted':
-      case 'severe':
-      case 'high':
-        return const Color(0xFFEF4444);
       case 'moderate':
-        return const Color.fromARGB(255, 249, 151, 22);
-      case 'no_show':
-      case 'unknown':
-        return const Color(0xFF9E9E9E);
       case 'recurrence':
       case 'relapse':
+        return const Color(0xFFF97316);
+
+      case 'cancelled':
+      case 'no_show':
+      case 'severe':
+      case 'high':
       case 'entered-in-error':
-      case 'provisional':
+        return const Color(0xFFEF4444);
+
+      case 'in-progress':
+        return const Color(0xFF0EA5E9);
+
+      case 'inactive':
+      case 'unknown':
+      case 'refuted':
+        return const Color(0xFF9E9E9E);
+
       default:
-        return const Color.fromARGB(255, 249, 22, 241);
+        return const Color(0xFF9E9E9E);
     }
   }
 

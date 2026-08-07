@@ -5,8 +5,7 @@ import 'package:marbella/core/errors/conflict_error.dart';
 import 'package:marbella/core/errors/error_model.dart';
 import 'package:marbella/core/errors/exceptions.dart';
 import 'package:marbella/core/params/params.dart';
-import 'package:marbella/features/only_doctor/medications/models/drug_interaction_model.dart';
-import 'package:marbella/features/only_doctor/medications/models/interaction_list_model.dart';
+import 'package:marbella/features/only_doctor/medications/models/medication_conflict_model.dart';
 import 'package:marbella/features/shared/patient_medications/models/patient_medications_list.dart';
 import 'package:marbella/features/shared/patient_medications/models/patient_medications_response.dart';
 import 'package:marbella/generated/l10n.dart';
@@ -152,17 +151,15 @@ class PatientMedicationsService {
           );
         }
 
-        final interactionList =
-            InteractionListModel<DrugInteractionModel>.fromJson(
-              rawData,
-              DrugInteractionModel.fromJson,
-              dataKey: ApiKey.medications,
-            );
+        final conflict = MedicationConflictModel.fromJson(
+          Map<String, dynamic>.from(rawData),
+        );
+
         return Left(
           ConflictError(
             status: 409,
-            errorMessage: interactionList.message,
-            interactions: interactionList.data,
+            errorMessage: conflict.message,
+            interactions: conflict.interactions,
           ),
         );
       }

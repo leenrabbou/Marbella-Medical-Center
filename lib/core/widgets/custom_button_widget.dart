@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:marbella/core/helper/device_info.dart';
 
 class CustomButtonWidget extends StatelessWidget {
   const CustomButtonWidget({
@@ -23,6 +24,7 @@ class CustomButtonWidget extends StatelessWidget {
   final Color color, textColor;
   @override
   Widget build(BuildContext context) {
+    bool isMobile = DeviceInfo.isMobile(context);
     return Padding(
       padding: EdgeInsets.only(
         left: left,
@@ -38,7 +40,7 @@ class CustomButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             elevation: elevation,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.r),
+              borderRadius: BorderRadius.circular(isMobile ? 18.r : 12.r),
             ),
             backgroundColor: color,
             fixedSize: const Size(double.infinity, double.infinity),

@@ -85,14 +85,20 @@ class _OverViewEncounterTabState extends State<OverViewEncounterTab> {
         noDataMsg: S().no_data,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
+          padding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: isMobile ? 0 : 5.h,
+          ),
           child: isMobile
-              ? Column(
-                  children: [
-                    _buildSideSection(context, _encounter),
-                    SizedBox(height: 12.h),
-                    _buildMainContent(context, _encounter),
-                  ],
+              ? Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Column(
+                    children: [
+                      _buildSideSection(context, _encounter),
+                      SizedBox(height: isMobile ? 7.h : 12.h),
+                      _buildMainContent(context, _encounter),
+                    ],
+                  ),
                 )
               : Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,20 +120,22 @@ class _OverViewEncounterTabState extends State<OverViewEncounterTab> {
   }
 
   Widget _buildMainContent(BuildContext context, EncounterModel encounter) {
+    bool isMobile = DeviceInfo.isMobile(context);
     return Column(
       children: [
         _reasonCard(context, encounter),
-        SizedBox(height: 10.h),
+        SizedBox(height: isMobile ? 7.h : 10.h),
         _clinicalNotesCard(context, encounter),
       ],
     );
   }
 
   Widget _buildSideSection(BuildContext context, EncounterModel encounter) {
+    bool isMobile = DeviceInfo.isMobile(context);
     return Column(
       children: [
         _statusCard(context, encounter),
-        SizedBox(height: 10.h),
+        SizedBox(height: isMobile ? 7.h : 10.h),
         _timelineCard(context, encounter),
       ],
     );
@@ -136,16 +144,20 @@ class _OverViewEncounterTabState extends State<OverViewEncounterTab> {
   Widget _reasonCard(BuildContext context, EncounterModel encounter) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    bool isMobile = DeviceInfo.isMobile(context);
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 30.w : 12.w,
+        vertical: isMobile ? 10.h : 12.h,
+      ),
       decoration: StyleWidget.cardDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(Icons.sick_outlined, size: 22),
-              SizedBox(width: 10.w),
+              Icon(Icons.sick_outlined, size: isMobile ? 20 : 22),
+              SizedBox(width: isMobile ? 14.w : 10.w),
               Text(
                 S().chief_complaint,
                 style: Theme.of(
@@ -154,7 +166,7 @@ class _OverViewEncounterTabState extends State<OverViewEncounterTab> {
               ),
             ],
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: isMobile ? 5.h : 10.h),
           TextField(
             controller: widget.reasonController,
             enabled: widget.isEditable,
@@ -183,16 +195,20 @@ class _OverViewEncounterTabState extends State<OverViewEncounterTab> {
   Widget _clinicalNotesCard(BuildContext context, EncounterModel encounter) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    bool isMobile = DeviceInfo.isMobile(context);
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 30.w : 12.w,
+        vertical: isMobile ? 10.h : 12.h,
+      ),
       decoration: StyleWidget.cardDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(Icons.description_outlined, size: 22),
-              SizedBox(width: 10.w),
+              Icon(Icons.description_outlined, size: isMobile ? 20 : 22),
+              SizedBox(width: isMobile ? 14.w : 10.w),
               Text(
                 S().clinical_notes,
                 style: Theme.of(
@@ -201,7 +217,7 @@ class _OverViewEncounterTabState extends State<OverViewEncounterTab> {
               ),
             ],
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: isMobile ? 5.h : 10.h),
           TextField(
             controller: widget.notesController,
             enabled: widget.isEditable,
@@ -229,18 +245,22 @@ class _OverViewEncounterTabState extends State<OverViewEncounterTab> {
 
   Widget _statusCard(BuildContext context, EncounterModel encounter) {
     final statusColor = Constant.statusColor(encounter.status);
+    bool isMobile = DeviceInfo.isMobile(context);
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 30.w : 12.w,
+        vertical: isMobile ? 10.h : 12.h,
+      ),
       decoration: StyleWidget.cardDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(Icons.flag_outlined, size: 22),
-              SizedBox(width: 10.w),
+              Icon(Icons.flag_outlined, size: isMobile ? 20 : 22),
+              SizedBox(width: isMobile ? 14.w : 10.w),
               Text(
                 S().visit_status,
                 style: Theme.of(
@@ -249,7 +269,7 @@ class _OverViewEncounterTabState extends State<OverViewEncounterTab> {
               ),
             ],
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: isMobile ? 5.h : 10.h),
           Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(vertical: 8.h),
@@ -272,17 +292,21 @@ class _OverViewEncounterTabState extends State<OverViewEncounterTab> {
   }
 
   Widget _timelineCard(BuildContext context, EncounterModel encounter) {
+    bool isMobile = DeviceInfo.isMobile(context);
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 30.w : 12.w,
+        vertical: isMobile ? 10.h : 12.h,
+      ),
       decoration: StyleWidget.cardDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(Icons.timeline_outlined, size: 22),
-              SizedBox(width: 10.w),
+              Icon(Icons.timeline_outlined, size: isMobile ? 20 : 22),
+              SizedBox(width: isMobile ? 14.w : 10.w),
               Text(
                 S().timeline,
                 style: Theme.of(
@@ -291,7 +315,7 @@ class _OverViewEncounterTabState extends State<OverViewEncounterTab> {
               ),
             ],
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: isMobile ? 5.h : 10.h),
           TimeLineItem(
             icon: Icons.play_circle_outline,
             title: S().visit_started,

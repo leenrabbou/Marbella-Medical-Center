@@ -1,5 +1,7 @@
 import 'package:marbella/app/app_role.dart';
 import 'package:marbella/core/databases/cache/secure_storage_service.dart';
+import 'package:marbella/features/only_doctor/audit/service/audit_service.dart';
+import 'package:marbella/features/only_doctor/audit/viewmodel/audit_viewmodel.dart';
 import 'package:marbella/features/only_doctor/doctor_certificate/service/certificates_services.dart';
 import 'package:marbella/features/only_doctor/doctor_certificate/viewmodel/certificates_viewmodel.dart';
 import 'package:marbella/features/only_doctor/medications/services/interaction_service.dart';
@@ -196,6 +198,12 @@ appProviders({
     ChangeNotifierProvider(
       create: (BuildContext context) => InteractionViewmodel(
         interactionService: InteractionService(apiService: apiService),
+        networkInfo: networkInfo,
+      ),
+    ),
+    ChangeNotifierProvider(
+      create: (BuildContext context) => AuditViewmodel(
+        auditService: AuditService(apiService: apiService),
         networkInfo: networkInfo,
       ),
     ),

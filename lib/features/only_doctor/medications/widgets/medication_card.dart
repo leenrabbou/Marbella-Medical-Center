@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/core/widgets/app_avatar.dart';
 import 'package:marbella/core/widgets/style_widget.dart';
 import 'package:marbella/features/only_doctor/medications/models/medication_model.dart';
@@ -33,6 +34,7 @@ class MedicationCard extends StatelessWidget {
         medication.description!.trim().isNotEmpty;
     final hasStrength = medication.strength != null;
 
+    bool isMobile = DeviceInfo.isMobile(context);
     return GestureDetector(
       onTap: isFromDetailsView
           ? null
@@ -61,10 +63,14 @@ class MedicationCard extends StatelessWidget {
               children: [
                 AppAvatar(
                   icon: Icons.medication_outlined,
-                  size: isFromDetailsView ? 64.r : 52.r,
+                  size: isMobile
+                      ? 150.r
+                      : isFromDetailsView
+                      ? 64.r
+                      : 52.r,
                   imageUrl: medication.image?.url,
                 ),
-                SizedBox(width: 12.w),
+                SizedBox(width: isMobile ? 14.w : 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,8 +1,8 @@
 import 'package:marbella/core/errors/error_model.dart';
-import 'package:marbella/features/only_doctor/medications/models/drug_interaction_model.dart';
+import 'package:marbella/features/only_doctor/medications/models/conflict_interaction.dart';
 
 class ConflictError extends ErrorModel {
-  final List<DrugInteractionModel> interactions;
+  final List<ConflictInteraction> interactions;
 
   ConflictError({
     required super.status,

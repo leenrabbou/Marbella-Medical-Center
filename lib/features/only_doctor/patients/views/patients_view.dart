@@ -24,6 +24,7 @@ class _PatientsViewState extends State<PatientsView> {
   late String locale;
   String? token;
   PatientsParams? params;
+
   @override
   void initState() {
     super.initState();
@@ -54,6 +55,7 @@ class _PatientsViewState extends State<PatientsView> {
       token,
       params!,
     );
+    setState(() {});
   }
 
   void _onCancelSearch() {
@@ -97,7 +99,6 @@ class _PatientsViewState extends State<PatientsView> {
             SearchTextFieldWidget(
               searchController: searchController,
               onSubmitted: (text) => _onSearch(text),
-              onChanged: (text) => setState(() {}),
             ),
             if (isSearching)
               Padding(

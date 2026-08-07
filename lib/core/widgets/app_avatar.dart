@@ -35,6 +35,8 @@ class AppAvatar extends StatelessWidget {
           width: size,
           height: size,
           fit: BoxFit.cover,
+          cacheWidth: (size * 2).round(),
+          cacheHeight: (size * 2).round(),
           frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
             if (wasSynchronouslyLoaded) return child;
             return AnimatedSwitcher(

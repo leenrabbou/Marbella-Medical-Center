@@ -12,12 +12,13 @@ class AppointmentCard extends StatelessWidget {
     required this.isFromPatient,
   });
   final AppointmentModel appointment;
-
   final bool isFromPatient;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final statusColor = Constant.statusColor(appointment.status);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 4.h),
@@ -37,168 +38,167 @@ class AppointmentCard extends StatelessWidget {
         },
         child: Container(
           decoration: StyleWidget.cardDecoration(context),
-          child: IntrinsicHeight(
-            child: Row(
-              children: [
-                Container(
-                  width: 5.w,
-                  decoration: BoxDecoration(
-                    color: Constant.statusColor(appointment.status),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8.r),
-                      bottomLeft: Radius.circular(8.r),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
-                      vertical: 8.h,
-                    ),
-                    child: Row(
+
+          clipBehavior: Clip.antiAlias,
+          child: Stack(
+            children: [
+              Positioned(
+                left: 0,
+                top: 0,
+                bottom: 0,
+                width: 5.w,
+                child: Container(color: statusColor),
+              ),
+
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              '${appointment.startTime.substring(11, 16)} - ${appointment.endTime.substring(11, 16)}',
-                              style: theme.textTheme.titleSmall?.copyWith(
-                                color: colorScheme.onSurface,
-                              ),
-                            ),
-                            SizedBox(height: 3.h),
-                            Text(
-                              Constant.formatDate(
-                                context,
-                                appointment.startTime.substring(0, 10),
-                              ),
-                              style: theme.textTheme.labelSmall?.copyWith(
-                                color: colorScheme.secondary,
-                              ),
-                            ),
-                          ],
+                        Icon(
+                          Icons.schedule_rounded,
+                          size: 16,
+                          color: colorScheme.primary,
                         ),
-                        VerticalDivider(
-                          indent: 5,
-                          endIndent: 5,
-                          width: 30.w,
-                          color: colorScheme.onSurface.withAlpha(
-                            (0.3 * 255).toInt(),
+                        SizedBox(width: 6.w),
+                        Text(
+                          '${appointment.startTime.substring(11, 16)} - ${appointment.endTime.substring(11, 16)}',
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.onSurface,
                           ),
                         ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${appointment.patient.givenName} ${appointment.patient.familyName}',
-                                style: theme.textTheme.titleSmall?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(height: 5.h),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.phone_android_outlined,
-                                    size: 15,
-                                    color: colorScheme.primary,
-                                  ),
-                                  SizedBox(width: 8.w),
-                                  Text(
-                                    appointment.patient.phoneNumber,
-                                    style: theme.textTheme.bodySmall?.copyWith(
-                                      color: colorScheme.secondary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 5.h),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.medical_services_outlined,
-                                    size: 15,
-                                    color: colorScheme.primary,
-                                  ),
-                                  SizedBox(width: 8.w),
-                                  Text(
-                                    appointment.service.name,
-                                    style: theme.textTheme.bodySmall?.copyWith(
-                                      color: colorScheme.secondary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                        SizedBox(width: 8.w),
+                        Container(
+                          width: 3,
+                          height: 3,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: colorScheme.onSurface.withAlpha(
+                              (0.3 * 255).toInt(),
+                            ),
                           ),
                         ),
-                        Column(
-                          children: [
-                            Container(
-                              width: 100.w,
-                              padding: EdgeInsets.symmetric(vertical: 3.h),
-                              decoration: BoxDecoration(
-                                color: Constant.statusColor(
-                                  appointment.status,
-                                ).withAlpha((0.1 * 255).toInt()),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  appointment.status,
-                                  style: Theme.of(context).textTheme.bodySmall
-                                      ?.copyWith(
-                                        color: Constant.statusColor(
-                                          appointment.status,
-                                        ),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                ),
-                              ),
+                        SizedBox(width: 8.w),
+                        Text(
+                          Constant.formatDate(
+                            context,
+                            appointment.startTime.substring(0, 10),
+                          ),
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: colorScheme.onSurface.withAlpha(
+                              (0.6 * 255).toInt(),
                             ),
-                            SizedBox(height: 5.h),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 100.w,
-                                  padding: EdgeInsets.symmetric(vertical: 3.h),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                      color: colorScheme.primary.withAlpha(
-                                        (0.5 * 255).toInt(),
-                                      ),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      appointment.clinic.name,
-                                      style: theme.textTheme.labelSmall
-                                          ?.copyWith(
-                                            color: colorScheme.primary,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
-                        SizedBox(width: 10.w),
+                        const Spacer(),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 4.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: statusColor.withAlpha((0.12 * 255).toInt()),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            appointment.status,
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              color: statusColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                  ),
+
+                    SizedBox(height: 12.h),
+                    Divider(
+                      height: 0.5,
+                      color: colorScheme.onSurface.withAlpha(
+                        (0.08 * 255).toInt(),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    Text(
+                      '${appointment.patient.givenName} ${appointment.patient.familyName}',
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+
+                    SizedBox(height: 8.h),
+
+                    _InfoRow(
+                      icon: Icons.phone_android_outlined,
+                      text: appointment.patient.phoneNumber,
+                      colorScheme: colorScheme,
+                      theme: theme,
+                    ),
+                    SizedBox(height: 5.h),
+                    _InfoRow(
+                      icon: Icons.medical_services_outlined,
+                      text: appointment.service.name,
+                      colorScheme: colorScheme,
+                      theme: theme,
+                    ),
+                    SizedBox(height: 5.h),
+                    _InfoRow(
+                      icon: Icons.local_hospital_outlined,
+                      text: appointment.clinic.name,
+                      colorScheme: colorScheme,
+                      theme: theme,
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _InfoRow extends StatelessWidget {
+  const _InfoRow({
+    required this.icon,
+    required this.text,
+    required this.colorScheme,
+    required this.theme,
+  });
+
+  final IconData icon;
+  final String text;
+  final ColorScheme colorScheme;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          size: 15,
+          color: colorScheme.primary.withAlpha((0.8 * 255).toInt()),
+        ),
+        SizedBox(width: 8.w),
+        Expanded(
+          child: Text(
+            text,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurface.withAlpha((0.65 * 255).toInt()),
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
     );
   }
 }

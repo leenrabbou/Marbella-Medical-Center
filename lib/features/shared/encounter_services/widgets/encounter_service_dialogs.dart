@@ -1,5 +1,6 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:marbella/core/helper/constant.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/core/widgets/style_widget.dart';
 import 'package:marbella/features/only_doctor/appointments/models/service_model.dart';
 import 'package:marbella/features/shared/encounter_services/models/encounter_service_model.dart';
@@ -466,6 +467,7 @@ class EncounterServiceDialogs {
 
     bool isSubmitting = false;
     String? localErrorMessage;
+    bool isMobile = DeviceInfo.isMobile(context);
 
     showDialog(
       context: context,
@@ -549,7 +551,7 @@ class EncounterServiceDialogs {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: isMobile ? 8.h : 16.h),
                       ],
 
                       Text(
@@ -580,7 +582,7 @@ class EncounterServiceDialogs {
                           isSelectedStatus = true;
                         },
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: isMobile ? 8.h : 16.h),
 
                       CustomTextField(
                         controller: noteController,
@@ -590,7 +592,7 @@ class EncounterServiceDialogs {
                         isValidation: false,
                         isPhone: false,
                       ),
-                      const SizedBox(height: 24),
+                      SizedBox(height: isMobile ? 20.h : 24.h),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -600,10 +602,10 @@ class EncounterServiceDialogs {
                                 ? () {}
                                 : () => Navigator.pop(context),
                             height: 40,
-                            width: 120,
-                            left: 40,
-                            right: 40,
-                            top: 5,
+                            width: isMobile ? 350.w : 120.w,
+                            left: 50.w,
+                            right: 0,
+                            top: 0,
                             bottom: 0,
                             textSize: 15,
                             color: colorScheme.surface,
@@ -678,10 +680,10 @@ class EncounterServiceDialogs {
                                     }
                                   },
                             height: 40,
-                            width: 120,
-                            left: 40,
-                            right: 40,
-                            top: 5,
+                            width: isMobile ? 350.w : 120.w,
+                            left: 50.w,
+                            right: 0,
+                            top: 0,
                             bottom: 0,
                             textSize: 18,
                             color: colorScheme.primary,

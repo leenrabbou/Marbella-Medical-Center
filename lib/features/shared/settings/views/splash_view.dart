@@ -3,7 +3,6 @@ import 'package:marbella/features/shared/settings/views/home_view.dart';
 import 'package:marbella/core/databases/cache/cache_keys.dart';
 import 'package:marbella/core/databases/cache/cache_service.dart';
 import 'package:marbella/features/shared/auth/viewmodels/auth_viewmodel.dart';
-import 'dart:async';
 import 'package:marbella/features/shared/auth/views/login_view.dart';
 import 'package:marbella/features/shared/auth/views/verification/verification_required_view.dart';
 import 'package:marbella/features/shared/settings/views/onboarding_view.dart';
@@ -22,6 +21,7 @@ class _SplashViewState extends State<SplashView>
   late Animation<double> _logoAnimation;
   late Animation<double> _textAnimation;
   late Animation<double> _gradientAnimation;
+
   @override
   void initState() {
     super.initState();
@@ -48,31 +48,40 @@ class _SplashViewState extends State<SplashView>
       ),
     );
     _controller.forward();
-    Timer(const Duration(seconds: 2), () {
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) {
-              final auth = Provider.of<AuthViewmodel>(context);
-              String? phone =
-                  auth.response?.data?.phoneNumber ??
-                  auth.userFromCache?.data?.phoneNumber;
-              bool? val = CacheService().getData(key: CacheKeys.onBoarding);
-              return auth.isLoggedIn
-                  ? auth.isVerified
-                        ? val == true
-                              ? HomeView()
-                              : OnboardingView()
-                        : VerificationRequiredView(
-                            phone: phone ?? S.of(context).invalid_number,
-                          )
-                  : LoginView();
-            },
-          ),
-        );
-      }
-    });
+
+    _prepareAndNavigate();
+  }
+
+  Future<void> _prepareAndNavigate() async {
+    final auth = context.read<AuthViewmodel>();
+    await Future.wait([
+      Future.delayed(const Duration(seconds: 2)),
+      auth.loadUser(),
+    ]);
+
+    if (!mounted) return;
+
+    String? phone =
+        auth.response?.data?.phoneNumber ??
+        auth.userFromCache?.data?.phoneNumber;
+    bool? val = CacheService().getData(key: CacheKeys.onBoarding);
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return auth.isLoggedIn
+              ? auth.isVerified
+                    ? val == true
+                          ? HomeView()
+                          : OnboardingView()
+                    : VerificationRequiredView(
+                        phone: phone ?? S.of(context).invalid_number,
+                      )
+              : LoginView();
+        },
+      ),
+    );
   }
 
   @override
