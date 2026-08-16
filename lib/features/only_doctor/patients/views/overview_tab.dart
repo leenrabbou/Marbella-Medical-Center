@@ -28,6 +28,7 @@ class OverviewTab extends StatelessWidget {
     final appointmentProvider = context.watch<AppointmentsViewmodel>();
     final patientMedicationProvider = context
         .watch<PatientMedicationViewmodel>();
+
     final conditionProvider = context.watch<ConditionViewmodel>();
     final colorScheme = Theme.of(context).colorScheme;
     bool isTablet = DeviceInfo.isTablet(context);
@@ -50,6 +51,7 @@ class OverviewTab extends StatelessWidget {
       verificationStatus: null,
       patientId: patient.id,
     );
+
     final conditions = conditionProvider.conditionsFor(conditionParams);
     final lastEncounter = encounters.isNotEmpty ? encounters.first : null;
     final nextApp = appointments.isNotEmpty ? appointments.first : null;
@@ -74,7 +76,7 @@ class OverviewTab extends StatelessWidget {
         ),
         children: [
           SummaryCard(
-            encounterCount: encounters.length,
+            encounterCount: encounterProvider.total,
             conditionsCount: conditions.length,
             medicationCount: medications.length,
           ),
@@ -85,7 +87,7 @@ class OverviewTab extends StatelessWidget {
                 : '—',
             text: lastEncounter?.reason ?? S().no_records_yet,
             btnTtext: lastEncounter == null ? '—' : S().view_details,
-            imagePath: 'assets/stethoscope.jpg',
+            imagePath: 'assets/stethoscope2.png',
             onTap: () {
               lastEncounter != null
                   ? Navigator.push(
@@ -105,7 +107,7 @@ class OverviewTab extends StatelessWidget {
                 : '—',
             text: nextApp?.reason ?? S().no_records_yet,
             btnTtext: nextApp == null ? '—' : S().view_appointment,
-            imagePath: 'assets/OIP (2).webp',
+            imagePath: 'assets/calender.png',
             onTap: () {
               nextApp != null
                   ? Navigator.push(

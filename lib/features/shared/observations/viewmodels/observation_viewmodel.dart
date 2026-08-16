@@ -12,6 +12,9 @@ class ObservationViewmodel extends ChangeNotifier {
     required this.observationServices,
     required this.networkInfo,
   });
+  final Map<String, List<ObservationModel>> _observationsMap = {};
+  final Map<String, bool> _loadingMap = {};
+  final Map<String, String?> _errorMap = {};
 
   bool isLoading = false;
   bool getListSuccessfully = false;
@@ -27,32 +30,52 @@ class ObservationViewmodel extends ChangeNotifier {
   bool deleteisLoading = false;
   String? deleteErrorMessage;
 
+  String _keyOf(ObservationParams params) =>
+      '${params.patientId}_${params.codeId}_${params.status}_${params.encounterId}';
+
+  List<ObservationModel> observationsFor(ObservationParams params) =>
+      _observationsMap[_keyOf(params)] ?? [];
+
+  bool isLoadingFor(ObservationParams params) =>
+      _loadingMap[_keyOf(params)] ?? false;
+
+  String? errorFor(ObservationParams params) => _errorMap[_keyOf(params)];
+
+  ObservationModel? lastObservationFor(ObservationParams params) {
+    final list = observationsFor(params);
+    return list.isNotEmpty ? list.first : null;
+  }
+
   Future<void> getobservations(
     String locale,
     String? token,
     ObservationParams params,
   ) async {
+    final key = _keyOf(params);
+    _loadingMap[key] = true;
+    _errorMap[key] = null;
+
     isLoading = true;
     errorMessage = null;
-    observations = [];
     notifyListeners();
 
     if (token == null) {
+      _errorMap[key] = S().token_missing;
       errorMessage = S().token_missing;
+      _loadingMap[key] = false;
       isLoading = false;
       notifyListeners();
       return;
     }
 
     final isConnected = await networkInfo.isConnected;
-
     if (isConnected == false) {
+      _errorMap[key] = S().no_internet_message;
       errorMessage = S().no_internet_message;
+      _loadingMap[key] = false;
       isLoading = false;
       notifyListeners();
-      if (kDebugMode) {
-        print("Connection failed: No network.");
-      }
+      if (kDebugMode) print("Connection failed: No network.");
       return;
     }
 
@@ -64,6 +87,7 @@ class ObservationViewmodel extends ChangeNotifier {
 
     result.fold(
       (failure) {
+        _errorMap[key] = failure.errorMessage;
         errorMessage = failure.errorMessage;
         if (kDebugMode) {
           print("failed fetch observations${failure.errorMessage}");
@@ -71,11 +95,13 @@ class ObservationViewmodel extends ChangeNotifier {
       },
       (response) {
         getListSuccessfully = true;
+        _observationsMap[key] = response.data;
         observations = response.data;
         if (kDebugMode) print("fetch observations success");
       },
     );
 
+    _loadingMap[key] = false;
     isLoading = false;
     notifyListeners();
   }

@@ -1,7 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:marbella/app/app_role.dart';
 import 'package:marbella/core/databases/cache/secure_storage_service.dart';
 import 'package:marbella/features/only_doctor/audit/service/audit_service.dart';
 import 'package:marbella/features/only_doctor/audit/viewmodel/audit_viewmodel.dart';
+import 'package:marbella/features/only_doctor/chat/service/chat_service.dart';
+import 'package:marbella/features/only_doctor/chat/service/file_service.dart';
+import 'package:marbella/features/only_doctor/chat/viewmodel/chat_viewmodel.dart';
+import 'package:marbella/features/only_doctor/chat/viewmodel/file_viewmodel.dart';
 import 'package:marbella/features/only_doctor/doctor_certificate/service/certificates_services.dart';
 import 'package:marbella/features/only_doctor/doctor_certificate/viewmodel/certificates_viewmodel.dart';
 import 'package:marbella/features/only_doctor/medications/services/interaction_service.dart';
@@ -18,6 +23,8 @@ import 'package:marbella/features/only_doctor/medications/services/medication_se
 import 'package:marbella/features/only_doctor/medications/viewmodels/medication_viewmodel.dart';
 import 'package:marbella/features/only_doctor/nurses/services/encounter_nurses_services.dart';
 import 'package:marbella/features/only_doctor/nurses/viewmodels/encounter_nurses_viewmodel.dart';
+import 'package:marbella/features/shared/notifications/service/notifications_service.dart';
+import 'package:marbella/features/shared/notifications/viewmodel/notification_viewmodel.dart';
 import 'package:marbella/features/shared/patient_medications/services/patient_medications_service.dart';
 import 'package:marbella/features/shared/patient_medications/viewmodel/patient_medication_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -205,6 +212,21 @@ appProviders({
       create: (BuildContext context) => AuditViewmodel(
         auditService: AuditService(apiService: apiService),
         networkInfo: networkInfo,
+      ),
+    ),
+    ChangeNotifierProvider(
+      create: (BuildContext context) => ChatViewmodel(
+        chatService: ChatService(apiService: apiService),
+        networkInfo: networkInfo,
+      ),
+    ),
+    ChangeNotifierProvider(
+      create: (BuildContext context) =>
+          FileViewmodel(downloadService: FileService(dio: Dio())),
+    ),
+    ChangeNotifierProvider(
+      create: (BuildContext context) => NotificationViewmodel(
+        notificationService: NotificationService(apiService: apiService),
       ),
     ),
   ];

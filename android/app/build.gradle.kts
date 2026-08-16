@@ -7,16 +7,17 @@ plugins {
 
 android {
     namespace = "com.example.marbella"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    compileSdk = 36
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
+    sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+         jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
     defaultConfig {
@@ -25,7 +26,7 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
@@ -37,8 +38,13 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
-}
 
+}
+dependencies {
+    implementation("androidx.window:window:1.0.0")
+    implementation("androidx.window:window-java:1.0.0")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+}
 flutter {
     source = "../.."
 }

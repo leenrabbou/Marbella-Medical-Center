@@ -4333,6 +4333,146 @@ class S {
   String get encounter {
     return Intl.message('Encounter', name: 'encounter', desc: '', args: []);
   }
+
+  /// `Download`
+  String get download {
+    return Intl.message('Download', name: 'download', desc: '', args: []);
+  }
+
+  /// `Download all`
+  String get download_all {
+    return Intl.message(
+      'Download all',
+      name: 'download_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `File saved successfully`
+  String get file_saved_successfully {
+    return Intl.message(
+      'File saved successfully',
+      name: 'file_saved_successfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save cancelled`
+  String get save_cancelled {
+    return Intl.message(
+      'Save cancelled',
+      name: 'save_cancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count} of {total} files saved`
+  String files_saved_partial(int count, int total) {
+    return Intl.message(
+      '$count of $total files saved',
+      name: 'files_saved_partial',
+      desc: '',
+      args: [count, total],
+    );
+  }
+
+  /// `Storage permission is required to save files`
+  String get permission_denied {
+    return Intl.message(
+      'Storage permission is required to save files',
+      name: 'permission_denied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Today`
+  String get today {
+    return Intl.message('Today', name: 'today', desc: '', args: []);
+  }
+
+  /// `Yesterday`
+  String get yesterday {
+    return Intl.message('Yesterday', name: 'yesterday', desc: '', args: []);
+  }
+
+  /// `January`
+  String get january {
+    return Intl.message('January', name: 'january', desc: '', args: []);
+  }
+
+  /// `February`
+  String get february {
+    return Intl.message('February', name: 'february', desc: '', args: []);
+  }
+
+  /// `March`
+  String get march {
+    return Intl.message('March', name: 'march', desc: '', args: []);
+  }
+
+  /// `April`
+  String get april {
+    return Intl.message('April', name: 'april', desc: '', args: []);
+  }
+
+  /// `May`
+  String get may {
+    return Intl.message('May', name: 'may', desc: '', args: []);
+  }
+
+  /// `June`
+  String get june {
+    return Intl.message('June', name: 'june', desc: '', args: []);
+  }
+
+  /// `July`
+  String get july {
+    return Intl.message('July', name: 'july', desc: '', args: []);
+  }
+
+  /// `August`
+  String get august {
+    return Intl.message('August', name: 'august', desc: '', args: []);
+  }
+
+  /// `September`
+  String get september {
+    return Intl.message('September', name: 'september', desc: '', args: []);
+  }
+
+  /// `October`
+  String get october {
+    return Intl.message('October', name: 'october', desc: '', args: []);
+  }
+
+  /// `November`
+  String get november {
+    return Intl.message('November', name: 'november', desc: '', args: []);
+  }
+
+  /// `December`
+  String get december {
+    return Intl.message('December', name: 'december', desc: '', args: []);
+  }
+
+  /// `Image`
+  String get image {
+    return Intl.message('Image', name: 'image', desc: '', args: []);
+  }
+
+  /// `Notifications`
+  String get notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'notifications',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

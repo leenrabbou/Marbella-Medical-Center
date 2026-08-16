@@ -26,6 +26,7 @@ class _EncountersViewState extends State<EncountersView> {
   void initState() {
     super.initState();
     _initFetch();
+
     scrollController.addListener(_onScroll);
   }
 
@@ -35,7 +36,11 @@ class _EncountersViewState extends State<EncountersView> {
       token =
           context.read<AuthViewmodel>().response?.data?.token ??
           context.read<AuthViewmodel>().userFromCache?.data?.token;
-      params = EncounterParams(search: null, status: null, patientId: null);
+      params = EncounterParams(
+        search: null,
+        status: 'arrived',
+        patientId: null,
+      );
       context.read<EncounterViewmodel>().refreshToFetchDataList(
         locale,
         token,
@@ -45,7 +50,6 @@ class _EncountersViewState extends State<EncountersView> {
   }
 
   Future<void> _fetchData() async {
-    params = EncounterParams(search: null, status: null, patientId: null);
     locale = Localizations.localeOf(context).languageCode;
     token =
         context.read<AuthViewmodel>().response?.data?.token ??
@@ -93,7 +97,7 @@ class _EncountersViewState extends State<EncountersView> {
           error: encounterProvider.errorMessage,
           isEmpty:
               !encounterProvider.isLoading &&
-              encounterProvider.allEncounters.isEmpty &&
+              encounterProvider.arrivedEncounters.isEmpty &&
               encounterProvider.errorMessage == null,
           onRetry: _fetchData,
           noDataMsg: S.of(context).no_data,
@@ -101,12 +105,12 @@ class _EncountersViewState extends State<EncountersView> {
             physics: AlwaysScrollableScrollPhysics(),
             controller: scrollController,
             itemCount:
-                encounterProvider.allEncounters.length +
+                encounterProvider.arrivedEncounters.length +
                 (encounterProvider.getIsFetching(status) ? 1 : 0),
             itemBuilder: (BuildContext context, int index) {
-              if (index < encounterProvider.allEncounters.length) {
+              if (index < encounterProvider.arrivedEncounters.length) {
                 return EncounterCard(
-                  encounter: encounterProvider.allEncounters[index],
+                  encounter: encounterProvider.arrivedEncounters[index],
                 );
               } else {
                 return SpinKitThreeBounce(

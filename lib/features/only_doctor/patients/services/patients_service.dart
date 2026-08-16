@@ -19,12 +19,14 @@ class PatientsService {
     PatientsParams params,
   ) async {
     try {
-      String url = "${EndPoints.getPatients}?page=$page";
-      params.search != null
-          ? url = '$url&filter[search]=${params.search}'
-          : null;
+      final queryParams = <String, dynamic>{
+        'page': page.toString(),
+        if (params.search != null && params.search!.isNotEmpty)
+          'filter[search]': params.search!,
+      };
       final response = await apiService.get(
-        url,
+        EndPoints.getPatients,
+        queryParameters: queryParams,
         headers: {"locale": locale, "Authorization": 'Bearer $token'},
       );
       if (response[ApiKey.status] == 1) {

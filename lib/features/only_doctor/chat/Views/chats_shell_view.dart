@@ -1,9 +1,11 @@
 import 'package:marbella/core/helper/device_info.dart';
-import 'package:marbella/features/only_doctor/chat/Models/chat_model.dart';
+import 'package:marbella/features/only_doctor/chat/Models/conversation_model.dart';
 import 'package:marbella/features/only_doctor/chat/Views/chat_room_view.dart';
 import 'package:marbella/features/only_doctor/chat/Views/chats_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:marbella/features/only_doctor/chat/viewmodel/chat_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 class ChatsShellView extends StatefulWidget {
   const ChatsShellView({super.key});
@@ -13,7 +15,7 @@ class ChatsShellView extends StatefulWidget {
 }
 
 class _ChatsShellViewState extends State<ChatsShellView> {
-  ChatModel? _selectedChat;
+  ConversationModel? _selectedChat;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,9 @@ class _ChatsShellViewState extends State<ChatsShellView> {
                   selectedChat: _selectedChat,
                   onChatTap: (chat) {
                     setState(() => _selectedChat = chat);
+                    context.read<ChatViewmodel>().markConversationAsRead(
+                      chat.id,
+                    );
                   },
                 ),
               ),
@@ -50,7 +55,7 @@ class _ChatsShellViewState extends State<ChatsShellView> {
                 child: _selectedChat == null
                     ? _buildEmptyState(context)
                     : ChatRoomView(
-                        key: ValueKey(_selectedChat!.name),
+                        key: ValueKey(_selectedChat!.patient.givenName),
                         chat: _selectedChat!,
                         showAppBar: false,
                       ),

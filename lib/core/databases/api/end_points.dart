@@ -1,5 +1,5 @@
 class EndPoints {
-  static const String baseUrl = "http://192.168.1.101:8000/api/";
+  static const String baseUrl = "http://192.168.1.102:8000/api/";
 
   static const String login = "login";
   static const String getProfile = "employee/me/profile";
@@ -29,6 +29,10 @@ class EndPoints {
   static const doctorCertificate = 'doctor-certificate';
   static const medicationInteraction = 'medication-interaction';
   static const audit = 'audit';
+  static const chatConversations = 'chat/conversations';
+  static const messages = 'messages';
+  static const notifications = 'notifications';
+  static const markAll = 'notifications/mark-all';
 }
 
 class ApiKey {
@@ -146,4 +150,18 @@ class ApiKey {
   static String event = 'event';
   static String user = 'user';
   static String conditions = 'conditions';
+  static String titleEn = 'title_en';
+  static String titleAr = 'title_ar';
+  static String bodyEn = 'body_en';
+  static String bodyAr = 'body_ar';
+  static String type = 'type';
+  static String body = 'body';
+  static String isSeen = 'is_seen';
+  static String isSender = 'is_sender';
+  static String sentAt = 'sent_at';
+  static String readAt = 'read_at';
+  static String attachments = 'attachments';
+  static String unreadCount = 'unread_count';
+  static String lastMessage = 'last_message';
+  static String total = 'total';
 }

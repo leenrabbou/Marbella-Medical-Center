@@ -185,12 +185,10 @@ class _ProfileViewState extends State<ProfileView> {
       children: [
         AppAvatar(
           size: isMobile ? 220.r : 100.r,
-          imageUrl: profileProvider.profileData?.image?.url,
           fallbackAsset: profileProvider.profileData!.gender == "male"
-              ? "assets/doctor_male.png"
-              : "assets/doctor_female.png",
+              ? "assets/doc_male.png"
+              : "assets/doc_female.png",
           color: avatarColor,
-          border: false,
         ),
         SizedBox(height: isMobile ? 5.h : 10.h),
         Text(

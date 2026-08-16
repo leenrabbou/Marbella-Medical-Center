@@ -19,16 +19,16 @@ class EncountersService {
   ) async {
     try {
       String url = "${EndPoints.encounter}?page=$page";
-      final queryParams = <String, String>{};
-      if (params.status != null) queryParams['filter[status]'] = params.status!;
-      if (params.patientId != null) {
-        queryParams['filter[patient_id]'] = params.patientId.toString();
-      }
 
+      Map<String, dynamic> queryParameters = {
+        if (params.status != null) 'filter[status]': params.status,
+        if (params.patientId != null)
+          'filter[patient_id]': params.patientId!.toString(),
+      };
       final response = await apiService.get(
         url,
         headers: {"locale": locale, "Authorization": 'Bearer $token'},
-        queryParameters: queryParams.isNotEmpty ? queryParams : null,
+        queryParameters: queryParameters,
       );
       if (response[ApiKey.status] == 1) {
         final data = EncountersListModel.fromJson(response);

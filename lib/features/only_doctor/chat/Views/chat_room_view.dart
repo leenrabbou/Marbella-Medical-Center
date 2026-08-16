@@ -1,17 +1,22 @@
+import 'dart:io';
+
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:marbella/core/helper/constant.dart';
 import 'package:marbella/core/widgets/app_avatar.dart';
-import 'package:marbella/features/only_doctor/chat/Models/chat_model.dart';
-import 'package:marbella/features/only_doctor/chat/Models/message_info_model.dart';
+import 'package:marbella/core/widgets/snackbar_widget.dart';
+import 'package:marbella/features/only_doctor/chat/Models/conversation_model.dart';
 import 'package:marbella/features/only_doctor/chat/Widgets/chat_bubble_widget.dart';
 import 'package:marbella/features/only_doctor/chat/Widgets/message_chat_bar_widget.dart';
-import 'package:marbella/features/only_doctor/patients/models/patient_model.dart';
+import 'package:marbella/features/only_doctor/chat/viewmodel/chat_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:marbella/features/shared/auth/viewmodels/auth_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 class ChatRoomView extends StatefulWidget {
   const ChatRoomView({super.key, required this.chat, this.showAppBar = true});
 
-  final ChatModel chat;
+  final ConversationModel chat;
 
   final bool showAppBar;
 
@@ -20,90 +25,100 @@ class ChatRoomView extends StatefulWidget {
 }
 
 class _ChatRoomViewState extends State<ChatRoomView> {
-  late List<MessageInfoModel> chatMessages;
+  late String locale;
+  String? token;
+  final ScrollController _scrollController = ScrollController();
+
+  late ChatViewmodel _chatViewmodel;
 
   @override
   void initState() {
     super.initState();
-    chatMessages = _buildDummyMessages();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _chatViewmodel = context.read<ChatViewmodel>();
+      _chatViewmodel.setActiveConversation(widget.chat.id);
+      _fetchData();
+    });
+    _scrollController.addListener(_onScroll);
   }
 
   @override
-  void didUpdateWidget(covariant ChatRoomView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.chat.name != widget.chat.name) {
-      setState(() {
-        chatMessages = _buildDummyMessages();
-      });
+  void dispose() {
+    _chatViewmodel.setActiveConversation(null);
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _fetchData() async {
+    locale = Localizations.localeOf(context).languageCode;
+    token =
+        context.read<AuthViewmodel>().response?.data?.token ??
+        context.read<AuthViewmodel>().userFromCache?.data?.token;
+    if (token == null) return;
+
+    await context.read<ChatViewmodel>().getMessages(
+      locale,
+      token,
+      widget.chat.id,
+    );
+
+    if (context.mounted) {
+      context.read<ChatViewmodel>().markConversationAsRead(widget.chat.id);
     }
   }
 
-  List<MessageInfoModel> _buildDummyMessages() {
-    return [
-      MessageInfoModel(
-        message: "هلا، كيف حالك اليوم؟",
-        isMe: false,
-        status: "seen",
-        time: DateTime.now().subtract(const Duration(minutes: 30)),
-      ),
-      MessageInfoModel(
-        message: "أهلاً! أنا بخير، شكراً لسؤالك. كيف يمكنني مساعدتك؟",
-        isMe: true,
-        status: "seen",
-        time: DateTime.now().subtract(const Duration(minutes: 28)),
-      ),
-      MessageInfoModel(
-        message: "هل لديك أي تحديثات بخصوص المشروع الذي نعمل عليه؟",
-        isMe: false,
-        status: "seen",
-        time: DateTime.now().subtract(const Duration(minutes: 25)),
-      ),
-      MessageInfoModel(
-        message:
-            "نعم، لقد انتهيت من تصميم واجهة المستخدم، وأعتقد أنها تبدو رائعة جداً! هل تود رؤيتها؟",
-        isMe: true,
-        status: "seen",
-        time: DateTime.now().subtract(const Duration(minutes: 20)),
-      ),
-      MessageInfoModel(
-        message: "بالتأكيد! أرسلها لي في أقرب وقت ممكن.",
-        isMe: false,
-        status: "delivered",
-        time: DateTime.now().subtract(const Duration(minutes: 15)),
-      ),
-      MessageInfoModel(
-        message:
-            "حسناً، سأقوم برفع الملفات إلى السحابة وإرسال الرابط لك الآن. انتظرني لحظة.",
-        isMe: true,
-        status: "delivered",
-        time: DateTime.now().subtract(const Duration(minutes: 10)),
-      ),
-      MessageInfoModel(
-        message: "تمام، بانتظارك.",
-        isMe: false,
-        status: "sent",
-        time: DateTime.now().subtract(const Duration(minutes: 5)),
-      ),
-      MessageInfoModel(
-        message:
-            "بالمناسبة، هل رأيت التقرير الذي أرسلته صباح اليوم؟ يحتوي على إحصائيات مهمة جداً لنتائج العمل في الفترة الماضية.",
-        isMe: false,
-        status: "delivered",
-        time: DateTime.now().subtract(const Duration(minutes: 2)),
-      ),
-      MessageInfoModel(
-        message: "نعم، قرأته وكان ممتازاً! العمل يسير بشكل جيد.",
-        isMe: true,
-        status: "delivered",
-        time: DateTime.now().subtract(const Duration(seconds: 30)),
-      ),
-    ];
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      _loadMore();
+    }
+  }
+
+  Future<void> _loadMore() async {
+    locale = Localizations.localeOf(context).languageCode;
+    token =
+        context.read<AuthViewmodel>().response?.data?.token ??
+        context.read<AuthViewmodel>().userFromCache?.data?.token;
+    if (token == null) return;
+
+    await context.read<ChatViewmodel>().loadMoreMessages(
+      locale,
+      token,
+      widget.chat.id,
+    );
+  }
+
+  Future<void> _sendMessage(String text, List<File> attachments) async {
+    locale = Localizations.localeOf(context).languageCode;
+    token =
+        context.read<AuthViewmodel>().response?.data?.token ??
+        context.read<AuthViewmodel>().userFromCache?.data?.token;
+    if (token == null) return;
+    if (attachments.length <= 5) {
+      await context.read<ChatViewmodel>().sendMessage(
+        text,
+        attachments,
+        locale,
+        token,
+        widget.chat.id,
+      );
+    } else {
+      AppSnackbar.show(
+        context,
+        message: 'مسموح 5 ملفات كحد أقصى.',
+        type: SnackbarType.info,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    Color avatarColor = Constant
-        .listColors[widget.chat.name.length % Constant.listColors.length];
+    final provider = context.watch<ChatViewmodel>();
+    final conversations = provider.messages;
+    Color avatarColor =
+        Constant.listColors[widget.chat.patient.givenName.length %
+            Constant.listColors.length];
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     return Scaffold(
@@ -129,28 +144,31 @@ class _ChatRoomViewState extends State<ChatRoomView> {
 
           Expanded(
             child: ListView.builder(
+              controller: _scrollController,
               reverse: true,
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-              itemCount: chatMessages.length,
+              itemCount:
+                  conversations.length +
+                  (provider.isLoadingMoreMessages ? 1 : 0),
               itemBuilder: (context, index) {
-                final msg = chatMessages.reversed.toList()[index];
-                return ChatBubbleWidget(messageInfo: msg);
+                if (index == conversations.length) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    child: Center(
+                      child: SpinKitThreeBounce(
+                        color: Theme.of(context).primaryColor,
+                        size: 15.r,
+                      ),
+                    ),
+                  );
+                }
+                final msg = conversations[index];
+                return ChatBubbleWidget(message: msg);
               },
             ),
           ),
           MessageChatBarWidget(
-            onSend: (text) {
-              setState(() {
-                chatMessages.add(
-                  MessageInfoModel(
-                    message: text,
-                    isMe: true,
-                    status: "sent",
-                    time: DateTime.now(),
-                  ),
-                );
-              });
-            },
+            onSend: (text, attachments) => _sendMessage(text, attachments),
           ),
         ],
       ),
@@ -158,39 +176,23 @@ class _ChatRoomViewState extends State<ChatRoomView> {
   }
 
   Widget _buildAppBarTitle(Color avatarColor) {
-    PatientModel patient = PatientModel(
-      id: 1,
-      image: null,
-      phoneNumber: 'phoneNumber',
-      givenName: 'givenName',
-      familyName: 'familyName',
-      gender: 'gender',
-      phoneNumberVerifiedAt: 'phoneNumberVerifiedAt',
-      maritalStatus: 'maritalStatus',
-      dateOfBirth: 'dateOfBirth',
-      socialHistory: 'socialHistory',
-      occupation: 'occupation',
-      active: true,
-      nationalId: 'nationalId',
-      notes: 'notes',
-      bloodGroup: 'bloodGroup',
-    );
     return Row(
       children: [
         AppAvatar(
           size: 40.r,
-          imageUrl: patient.image?.url,
+          imageUrl: widget.chat.patient.image?.url,
           initials:
-              patient.givenName.substring(0, 1) +
-              patient.familyName.substring(0, 1),
+              widget.chat.patient.givenName.substring(0, 1) +
+              widget.chat.patient.familyName.substring(0, 1),
           color:
-              Constant.listColors[(patient.givenName + patient.familyName)
+              Constant.listColors[(widget.chat.patient.givenName +
+                          widget.chat.patient.familyName)
                       .length %
                   Constant.listColors.length],
         ),
         const SizedBox(width: 10),
         Text(
-          widget.chat.name,
+          widget.chat.patient.givenName,
           style: Theme.of(
             context,
           ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
@@ -220,7 +222,7 @@ class _ChatRoomViewState extends State<ChatRoomView> {
             backgroundColor: avatarColor,
             radius: 20.r,
             child: Text(
-              widget.chat.name[0],
+              widget.chat.patient.givenName[0],
               style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
@@ -230,24 +232,10 @@ class _ChatRoomViewState extends State<ChatRoomView> {
           SizedBox(width: 12.w),
           Expanded(
             child: Text(
-              widget.chat.name,
+              widget.chat.patient.givenName,
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.call_outlined,
-              color: colorScheme.onSurface.withAlpha((0.6 * 255).toInt()),
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.more_vert,
-              color: colorScheme.onSurface.withAlpha((0.6 * 255).toInt()),
             ),
           ),
         ],

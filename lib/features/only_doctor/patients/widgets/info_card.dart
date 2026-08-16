@@ -1,9 +1,12 @@
 ﻿import 'package:marbella/core/helper/device_info.dart';
+import 'package:marbella/core/params/params.dart';
 import 'package:marbella/core/widgets/style_widget.dart';
 import 'package:marbella/features/only_doctor/patients/models/patient_model.dart';
+import 'package:marbella/features/shared/observations/viewmodels/observation_viewmodel.dart';
 import 'package:marbella/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class InfoCard extends StatelessWidget {
   const InfoCard({super.key, required this.patient});
@@ -12,6 +15,21 @@ class InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
+    final obProvider = context.watch<ObservationViewmodel>();
+    final wParams = ObservationParams(
+      encounterId: null,
+      status: 'registered',
+      patientId: patient.id,
+      codeId: 2,
+    );
+    final hParams = ObservationParams(
+      encounterId: null,
+      status: 'registered',
+      patientId: patient.id,
+      codeId: 1,
+    );
+    final lastWeight = obProvider.lastObservationFor(wParams);
+    final lastHeight = obProvider.lastObservationFor(hParams);
     bool isMobile = DeviceInfo.isMobile(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
@@ -53,7 +71,7 @@ class InfoCard extends StatelessWidget {
                   ),
                   SizedBox(height: 10.w),
                   Text(
-                    '100 ${S().cm}',
+                    lastHeight == null ? '-' : '${lastHeight.value} ${S().cm}',
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -78,7 +96,7 @@ class InfoCard extends StatelessWidget {
                   ),
                   SizedBox(height: 10.w),
                   Text(
-                    '60 ${S().kg}',
+                    lastWeight == null ? '-' : '${lastWeight.value} ${S().kg}',
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),

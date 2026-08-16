@@ -528,5 +528,37 @@
   "performed_at": "Performed At",
   "reason": "Reason",
   "patient": "Patient",
-  "encounter": "Encounter"
+  "encounter": "Encounter",
+  "download": "Download",
+  "download_all": "Download all",
+  "file_saved_successfully": "File saved successfully",
+  "save_cancelled": "Save cancelled",
+  "files_saved_partial": "{count} of {total} files saved",
+  "@files_saved_partial": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "permission_denied": "Storage permission is required to save files",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "january": "January",
+  "february": "February",
+  "march": "March",
+  "april": "April",
+  "may": "May",
+  "june": "June",
+  "july": "July",
+  "august": "August",
+  "september": "September",
+  "october": "October",
+  "november": "November",
+  "december": "December",
+  "image": "Image",
+  "notifications": "Notifications"
 }

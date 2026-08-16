@@ -13,16 +13,14 @@ class InteractionListModel<T> {
 
   factory InteractionListModel.fromJson(
     Map<String, dynamic> json,
-    T Function(Map<String, dynamic>) parser, {
-    required String dataKey,
-  }) {
-    final dataMap = json[ApiKey.data] as Map<String, dynamic>;
+    T Function(Map<String, dynamic>) parser,
+  ) {
+    final dataList = json[ApiKey.data] as List;
+
     return InteractionListModel<T>(
-      status: json[ApiKey.status],
-      message: json[ApiKey.message],
-      data: (dataMap[dataKey] as List)
-          .map((e) => parser(e as Map<String, dynamic>))
-          .toList(),
+      status: json[ApiKey.status] as int,
+      message: json[ApiKey.message] as String,
+      data: dataList.map((e) => parser(e as Map<String, dynamic>)).toList(),
     );
   }
 }

@@ -5,8 +5,11 @@ class SecureStorageService {
 
   static final SecureStorageService instance = SecureStorageService._();
 
-  static const FlutterSecureStorage _storage = FlutterSecureStorage();
-
+  static const FlutterSecureStorage _storage = FlutterSecureStorage(
+    iOptions: IOSOptions(
+      accessibility: KeychainAccessibility.first_unlock_this_device,
+    ),
+  );
   Future<void> write({required String key, required String value}) async {
     await _storage.write(key: key, value: value);
   }

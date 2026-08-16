@@ -32,11 +32,7 @@ class InteractionService {
       );
 
       if (response[ApiKey.status] == 1) {
-        final data = InteractionListModel<T>.fromJson(
-          response,
-          parser,
-          dataKey: ApiKey.data,
-        );
+        final data = InteractionListModel<T>.fromJson(response, parser);
         return Right(data);
       }
       return Left(ErrorModel.fromJson(response));

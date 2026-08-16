@@ -528,5 +528,37 @@
   "performed_at": "وقت التنفيذ",
   "reason": "السبب",
   "patient": "المريض",
-  "encounter": "الزيارة"
+  "encounter": "الزيارة",
+  "download": "تنزيل",
+  "download_all": "تنزيل الكل",
+  "file_saved_successfully": "تم حفظ الملف بنجاح",
+  "save_cancelled": "تم إلغاء الحفظ",
+  "files_saved_partial": "تم حفظ {count} من {total} ملفات",
+  "@files_saved_partial": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "permission_denied": "تلزم صلاحية التخزين لحفظ الملفات",
+  "today": "اليوم",
+  "yesterday": "أمس",
+  "january": "يناير",
+  "february": "فبراير",
+  "march": "مارس",
+  "april": "أبريل",
+  "may": "مايو",
+  "june": "يونيو",
+  "july": "يوليو",
+  "august": "أغسطس",
+  "september": "سبتمبر",
+  "october": "أكتوبر",
+  "november": "نوفمبر",
+  "december": "ديسمبر",
+  "image": "صورة",
+  "notifications": "الإشعارات"
 }

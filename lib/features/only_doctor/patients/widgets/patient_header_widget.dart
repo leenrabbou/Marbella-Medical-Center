@@ -45,8 +45,8 @@ class _PatientHeaderWidgetState extends State<PatientHeaderWidget> {
                 widget.patient.givenName.substring(0, 1) +
                 widget.patient.familyName.substring(0, 1),
             fallbackAsset: widget.patient.gender == "male"
-                ? "assets/male.png"
-                : "assets/female.png",
+                ? "assets/p_male.png"
+                : "assets/p_female.png",
             color: avatarColor,
           ),
           SizedBox(width: 14.w),

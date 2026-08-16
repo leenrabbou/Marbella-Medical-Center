@@ -24,7 +24,7 @@ class ObservationService {
 
         if (params.patientId != null)
           'filter[patient_id]': params.patientId!.toString(),
-
+        if (params.codeId != null) 'filter[code_id]': params.codeId!.toString(),
         if (params.status != null) 'filter[status]': params.status!,
       };
       final response = await apiService.get(

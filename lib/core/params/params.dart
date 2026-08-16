@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class LoginParams {
   final String phoneNumber;
   final String password;
@@ -61,11 +63,13 @@ class ObservationParams {
   int? encounterId;
   String? status;
   int? patientId;
+  int? codeId;
 
   ObservationParams({
     required this.encounterId,
     required this.status,
     required this.patientId,
+    this.codeId,
   });
   void setPatientId(int? patientId) {
     this.patientId = patientId;
@@ -453,4 +457,10 @@ class AddInteractionParams {
     required this.medicationId,
     required this.interactableType,
   });
+}
+
+class MessageParams {
+  final String message;
+  final List<File> attachments;
+  MessageParams({required this.message, required this.attachments});
 }

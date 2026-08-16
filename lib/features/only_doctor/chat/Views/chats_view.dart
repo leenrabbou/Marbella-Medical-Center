@@ -1,141 +1,128 @@
-import 'package:marbella/features/only_doctor/chat/Models/chat_model.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:marbella/core/widgets/state_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:marbella/features/only_doctor/chat/Models/conversation_model.dart';
+import 'package:marbella/features/only_doctor/chat/viewmodel/chat_viewmodel.dart';
+import 'package:marbella/features/shared/auth/viewmodels/auth_viewmodel.dart';
+import 'package:marbella/generated/l10n.dart';
+import 'package:provider/provider.dart';
 import '../Widgets/chat_container_widget.dart';
 import 'chat_room_view.dart';
 
-class ChatsView extends StatelessWidget {
+class ChatsView extends StatefulWidget {
   const ChatsView({super.key, this.onChatTap, this.selectedChat});
 
-  final void Function(ChatModel chat)? onChatTap;
+  final void Function(ConversationModel chat)? onChatTap;
 
-  final ChatModel? selectedChat;
+  final ConversationModel? selectedChat;
+
+  @override
+  State<ChatsView> createState() => _ChatsViewState();
+}
+
+class _ChatsViewState extends State<ChatsView> {
+  late String locale;
+  String? token;
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fetchData();
+    });
+  }
+
+  Future<void> _fetchData() async {
+    locale = Localizations.localeOf(context).languageCode;
+
+    token =
+        context.read<AuthViewmodel>().response?.data?.token ??
+        context.read<AuthViewmodel>().userFromCache?.data?.token;
+    if (token == null) return;
+
+    await context.read<ChatViewmodel>().getConversations(locale, token);
+  }
+
+  Future<void> _handleRefresh() async {
+    await _fetchData();
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    List<ChatModel> dummyChats = [
-      ChatModel(
-        name: "Leen Rabbou",
-        lastMsg:
-            "See you at the office! Don't forget the files we discussed yesterday.",
-        status: "seen",
-        unreadCount: 125,
-        time: DateTime.now().subtract(const Duration(minutes: 2)),
-      ),
-      ChatModel(
-        name: "Ali Ahmed",
-        lastMsg: "Did you check the new UI designs? I sent them to your email.",
-        status: "delivered",
-        unreadCount: 0,
-        time: DateTime.now().subtract(const Duration(minutes: 45)),
-      ),
-      ChatModel(
-        name: "Jordan",
-        lastMsg: "Okay, sounds good!",
-        status: "seen",
-        unreadCount: 0,
-        time: DateTime.now().subtract(const Duration(hours: 2)),
-      ),
-      ChatModel(
-        name: "Sarah Smith",
-        lastMsg: "The project is almost done 🚀 we are launching on Monday!",
-        status: "sent",
-        unreadCount: 2,
-        time: DateTime.now().subtract(const Duration(hours: 5)),
-      ),
-      ChatModel(
-        name: "Mohammed Al-Fares",
-        lastMsg:
-            "This is a very long message to test how the UI handles overflow text in the subtitle area of the list tile widget.",
-        status: "seen",
-        unreadCount: 0,
-        time: DateTime.now().subtract(const Duration(hours: 10)),
-      ),
-      ChatModel(
-        name: "Omar Khaled",
-        lastMsg: "Call me when you're free, it's urgent.",
-        status: "seen",
-        unreadCount: 0,
-        time: DateTime.now().subtract(const Duration(days: 1)),
-      ),
-      ChatModel(
-        name: "Hana Ibrahim",
-        lastMsg: "🔥🔥🔥👏",
-        status: "delivered",
-        unreadCount: 1,
-        time: DateTime.now().subtract(const Duration(days: 2)),
-      ),
-      ChatModel(
-        name: "Technical Support",
-        lastMsg: "🎤 Voice message (0:45)",
-        status: "seen",
-        unreadCount: 0,
-        time: DateTime.now().subtract(const Duration(days: 3)),
-      ),
-      ChatModel(
-        name: "Design Team",
-        lastMsg: "📷 Sent a photo",
-        status: "delivered",
-        unreadCount: 0,
-        time: DateTime.now().subtract(const Duration(days: 5)),
-      ),
-      ChatModel(
-        name: "Karam J",
-        lastMsg: "Let's meet at 5 PM.",
-        status: "sent",
-        unreadCount: 0,
-        time: DateTime.now().subtract(const Duration(hours: 12)),
-      ),
-    ];
+    final provider = context.watch<ChatViewmodel>();
 
+    final conversations = provider.conversations;
+    final isLoading = provider.isLoadingConversations;
+    final errorMessage = provider.conversationsErrorMessage;
     return Scaffold(
       appBar: AppBar(title: const Text("Messages")),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: "Search message...",
-                hintStyle: TextStyle(color: Colors.grey.shade400),
-                prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                filled: true,
-                fillColor: colorScheme.surface,
-                contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                  borderSide: BorderSide.none,
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          //   child: TextField(
+          //     decoration: InputDecoration(
+          //       hintText: "Search message...",
+          //       hintStyle: TextStyle(color: Colors.grey.shade400),
+          //       prefixIcon: const Icon(Icons.search, color: Colors.grey),
+          //       filled: true,
+          //       fillColor: colorScheme.surface,
+          //       contentPadding: const EdgeInsets.symmetric(vertical: 0),
+          //       border: OutlineInputBorder(
+          //         borderRadius: BorderRadius.circular(15),
+          //         borderSide: BorderSide.none,
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          Expanded(
+            child: LiquidPullToRefresh(
+              color: colorScheme.primary.withAlpha((0.3 * 255).toInt()),
+              backgroundColor: colorScheme.surface,
+              height: 50,
+              onRefresh: _handleRefresh,
+              child: Center(
+                child: StateWidget(
+                  isLoading: isLoading && conversations.isEmpty,
+                  error: errorMessage,
+                  isEmpty:
+                      !isLoading &&
+                      errorMessage == null &&
+                      conversations.isEmpty,
+                  onRetry: _handleRefresh,
+                  noDataMsg: S().no_data,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    itemCount: conversations.length,
+                    itemBuilder: (context, index) {
+                      final chat = conversations[index];
+                      final isSelected =
+                          widget.selectedChat != null &&
+                          widget.selectedChat!.patient.givenName ==
+                              chat.patient.givenName;
+
+                      return ChatContainerWidget(
+                        chat: chat,
+                        isSelected: isSelected,
+                        onTap: () {
+                          if (widget.onChatTap != null) {
+                            widget.onChatTap!(chat);
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ChatRoomView(chat: chat),
+                              ),
+                            );
+                          }
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              itemCount: dummyChats.length,
-              itemBuilder: (context, index) {
-                final chat = dummyChats[index];
-                final isSelected =
-                    selectedChat != null && selectedChat!.name == chat.name;
-
-                return ChatContainerWidget(
-                  chat: chat,
-                  isSelected: isSelected,
-                  onTap: () {
-                    if (onChatTap != null) {
-                      onChatTap!(chat);
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => ChatRoomView(chat: chat),
-                        ),
-                      );
-                    }
-                  },
-                );
-              },
             ),
           ),
         ],

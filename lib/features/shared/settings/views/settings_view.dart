@@ -37,7 +37,7 @@ class _SettingsPageState extends State<SettingsView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildSettingContainer(
-                height: 50,
+                height: 50.h,
                 onTap: null,
                 child: Padding(
                   padding: const EdgeInsets.all(15),
@@ -93,7 +93,7 @@ class _SettingsPageState extends State<SettingsView> {
               ),
               SizedBox(height: 5.h),
               _buildSettingContainer(
-                height: 50,
+                height: 50.h,
                 onTap: null,
                 child: Padding(
                   padding: const EdgeInsets.all(15),
@@ -130,7 +130,7 @@ class _SettingsPageState extends State<SettingsView> {
               ),
               SizedBox(height: 5.h),
               _buildSettingContainer(
-                height: 100,
+                height: 100.h,
                 onTap: null,
                 child: Padding(
                   padding: const EdgeInsets.all(15),
@@ -213,7 +213,7 @@ class _SettingsPageState extends State<SettingsView> {
               ),
               SizedBox(height: 5.h),
               _buildSettingContainer(
-                height: 100,
+                height: 100.h,
                 onTap: null,
                 child: Padding(
                   padding: const EdgeInsets.all(15),
@@ -293,7 +293,7 @@ class _SettingsPageState extends State<SettingsView> {
                     ),
                   );
                 },
-                height: 50,
+                height: 50.h,
                 child: Padding(
                   padding: const EdgeInsets.all(15),
                   child: Row(
@@ -319,7 +319,7 @@ class _SettingsPageState extends State<SettingsView> {
               ),
               SizedBox(height: 5.h),
               _buildSettingContainer(
-                height: 50,
+                height: 50.h,
                 onTap: () {
                   showLogoutConfirmationDialog(context);
                 },

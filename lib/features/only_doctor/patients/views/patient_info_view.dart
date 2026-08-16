@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/features/only_doctor/lab_tests/view/lab_test_tab.dart';
+import 'package:marbella/features/shared/observations/viewmodels/observation_viewmodel.dart';
 import 'package:marbella/features/shared/patient_medications/views/patient_medication_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,6 +44,7 @@ class _PatientInfoViewState extends State<PatientInfoView>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _fetchEncounterData();
       _fetchAppointmentData();
+      _fetchObservationsData();
     });
   }
 
@@ -75,6 +77,34 @@ class _PatientInfoViewState extends State<PatientInfoView>
     );
   }
 
+  Future<void> _fetchObservationsData() async {
+    if (!mounted) return;
+    final observationVm = context.read<ObservationViewmodel>();
+
+    await Future.wait([
+      observationVm.getobservations(
+        _locale,
+        _token,
+        ObservationParams(
+          encounterId: null,
+          status: 'registered',
+          patientId: localPatient.id,
+          codeId: 2,
+        ),
+      ),
+      observationVm.getobservations(
+        _locale,
+        _token,
+        ObservationParams(
+          encounterId: null,
+          status: 'registered',
+          patientId: localPatient.id,
+          codeId: 1,
+        ),
+      ),
+    ]);
+  }
+
   Future<void> _fetchAppointmentData() async {
     if (!mounted) return;
     await context.read<AppointmentsViewmodel>().getAppointmentsList(
@@ -98,6 +128,7 @@ class _PatientInfoViewState extends State<PatientInfoView>
     );
     await _fetchEncounterData();
     await _fetchAppointmentData();
+    _fetchObservationsData();
     if (mounted) {
       setState(() {
         localPatient =

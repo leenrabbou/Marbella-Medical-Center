@@ -20,6 +20,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(count, total) => "${count} of ${total} files saved";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "abatement_date": MessageLookupByLibrary.simpleMessage("Abatement Date"),
@@ -95,11 +97,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "Appointment Details",
     ),
     "appointments": MessageLookupByLibrary.simpleMessage("Appointments"),
+    "april": MessageLookupByLibrary.simpleMessage("April"),
     "arabic": MessageLookupByLibrary.simpleMessage("Arabic"),
     "are_you_sure_continue": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to continue?",
     ),
     "arrived": MessageLookupByLibrary.simpleMessage("Arrived"),
+    "august": MessageLookupByLibrary.simpleMessage("August"),
     "ban_expired_at": MessageLookupByLibrary.simpleMessage(
       "Ban Expiration Date",
     ),
@@ -194,6 +198,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "dark_theme": MessageLookupByLibrary.simpleMessage("Dark Theme"),
     "days": MessageLookupByLibrary.simpleMessage("Days"),
+    "december": MessageLookupByLibrary.simpleMessage("December"),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
     "delete_condition": MessageLookupByLibrary.simpleMessage(
       "Delete Condition",
@@ -225,6 +230,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_name": MessageLookupByLibrary.simpleMessage("Doctor"),
     "documents": MessageLookupByLibrary.simpleMessage("Documents"),
     "dosage_hint": MessageLookupByLibrary.simpleMessage("e.g. once daily"),
+    "download": MessageLookupByLibrary.simpleMessage("Download"),
+    "download_all": MessageLookupByLibrary.simpleMessage("Download all"),
     "drPrefix": MessageLookupByLibrary.simpleMessage("Dr."),
     "drugInteractionsTitle": MessageLookupByLibrary.simpleMessage(
       "Drug Interactions",
@@ -378,10 +385,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "failed_to_load_image": MessageLookupByLibrary.simpleMessage(
       "Failed to load image",
     ),
+    "february": MessageLookupByLibrary.simpleMessage("February"),
     "female": MessageLookupByLibrary.simpleMessage("Female"),
     "field_is_required": MessageLookupByLibrary.simpleMessage(
       "This field is required",
     ),
+    "file_saved_successfully": MessageLookupByLibrary.simpleMessage(
+      "File saved successfully",
+    ),
+    "files_saved_partial": m0,
     "filling": MessageLookupByLibrary.simpleMessage("Filling"),
     "finish_button": MessageLookupByLibrary.simpleMessage("Finish"),
     "finish_visit": MessageLookupByLibrary.simpleMessage("Finish Visit"),
@@ -413,6 +425,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "height_label": MessageLookupByLibrary.simpleMessage("Height"),
     "home": MessageLookupByLibrary.simpleMessage("Home"),
     "id_label": MessageLookupByLibrary.simpleMessage("ID"),
+    "image": MessageLookupByLibrary.simpleMessage("Image"),
     "implant": MessageLookupByLibrary.simpleMessage("Implant"),
     "in_progress": MessageLookupByLibrary.simpleMessage("In Progress"),
     "inactive": MessageLookupByLibrary.simpleMessage("Inactive"),
@@ -429,6 +442,9 @@ class MessageLookup extends MessageLookupByLibrary {
           "Issue digital prescriptions and track family history with just a few clicks from any device.",
         ),
     "issued_at": MessageLookupByLibrary.simpleMessage("Issued At"),
+    "january": MessageLookupByLibrary.simpleMessage("January"),
+    "july": MessageLookupByLibrary.simpleMessage("July"),
+    "june": MessageLookupByLibrary.simpleMessage("June"),
     "kg": MessageLookupByLibrary.simpleMessage("kg"),
     "lab_completed_at": MessageLookupByLibrary.simpleMessage("Completed At"),
     "lab_ordered_at": MessageLookupByLibrary.simpleMessage("Ordered At"),
@@ -475,8 +491,10 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Manage your patient records and daily clinic schedule with ease and high security.",
         ),
+    "march": MessageLookupByLibrary.simpleMessage("March"),
     "marital_status": MessageLookupByLibrary.simpleMessage("Marital Status"),
     "married": MessageLookupByLibrary.simpleMessage("Married"),
+    "may": MessageLookupByLibrary.simpleMessage("May"),
     "medical_test": MessageLookupByLibrary.simpleMessage("Medical Test"),
     "medication": MessageLookupByLibrary.simpleMessage("Medication"),
     "medication_added_successfully": MessageLookupByLibrary.simpleMessage(
@@ -642,6 +660,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "notes": MessageLookupByLibrary.simpleMessage("Notes"),
     "notes_hint": MessageLookupByLibrary.simpleMessage("e.g. take after food"),
+    "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+    "november": MessageLookupByLibrary.simpleMessage("November"),
     "nurse": MessageLookupByLibrary.simpleMessage("Nurse"),
     "nurse_added_successfully": MessageLookupByLibrary.simpleMessage(
       "Nurse added successfully.",
@@ -676,6 +696,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Observation updated successfully.",
     ),
     "observations": MessageLookupByLibrary.simpleMessage("Observations"),
+    "october": MessageLookupByLibrary.simpleMessage("October"),
     "onset_date": MessageLookupByLibrary.simpleMessage("Onset Date"),
     "onset_label": MessageLookupByLibrary.simpleMessage("Onset"),
     "optional_note_hint": MessageLookupByLibrary.simpleMessage(
@@ -715,6 +736,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "patients": MessageLookupByLibrary.simpleMessage("Patients"),
     "pending": MessageLookupByLibrary.simpleMessage("Pending"),
     "performed_at": MessageLookupByLibrary.simpleMessage("Performed At"),
+    "permission_denied": MessageLookupByLibrary.simpleMessage(
+      "Storage permission is required to save files",
+    ),
     "personal_data": MessageLookupByLibrary.simpleMessage("Personal Data"),
     "personal_information": MessageLookupByLibrary.simpleMessage(
       "Personal Information",
@@ -779,6 +803,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "route_hint": MessageLookupByLibrary.simpleMessage("e.g. tablet"),
     "saturday": MessageLookupByLibrary.simpleMessage("Saturday"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
+    "save_cancelled": MessageLookupByLibrary.simpleMessage("Save cancelled"),
     "save_changes": MessageLookupByLibrary.simpleMessage("Save Changes"),
     "save_changes_success": MessageLookupByLibrary.simpleMessage(
       "Changes saved successfully.",
@@ -830,6 +855,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "select_vital_type": MessageLookupByLibrary.simpleMessage(
       "Select Vital Type",
     ),
+    "september": MessageLookupByLibrary.simpleMessage("September"),
     "service": MessageLookupByLibrary.simpleMessage("Service"),
     "service_added_successfully": MessageLookupByLibrary.simpleMessage(
       "Service added successfully.",
@@ -888,6 +914,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "thursday": MessageLookupByLibrary.simpleMessage("Thursday"),
     "timeline": MessageLookupByLibrary.simpleMessage("Timeline"),
     "title": MessageLookupByLibrary.simpleMessage("Title"),
+    "today": MessageLookupByLibrary.simpleMessage("Today"),
     "token_missing": MessageLookupByLibrary.simpleMessage("Token is missing."),
     "total_encounters": MessageLookupByLibrary.simpleMessage(
       "Total Encounters",
@@ -1000,6 +1027,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "years": MessageLookupByLibrary.simpleMessage("Years"),
     "years_old": MessageLookupByLibrary.simpleMessage("years old"),
     "yes_logout": MessageLookupByLibrary.simpleMessage("Yes, log out"),
+    "yesterday": MessageLookupByLibrary.simpleMessage("Yesterday"),
     "your_password_changed_successfully": MessageLookupByLibrary.simpleMessage(
       "Your password has been changed successfully!",
     ),

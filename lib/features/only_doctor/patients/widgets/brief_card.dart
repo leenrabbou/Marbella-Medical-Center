@@ -69,8 +69,8 @@ class BriefCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(16.r),
             child: Image.asset(
               imagePath,
-              height: isTablet ? 75.h : 60.h,
-              width: isTablet ? 85.w : 190.w,
+              height: isTablet ? 90.h : 60.h,
+              width: isTablet ? 88.w : 190.w,
               fit: BoxFit.cover,
             ),
           ),

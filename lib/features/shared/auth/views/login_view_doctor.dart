@@ -44,12 +44,10 @@ class _LoginViewDoctorState extends State<LoginViewDoctor> {
                 children: [
                   SizedBox(height: 40.h),
                   Image.asset(
-                    'assets/h (6).png',
+                    'assets/login2.png',
                     width: 900.w,
                     height: 190.h,
                     fit: BoxFit.cover,
-                    cacheWidth: 900,
-                    cacheHeight: 190,
                   ),
                   SizedBox(height: 25.h),
                   _buildForm(context),
@@ -67,11 +65,9 @@ class _LoginViewDoctorState extends State<LoginViewDoctor> {
                     SizedBox(width: 50.w),
                     ClipRRect(
                       child: Image.asset(
-                        'assets/h (6).png',
+                        'assets/login2.png',
                         height: 350.h,
                         width: 450.w,
-                        cacheWidth: 450,
-                        cacheHeight: 350,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -167,29 +163,6 @@ class _LoginViewDoctorState extends State<LoginViewDoctor> {
               ),
             ),
             SizedBox(height: isMobile ? 5.h : 10.h),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return const ForgotPasswordView();
-                      },
-                    ),
-                  );
-                },
-                child: Text(
-                  S().forgot_password,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: colorScheme.primary),
-                ),
-              ),
-            ),
-            SizedBox(height: isMobile ? 5.h : 10.h),
-
             if (auth.isPermanentlyLocked)
               Padding(
                 padding: EdgeInsets.only(bottom: 10.h),

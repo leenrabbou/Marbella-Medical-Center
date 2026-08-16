@@ -1,6 +1,8 @@
-﻿import 'package:marbella/generated/l10n.dart';
+﻿import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:marbella/features/only_doctor/chat/Models/message_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:marbella/generated/l10n.dart';
 
 class Constant {
   static List<Color> listColors = [
@@ -400,5 +402,99 @@ class Constant {
       buffer.write(str[i]);
     }
     return buffer.toString();
+  }
+
+  static DateTime? tryParse(String raw) {
+    try {
+      return DateTime.parse(raw);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static bool isSameDay(DateTime a, DateTime b) =>
+      a.year == b.year && a.month == b.month && a.day == b.day;
+
+  static String bubbleTime(String raw) {
+    final dt = tryParse(raw);
+    if (dt == null) return '';
+
+    final hour = dt.hour % 12 == 0 ? 12 : dt.hour % 12;
+    final minute = dt.minute.toString().padLeft(2, '0');
+
+    final period = dt.hour >= 12 ? 'pm' : 'am';
+
+    return '$hour:$minute $period';
+  }
+
+  static String dateHeader(DateTime dt, BuildContext context) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final target = DateTime(dt.year, dt.month, dt.day);
+    final diff = today.difference(target).inDays;
+
+    if (diff == 0) return S().today;
+    if (diff == 1) return S().yesterday;
+
+    if (diff < 7) {
+      final weekdays = [
+        S().monday,
+        S().tuesday,
+        S().wednesday,
+        S().thursday,
+        S().friday,
+        S().saturday,
+        S().sunday,
+      ];
+
+      return weekdays[dt.weekday - 1];
+    }
+
+    final months = [
+      S().january,
+      S().february,
+      S().march,
+      S().april,
+      S().may,
+      S().june,
+      S().july,
+      S().august,
+      S().september,
+      S().october,
+      S().november,
+      S().december,
+    ];
+
+    final sameYear = dt.year == now.year;
+
+    return sameYear
+        ? '${dt.day} ${months[dt.month - 1]}'
+        : '${dt.day} ${months[dt.month - 1]} ${dt.year}';
+  }
+
+  static Widget buildStatusIcon({
+    required MessageModel message,
+    required ColorScheme colorScheme,
+  }) {
+    final color = colorScheme.onSurface.withAlpha((0.7 * 255).toInt());
+
+    switch (message.localStatus) {
+      case MessageLocalStatus.sending:
+        return const SizedBox(
+          child: SpinKitThreeBounce(color: Colors.white, size: 8),
+        );
+
+      case MessageLocalStatus.failed:
+        return const Icon(
+          Icons.error_outline,
+          size: 15,
+          color: Colors.redAccent,
+        );
+
+      case MessageLocalStatus.sent:
+        return message.isSeen == 1
+            ? const Icon(Icons.done_all, size: 15, color: Colors.blue)
+            : Icon(Icons.check, size: 15, color: color);
+    }
   }
 }

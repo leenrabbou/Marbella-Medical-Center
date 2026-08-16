@@ -20,6 +20,7 @@ class EncounterViewmodel extends ChangeNotifier {
   final Map<String, bool> _isLoadingMap = {};
 
   List<EncounterModel> allEncounters = [];
+  List<EncounterModel> arrivedEncounters = [];
   String? errorMessage;
 
   final Map<int, bool> _isLoadingDetailsMap = {};
@@ -54,11 +55,16 @@ class EncounterViewmodel extends ChangeNotifier {
 
   List<EncounterModel> getEncountersListByStatus(String? status) {
     switch (status) {
+      case 'arrived':
+        return arrivedEncounters;
       case null:
       default:
         return allEncounters;
     }
   }
+
+  int _total = 0;
+  int get total => _total;
 
   Future<void> getEncounters(
     String locale,
@@ -66,6 +72,7 @@ class EncounterViewmodel extends ChangeNotifier {
     EncounterParams params,
     int pageToFetch,
   ) async {
+    print(params.status);
     final statusKey = _getStatusKey(params.status);
     final targetList = getEncountersListByStatus(params.status);
 
@@ -113,12 +120,14 @@ class EncounterViewmodel extends ChangeNotifier {
         _currentPageMap[statusKey] = response.data.currentPage + 1;
         _hasMoreMap[statusKey] =
             response.data.currentPage < response.data.lastPage;
+        _total = response.data.total;
         if (kDebugMode) {
           print(
             '[encounters] Page ${response.data.currentPage} loaded. '
             'Next: ${getCurrentPage(params.status)}',
           );
           print(allEncounters.length);
+          print(arrivedEncounters.length);
         }
       },
     );

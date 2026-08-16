@@ -1,7 +1,6 @@
 import 'package:marbella/core/helper/constant.dart';
 import 'package:marbella/core/widgets/app_avatar.dart';
-import 'package:marbella/features/only_doctor/chat/Models/chat_model.dart';
-import 'package:marbella/features/only_doctor/patients/models/patient_model.dart';
+import 'package:marbella/features/only_doctor/chat/Models/conversation_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,7 +12,7 @@ class ChatContainerWidget extends StatelessWidget {
     this.isSelected = false,
   });
 
-  final ChatModel chat;
+  final ConversationModel chat;
   final VoidCallback? onTap;
   final bool isSelected;
 
@@ -21,30 +20,6 @@ class ChatContainerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    String formattedTime = "";
-    int hour = chat.time.hour > 12
-        ? chat.time.hour - 12
-        : (chat.time.hour == 0 ? 12 : chat.time.hour);
-    String period = chat.time.hour >= 12 ? "PM" : "AM";
-    String minute = chat.time.minute.toString().padLeft(2, '0');
-    PatientModel patient = PatientModel(
-      id: 1,
-      image: null,
-      phoneNumber: 'phoneNumber',
-      givenName: 'givenName',
-      familyName: 'familyName',
-      gender: 'gender',
-      phoneNumberVerifiedAt: 'phoneNumberVerifiedAt',
-      maritalStatus: 'maritalStatus',
-      dateOfBirth: 'dateOfBirth',
-      socialHistory: 'socialHistory',
-      occupation: 'occupation',
-      active: true,
-      nationalId: 'nationalId',
-      notes: 'notes',
-      bloodGroup: 'bloodGroup',
-    );
-    formattedTime = "$hour:$minute $period";
     return Padding(
       padding: EdgeInsets.only(bottom: 6.h),
       child: Material(
@@ -82,41 +57,58 @@ class ChatContainerWidget extends StatelessWidget {
               ),
               leading: AppAvatar(
                 size: 50.r,
-                imageUrl: patient.image?.url,
+                imageUrl: chat.patient.image?.url,
                 initials:
-                    patient.givenName.substring(0, 1) +
-                    patient.familyName.substring(0, 1),
+                    chat.patient.givenName.substring(0, 1) +
+                    chat.patient.familyName.substring(0, 1),
                 color:
-                    Constant.listColors[(patient.givenName + patient.familyName)
+                    Constant.listColors[(chat.patient.givenName +
+                                chat.patient.familyName)
                             .length %
                         Constant.listColors.length],
               ),
               title: Text(
-                chat.name,
+                chat.patient.givenName + chat.patient.familyName,
                 style: Theme.of(
                   context,
                 ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
               subtitle: Row(
                 children: [
-                  chat.status == "seen"
-                      ? Icon(Icons.done_all, size: 18, color: Colors.blue)
-                      : chat.status == "delevired"
-                      ? Icon(Icons.done_all, size: 18, color: Colors.grey)
-                      : const Icon(Icons.check, size: 18, color: Colors.grey),
-                  SizedBox(width: 4.w),
-                  Expanded(
-                    child: Text(
-                      chat.lastMsg,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurface.withAlpha(
-                          (0.6 * 255).toInt(),
-                        ),
+                  if (chat.lastMessage != null) ...[
+                    if (chat.lastMessage!.isSender == 1) ...[
+                      Constant.buildStatusIcon(
+                        colorScheme: colorScheme,
+                        message: chat.lastMessage!,
+                      ),
+                      SizedBox(width: 8.w),
+                    ],
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          if (chat.lastMessage!.attachments.isNotEmpty) ...[
+                            chat.lastMessage!.attachments.last.mimeType
+                                    .startsWith('image/')
+                                ? Icon(Icons.image_outlined, size: 15)
+                                : Icon(Icons.picture_as_pdf_outlined, size: 15),
+                            SizedBox(width: 4.w),
+                          ],
+                          Text(
+                            chat.lastMessage!.body,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: colorScheme.onSurface.withAlpha(
+                                    (0.6 * 255).toInt(),
+                                  ),
+                                ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
+                  ],
                 ],
               ),
               trailing: SizedBox(
@@ -126,7 +118,7 @@ class ChatContainerWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      formattedTime,
+                      Constant.formatTime(chat.updatedAt),
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: colorScheme.onSurface.withAlpha(
                           (0.4 * 255).toInt(),

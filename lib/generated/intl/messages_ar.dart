@@ -20,6 +20,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
+  static String m0(count, total) => "تم حفظ ${count} من ${total} ملفات";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "abatement_date": MessageLookupByLibrary.simpleMessage("تاريخ الانتهاء"),
@@ -93,11 +95,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "تفاصيل الموعد",
     ),
     "appointments": MessageLookupByLibrary.simpleMessage("المواعيد"),
+    "april": MessageLookupByLibrary.simpleMessage("أبريل"),
     "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
     "are_you_sure_continue": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد أنك تريد المتابعة؟",
     ),
     "arrived": MessageLookupByLibrary.simpleMessage("تم الوصول"),
+    "august": MessageLookupByLibrary.simpleMessage("أغسطس"),
     "ban_expired_at": MessageLookupByLibrary.simpleMessage(
       "تاريخ انتهاء الحظر",
     ),
@@ -196,6 +200,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "current_patients": MessageLookupByLibrary.simpleMessage("المرضى الحاليون"),
     "dark_theme": MessageLookupByLibrary.simpleMessage("الوضع الداكن"),
     "days": MessageLookupByLibrary.simpleMessage("أيام"),
+    "december": MessageLookupByLibrary.simpleMessage("ديسمبر"),
     "delete": MessageLookupByLibrary.simpleMessage("حذف"),
     "delete_condition": MessageLookupByLibrary.simpleMessage("حذف التشخيص"),
     "delete_medication": MessageLookupByLibrary.simpleMessage("حذف الدواء"),
@@ -219,6 +224,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_name": MessageLookupByLibrary.simpleMessage("الطبيب"),
     "documents": MessageLookupByLibrary.simpleMessage("المستندات"),
     "dosage_hint": MessageLookupByLibrary.simpleMessage("مثال: حبة يومياً"),
+    "download": MessageLookupByLibrary.simpleMessage("تنزيل"),
+    "download_all": MessageLookupByLibrary.simpleMessage("تنزيل الكل"),
     "drPrefix": MessageLookupByLibrary.simpleMessage("د."),
     "drugInteractionsTitle": MessageLookupByLibrary.simpleMessage(
       "التفاعلات الدوائية",
@@ -374,10 +381,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "failed_to_load_image": MessageLookupByLibrary.simpleMessage(
       "فشل في تحميل الصورة",
     ),
+    "february": MessageLookupByLibrary.simpleMessage("فبراير"),
     "female": MessageLookupByLibrary.simpleMessage("أنثى"),
     "field_is_required": MessageLookupByLibrary.simpleMessage(
       "هذا الحقل مطلوب",
     ),
+    "file_saved_successfully": MessageLookupByLibrary.simpleMessage(
+      "تم حفظ الملف بنجاح",
+    ),
+    "files_saved_partial": m0,
     "filling": MessageLookupByLibrary.simpleMessage("حشوة"),
     "finish_button": MessageLookupByLibrary.simpleMessage("إنهاء"),
     "finish_visit": MessageLookupByLibrary.simpleMessage("إنهاء الزيارة"),
@@ -413,6 +425,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "height_label": MessageLookupByLibrary.simpleMessage("الطول"),
     "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
     "id_label": MessageLookupByLibrary.simpleMessage("رقم الهوية"),
+    "image": MessageLookupByLibrary.simpleMessage("صورة"),
     "implant": MessageLookupByLibrary.simpleMessage("زرعة"),
     "in_progress": MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
     "inactive": MessageLookupByLibrary.simpleMessage("غير نشط"),
@@ -429,6 +442,9 @@ class MessageLookup extends MessageLookupByLibrary {
           "أصدر وصفات طبية رقمية وتابع التاريخ الطبي بسهولة.",
         ),
     "issued_at": MessageLookupByLibrary.simpleMessage("تاريخ الإصدار"),
+    "january": MessageLookupByLibrary.simpleMessage("يناير"),
+    "july": MessageLookupByLibrary.simpleMessage("يوليو"),
+    "june": MessageLookupByLibrary.simpleMessage("يونيو"),
     "kg": MessageLookupByLibrary.simpleMessage("كغ"),
     "lab_completed_at": MessageLookupByLibrary.simpleMessage("تاريخ الإكمال"),
     "lab_ordered_at": MessageLookupByLibrary.simpleMessage("تاريخ الطلب"),
@@ -477,8 +493,10 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "أدر سجلات المرضى وجدول العيادة بسهولة وأمان.",
         ),
+    "march": MessageLookupByLibrary.simpleMessage("مارس"),
     "marital_status": MessageLookupByLibrary.simpleMessage("الحالة الاجتماعية"),
     "married": MessageLookupByLibrary.simpleMessage("متزوج"),
+    "may": MessageLookupByLibrary.simpleMessage("مايو"),
     "medical_test": MessageLookupByLibrary.simpleMessage("الفحص الطبي"),
     "medication": MessageLookupByLibrary.simpleMessage("الدواء"),
     "medication_added_successfully": MessageLookupByLibrary.simpleMessage(
@@ -634,6 +652,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "notes": MessageLookupByLibrary.simpleMessage("ملاحظات"),
     "notes_hint": MessageLookupByLibrary.simpleMessage("مثال: تؤخذ بعد الطعام"),
+    "notifications": MessageLookupByLibrary.simpleMessage("الإشعارات"),
+    "november": MessageLookupByLibrary.simpleMessage("نوفمبر"),
     "nurse": MessageLookupByLibrary.simpleMessage("ممرض/ة"),
     "nurse_added_successfully": MessageLookupByLibrary.simpleMessage(
       "تمت إضافة الممرض بنجاح.",
@@ -664,6 +684,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "تم تحديث القياس بنجاح.",
     ),
     "observations": MessageLookupByLibrary.simpleMessage("الملاحظات"),
+    "october": MessageLookupByLibrary.simpleMessage("أكتوبر"),
     "onset_date": MessageLookupByLibrary.simpleMessage("تاريخ البداية"),
     "onset_label": MessageLookupByLibrary.simpleMessage("البداية"),
     "optional_note_hint": MessageLookupByLibrary.simpleMessage(
@@ -701,6 +722,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "patients": MessageLookupByLibrary.simpleMessage("المرضى"),
     "pending": MessageLookupByLibrary.simpleMessage("قيد الانتظار"),
     "performed_at": MessageLookupByLibrary.simpleMessage("وقت التنفيذ"),
+    "permission_denied": MessageLookupByLibrary.simpleMessage(
+      "تلزم صلاحية التخزين لحفظ الملفات",
+    ),
     "personal_data": MessageLookupByLibrary.simpleMessage("البيانات الشخصية"),
     "personal_information": MessageLookupByLibrary.simpleMessage(
       "المعلومات الشخصية",
@@ -767,6 +791,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "saturday": MessageLookupByLibrary.simpleMessage("السبت"),
     "save": MessageLookupByLibrary.simpleMessage("حفظ"),
+    "save_cancelled": MessageLookupByLibrary.simpleMessage("تم إلغاء الحفظ"),
     "save_changes": MessageLookupByLibrary.simpleMessage("حفظ التغييرات"),
     "save_changes_success": MessageLookupByLibrary.simpleMessage(
       "تم حفظ التغييرات بنجاح.",
@@ -812,6 +837,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "select_vital_type": MessageLookupByLibrary.simpleMessage(
       "اختر نوع العلامة الحيوية",
     ),
+    "september": MessageLookupByLibrary.simpleMessage("سبتمبر"),
     "service": MessageLookupByLibrary.simpleMessage("الخدمة"),
     "service_added_successfully": MessageLookupByLibrary.simpleMessage(
       "تمت إضافة الخدمة بنجاح.",
@@ -868,6 +894,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "thursday": MessageLookupByLibrary.simpleMessage("الخميس"),
     "timeline": MessageLookupByLibrary.simpleMessage("الجدول الزمني"),
     "title": MessageLookupByLibrary.simpleMessage("العنوان"),
+    "today": MessageLookupByLibrary.simpleMessage("اليوم"),
     "token_missing": MessageLookupByLibrary.simpleMessage("الرمز غير موجود."),
     "total_encounters": MessageLookupByLibrary.simpleMessage("إجمالي الزيارات"),
     "treated": MessageLookupByLibrary.simpleMessage("سن معالج"),
@@ -974,6 +1001,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "years": MessageLookupByLibrary.simpleMessage("سنوات"),
     "years_old": MessageLookupByLibrary.simpleMessage("سنة"),
     "yes_logout": MessageLookupByLibrary.simpleMessage("نعم، تسجيل الخروج"),
+    "yesterday": MessageLookupByLibrary.simpleMessage("أمس"),
     "your_password_changed_successfully": MessageLookupByLibrary.simpleMessage(
       "تم تغيير كلمة المرور بنجاح!",
     ),

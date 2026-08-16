@@ -5,6 +5,10 @@ import 'package:marbella/core/databases/api/api_services.dart';
 import 'package:marbella/core/databases/cache/cache_service.dart';
 import 'package:marbella/core/databases/cache/secure_storage_service.dart';
 import 'package:marbella/core/providers/app_providers.dart';
+import 'package:marbella/features/shared/auth/viewmodels/auth_token_provider.dart';
+import 'package:marbella/features/shared/auth/viewmodels/auth_viewmodel.dart';
+import 'package:marbella/features/shared/auth/views/login_view.dart';
+import 'package:marbella/features/shared/notifications/service/notifications_service.dart';
 import 'package:marbella/features/shared/settings/viewmodels/localization_viewmodel.dart';
 import 'package:marbella/features/shared/settings/viewmodels/theme_viewmodel.dart';
 import 'package:marbella/features/shared/settings/views/splash_view.dart';
@@ -15,16 +19,32 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'app_role.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void runFamilyMedicalApp(AppRole role) async {
   WidgetsFlutterBinding.ensureInitialized();
   final cache = CacheService();
   await cache.init();
-
-  final ApiServices apiService = ApiServices(dio: Dio());
   final dataConnectionChecker = DataConnectionChecker();
   final networkInfo = NetworkInfoImpl(dataConnectionChecker);
   final secureStorage = SecureStorageService.instance;
+  final tokenProvider = SecureStorageTokenProvider(secureStorage);
 
+  final ApiServices apiService = ApiServices(
+    dio: Dio(),
+    onUnauthorized: () {
+      final ctx = navigatorKey.currentContext;
+      if (ctx != null) {
+        ctx.read<AuthViewmodel>().forceLogout();
+      }
+      navigatorKey.currentState?.pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => LoginView()),
+        (route) => false,
+      );
+    },
+    tokenProvider: tokenProvider,
+  );
+  await NotificationService(apiService: apiService).initNotification();
   runApp(
     MultiProvider(
       providers: appProviders(
@@ -53,6 +73,7 @@ class FamilyMedicalApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (_, child) {
         return MaterialApp(
+          navigatorKey: navigatorKey,
           locale: languageProvider.language,
           localizationsDelegates: [
             S.delegate,

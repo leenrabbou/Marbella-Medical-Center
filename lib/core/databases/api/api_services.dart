@@ -1,23 +1,34 @@
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:marbella/core/databases/api/end_points.dart';
+import 'package:marbella/core/databases/api/performance_interceptor.dart';
 import 'package:marbella/core/errors/api_response.dart';
 import 'package:marbella/core/errors/error_model.dart';
 import 'package:marbella/core/errors/exceptions.dart';
+import 'package:marbella/features/shared/auth/viewmodels/auth_token_provider.dart';
+import 'package:marbella/generated/l10n.dart';
 
 typedef UnauthorizedCallback = void Function();
 
 class ApiServices {
   final Dio dio;
   final UnauthorizedCallback? onUnauthorized;
+  final AuthTokenProvider tokenProvider;
 
-  ApiServices({required this.dio, this.onUnauthorized}) {
+  ApiServices({
+    required this.dio,
+    this.onUnauthorized,
+    required this.tokenProvider,
+  }) {
     dio.options.baseUrl = EndPoints.baseUrl;
     dio.options.headers = {
       "Accept": "application/json",
       "Content-Type": "application/json",
     };
-
+    dio.options.connectTimeout = const Duration(seconds: 15);
+    dio.options.receiveTimeout = const Duration(seconds: 20);
+    dio.options.sendTimeout = const Duration(seconds: 20);
+    dio.interceptors.add(PerformanceInterceptor());
     dio.interceptors.add(
       InterceptorsWrapper(
         onError: (DioException error, handler) {
@@ -57,8 +68,10 @@ class ApiServices {
     } on DioException catch (e) {
       final status = e.response?.statusCode ?? 0;
       final body = e.response?.data;
-
-      return ApiResponse(statusCode: status, error: ErrorModel.fromJson(body));
+      final errorModel = (body is Map)
+          ? ErrorModel.fromJson(body)
+          : ErrorModel(status: status, errorMessage: S().unknown_error);
+      return ApiResponse(statusCode: status, error: errorModel);
     }
   }
 
@@ -77,12 +90,7 @@ class ApiServices {
       );
       return res.data;
     } on DioException catch (e) {
-      if (e.response != null) {
-        handleDioException(e);
-        return e.response!.data;
-      } else {
-        rethrow;
-      }
+      handleDioException(e);
     }
   }
 
@@ -101,12 +109,7 @@ class ApiServices {
       );
       return res;
     } on DioException catch (e) {
-      if (e.response != null) {
-        handleDioException(e);
-        return e.response!.data;
-      } else {
-        rethrow;
-      }
+      handleDioException(e);
     }
   }
 
@@ -114,6 +117,7 @@ class ApiServices {
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
     bool isFormData = false,
   }) async {
     try {
@@ -121,6 +125,7 @@ class ApiServices {
         path,
         data: isFormData ? FormData.fromMap(data) : data,
         queryParameters: queryParameters,
+        options: Options(headers: headers),
       );
       return res.data;
     } on DioException catch (e) {

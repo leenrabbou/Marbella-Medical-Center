@@ -4,6 +4,7 @@ import 'package:marbella/features/only_doctor/medications/views/medication_view.
 import 'package:marbella/features/shared/encounters/views/only_nurse/encounters_view.dart';
 import 'package:flutter/material.dart';
 import 'package:marbella/features/only_doctor/appointments/views/all_appointments_view.dart';
+import 'package:marbella/features/shared/notifications/views/notification_view.dart';
 import 'package:marbella/features/shared/schedule/views/schedule_view.dart';
 import 'package:marbella/features/only_doctor/patients/views/patients_view.dart';
 import 'package:marbella/features/shared/profile/views/profile_view.dart';
@@ -19,9 +20,7 @@ class MainContentView extends StatelessWidget {
     final role = context.read<AppRole>();
     switch (selectedIndex) {
       case 0:
-        return role == AppRole.doctor
-            ? PatientsView(isCurrent: true)
-            : EncountersView();
+        return EncountersView();
       case 1:
         return ProfileView();
       case 2:
@@ -41,6 +40,10 @@ class MainContentView extends StatelessWidget {
             ? ChatsShellView()
             : Center(child: Text(S().page_not_found));
       case 7:
+        return role == AppRole.doctor
+            ? NotificationsView()
+            : Center(child: Text(S().page_not_found));
+      case 8:
         return role == AppRole.doctor
             ? SettingsView()
             : Center(child: Text(S().page_not_found));
