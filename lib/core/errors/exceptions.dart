@@ -108,6 +108,11 @@ handleDioException(DioException e) {
 
     case DioExceptionType.unknown:
     case DioExceptionType.transformTimeout:
-      throw UnknownException(fallbackError);
+      throw UnknownException(
+        ErrorModel(
+          status: response?.statusCode ?? 0,
+          errorMessage: e.message ?? S().unknown_error,
+        ),
+      );
   }
 }

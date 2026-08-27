@@ -143,28 +143,34 @@ class _ChatRoomViewState extends State<ChatRoomView> {
           if (!widget.showAppBar) _buildTabletHeader(context, avatarColor),
 
           Expanded(
-            child: ListView.builder(
-              controller: _scrollController,
-              reverse: true,
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-              itemCount:
-                  conversations.length +
-                  (provider.isLoadingMoreMessages ? 1 : 0),
-              itemBuilder: (context, index) {
-                if (index == conversations.length) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    child: Center(
-                      child: SpinKitThreeBounce(
-                        color: Theme.of(context).primaryColor,
-                        size: 15.r,
+            child: Semantics(
+              liveRegion: true,
+              child: ListView.builder(
+                controller: _scrollController,
+                reverse: true,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 20,
+                ),
+                itemCount:
+                    conversations.length +
+                    (provider.isLoadingMoreMessages ? 1 : 0),
+                itemBuilder: (context, index) {
+                  if (index == conversations.length) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12),
+                      child: Center(
+                        child: SpinKitThreeBounce(
+                          color: Theme.of(context).primaryColor,
+                          size: 15.r,
+                        ),
                       ),
-                    ),
-                  );
-                }
-                final msg = conversations[index];
-                return ChatBubbleWidget(message: msg);
-              },
+                    );
+                  }
+                  final msg = conversations[index];
+                  return ChatBubbleWidget(message: msg);
+                },
+              ),
             ),
           ),
           MessageChatBarWidget(
@@ -192,7 +198,7 @@ class _ChatRoomViewState extends State<ChatRoomView> {
         ),
         const SizedBox(width: 10),
         Text(
-          widget.chat.patient.givenName,
+          '${widget.chat.patient.givenName} + ${widget.chat.patient.familyName}',
           style: Theme.of(
             context,
           ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),

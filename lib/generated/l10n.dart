@@ -844,9 +844,14 @@ class S {
     );
   }
 
-  /// `Verified!`
+  /// `Your account is now verified.`
   String get verified {
-    return Intl.message('Verified!', name: 'verified', desc: '', args: []);
+    return Intl.message(
+      'Your account is now verified.',
+      name: 'verified',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Your phone number has been successfully verified.`
@@ -4472,6 +4477,81 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Add Drug Interaction`
+  String get add_drug_interaction {
+    return Intl.message(
+      'Add Drug Interaction',
+      name: 'add_drug_interaction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Condition Interaction`
+  String get add_disease_interaction {
+    return Intl.message(
+      'Add Condition Interaction',
+      name: 'add_disease_interaction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to discard your changes? Any unsaved edits will be lost`
+  String get discard_changes {
+    return Intl.message(
+      'Are you sure you want to discard your changes? Any unsaved edits will be lost',
+      name: 'discard_changes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keep editing`
+  String get keep_editing {
+    return Intl.message(
+      'Keep editing',
+      name: 'keep_editing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View Patient Info`
+  String get view_patient_info {
+    return Intl.message(
+      'View Patient Info',
+      name: 'view_patient_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Session Expired`
+  String get session_expired_title {
+    return Intl.message(
+      'Session Expired',
+      name: 'session_expired_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your session has expired. Please log in again to continue.`
+  String get session_expired_message {
+    return Intl.message(
+      'Your session has expired. Please log in again to continue.',
+      name: 'session_expired_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `OK`
+  String get ok {
+    return Intl.message('OK', name: 'ok', desc: '', args: []);
   }
 }
 

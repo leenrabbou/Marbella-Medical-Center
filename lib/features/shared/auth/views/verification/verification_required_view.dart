@@ -37,7 +37,7 @@ class _VerificationRequiredViewState extends State<VerificationRequiredView> {
         message: S.of(context).code_sent_successfully,
         type: SnackbarType.success,
       );
-      await Navigator.push(
+      await Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (BuildContext context) {
@@ -81,7 +81,7 @@ class _VerificationRequiredViewState extends State<VerificationRequiredView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset('assets/ver1.png', width: 500.w, height: 500.h),
+                  Image.asset('assets/ver1.png', width: 450.w, height: 450.h),
                   const SizedBox(width: 30),
                   _buildForm(context),
                 ],
@@ -101,7 +101,7 @@ class _VerificationRequiredViewState extends State<VerificationRequiredView> {
       children: [
         Text(
           S().verification_required,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: colorScheme.primary,
             fontWeight: FontWeight.bold,
           ),
@@ -140,7 +140,7 @@ class _VerificationRequiredViewState extends State<VerificationRequiredView> {
                 )
               : Text(
                   S().get_verification_code,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),

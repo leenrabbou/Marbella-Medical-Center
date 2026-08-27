@@ -5,6 +5,7 @@ import 'package:marbella/core/databases/api/api_services.dart';
 import 'package:marbella/core/databases/cache/cache_service.dart';
 import 'package:marbella/core/databases/cache/secure_storage_service.dart';
 import 'package:marbella/core/providers/app_providers.dart';
+import 'package:marbella/core/widgets/custom_button_widget.dart';
 import 'package:marbella/features/shared/auth/viewmodels/auth_token_provider.dart';
 import 'package:marbella/features/shared/auth/viewmodels/auth_viewmodel.dart';
 import 'package:marbella/features/shared/auth/views/login_view.dart';
@@ -21,6 +22,69 @@ import 'app_role.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
+bool _isSessionExpiredDialogShowing = false;
+
+void _showSessionExpiredDialog(BuildContext context) {
+  if (_isSessionExpiredDialogShowing) return;
+  _isSessionExpiredDialogShowing = true;
+
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (dialogContext) {
+      final theme = Theme.of(dialogContext);
+      final colorScheme = theme.colorScheme;
+      return AlertDialog(
+        backgroundColor: colorScheme.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+        title: Text(
+          S().session_expired_title,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Text(
+          S().session_expired_message,
+          style: theme.textTheme.bodyMedium,
+        ),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomButtonWidget(
+                onPressed: () async {
+                  Navigator.of(dialogContext).pop();
+                  _isSessionExpiredDialogShowing = false;
+
+                  final ctx = navigatorKey.currentContext;
+                  if (ctx != null) {
+                    await ctx.read<AuthViewmodel>().forceLogout();
+                  }
+                  navigatorKey.currentState?.pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => LoginView()),
+                    (route) => false,
+                  );
+                },
+                height: 40,
+                width: 140,
+                left: 0,
+                right: 0,
+                top: 5,
+                bottom: 0,
+                textSize: 15,
+                color: colorScheme.primary,
+                textColor: colorScheme.onPrimary,
+                elevation: 0,
+                child: Text(S().ok, style: theme.textTheme.bodyMedium),
+              ),
+            ],
+          ),
+        ],
+      );
+    },
+  );
+}
+
 void runFamilyMedicalApp(AppRole role) async {
   WidgetsFlutterBinding.ensureInitialized();
   final cache = CacheService();
@@ -35,12 +99,8 @@ void runFamilyMedicalApp(AppRole role) async {
     onUnauthorized: () {
       final ctx = navigatorKey.currentContext;
       if (ctx != null) {
-        ctx.read<AuthViewmodel>().forceLogout();
+        _showSessionExpiredDialog(ctx);
       }
-      navigatorKey.currentState?.pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => LoginView()),
-        (route) => false,
-      );
     },
     tokenProvider: tokenProvider,
   );

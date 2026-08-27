@@ -88,7 +88,7 @@ class _EnterVerifyCodeViewState extends State<EnterVerifyCodeView> {
           message: S.of(context).verification_successful,
           type: SnackbarType.success,
         );
-        await Navigator.push(
+        await Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (BuildContext context) {
@@ -147,8 +147,8 @@ class _EnterVerifyCodeViewState extends State<EnterVerifyCodeView> {
                   children: [
                     Image.asset(
                       'assets/verifyEmail.png',
-                      width: 550.w,
-                      height: 550.h,
+                      width: 500.w,
+                      height: 500.h,
                     ),
                     SizedBox(width: 30.w),
                     _buildForm(context),
@@ -169,7 +169,7 @@ class _EnterVerifyCodeViewState extends State<EnterVerifyCodeView> {
       children: [
         Text(
           S().verify_your_account,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: colorScheme.primary,
             fontWeight: FontWeight.bold,
           ),
@@ -219,14 +219,14 @@ class _EnterVerifyCodeViewState extends State<EnterVerifyCodeView> {
             child: _canResend
                 ? Text(
                     S().resend_code,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: colorScheme.primary,
                       fontWeight: FontWeight.bold,
                     ),
                   )
                 : Text(
                     "${S().resend_code} ($_remainingSeconds${S.of(context).sec})",
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Colors.grey,
                       fontWeight: FontWeight.bold,
                     ),
@@ -252,7 +252,7 @@ class _EnterVerifyCodeViewState extends State<EnterVerifyCodeView> {
                 )
               : Text(
                   S().confirm,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),

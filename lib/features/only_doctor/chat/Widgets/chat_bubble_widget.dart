@@ -35,57 +35,65 @@ class ChatBubbleWidget extends StatelessWidget {
 
     return Align(
       alignment: _isMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: GestureDetector(
-        child: Container(
-          constraints: BoxConstraints(maxWidth: textMaxWidth),
-          margin: EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.h),
-          decoration: BoxDecoration(
-            color: _isMe
-                ? colorScheme.primary.withAlpha(80)
-                : colorScheme.surface,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(bubbleRadius),
-              topRight: Radius.circular(bubbleRadius),
-              bottomLeft: _isMe ? Radius.circular(bubbleRadius) : Radius.zero,
-              bottomRight: _isMe ? Radius.zero : Radius.circular(bubbleRadius),
+      child: Semantics(
+        label:
+            '${_isMe ? "رسالة مرسلة" : "رسالة مستلمة"}, '
+            '${_hasAttachments ? "مرفق ${message.attachments.length} ملف, " : ""}'
+            '${_hasCaption ? message.body : ""}, $timeLabel',
+        child: GestureDetector(
+          child: Container(
+            constraints: BoxConstraints(maxWidth: textMaxWidth),
+            margin: EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.h),
+            decoration: BoxDecoration(
+              color: _isMe
+                  ? colorScheme.primary.withAlpha(80)
+                  : colorScheme.surface,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(bubbleRadius),
+                topRight: Radius.circular(bubbleRadius),
+                bottomLeft: _isMe ? Radius.circular(bubbleRadius) : Radius.zero,
+                bottomRight: _isMe
+                    ? Radius.zero
+                    : Radius.circular(bubbleRadius),
+              ),
             ),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (_hasAttachments)
-                _buildAttachments(
-                  context: context,
-                  width: textMaxWidth,
-                  timeLabel: timeLabel,
-                  colorScheme: colorScheme,
-                ),
-              if (_hasCaption || !_hasAttachments)
-                Padding(
-                  padding: EdgeInsets.fromLTRB(14.w, 8.h, 14.w, 6.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (message.body != 'صورة') ...[
-                        Text(
-                          message.body,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: _isMe
-                                ? colorScheme.onSurfaceVariant
-                                : colorScheme.onSurfaceVariant,
-                            height: 1.3,
-                          ),
-                        ),
-                      ],
-                      SizedBox(height: 4.h),
-                      _buildMetaRow(colorScheme, timeLabel, overlay: false),
-                    ],
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (_hasAttachments)
+                  _buildAttachments(
+                    context: context,
+                    width: textMaxWidth,
+                    timeLabel: timeLabel,
+                    colorScheme: colorScheme,
                   ),
-                ),
-            ],
+                if (_hasCaption || !_hasAttachments)
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(14.w, 8.h, 14.w, 6.h),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (message.body != 'صورة') ...[
+                          Text(
+                            message.body,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: _isMe
+                                  ? colorScheme.onSurfaceVariant
+                                  : colorScheme.onSurfaceVariant,
+                              height: 1.3,
+                            ),
+                          ),
+                        ],
+                        SizedBox(height: 4.h),
+                        _buildMetaRow(colorScheme, timeLabel, overlay: false),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),

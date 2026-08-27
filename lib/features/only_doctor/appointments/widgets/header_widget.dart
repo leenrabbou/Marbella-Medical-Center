@@ -91,7 +91,6 @@ class HeaderWidget extends StatelessWidget {
               MaterialPageRoute(
                 builder: (_) => PatientInfoView(
                   patient: appointment.patient,
-                  img: imgBytes,
                 ),
               ),
             ),

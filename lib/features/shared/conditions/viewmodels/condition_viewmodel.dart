@@ -30,7 +30,7 @@ class ConditionViewmodel extends ChangeNotifier {
       _encounterConditionsByKey[_buildKey(params)] ?? [];
 
   bool isLoadingFor(ConditionParams params) =>
-      _isLoadingMap[_buildKey(params)] ?? false;
+      _isLoadingMap[_buildKey(params)] ?? true;
 
   String? errorMessageFor(ConditionParams params) =>
       _errorMessageMap[_buildKey(params)];

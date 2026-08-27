@@ -1,5 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:marbella/core/databases/api/end_points.dart';
+import 'package:marbella/core/databases/cache/cache_keys.dart';
 import 'package:marbella/core/errors/api_response.dart';
+import 'package:marbella/core/errors/error_model.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:marbella/core/params/params.dart';
 import 'package:marbella/features/shared/auth/services/auth_service.dart';
@@ -33,13 +36,7 @@ void main() {
       'Login from Flutter reaches Laravel API and stores user session token',
       () async {
         when(
-          () => mockApi.post(
-            any(),
-            data: any(named: 'data'),
-            headers: any(named: 'headers'),
-            queryParameters: any(named: 'queryParameters'),
-            isFormData: any(named: 'isFormData'),
-          ),
+          () => mockApi.post(EndPoints.login, data: any(named: 'data')),
         ).thenAnswer(
           (_) async => ApiResponse(
             statusCode: 200,
@@ -62,19 +59,53 @@ void main() {
             key: any(named: 'key'),
             value: any(named: 'value'),
           ),
-        ).thenAnswer((_) async => true);
+        ).thenAnswer((_) async {});
 
         final result = await authService.logIn(loginParams, 'en');
+
         expect(result.isRight(), true);
-        verify(
-          () => mockApi.post(
-            any(),
-            data: any(named: 'data'),
-            headers: any(named: 'headers'),
-            queryParameters: any(named: 'queryParameters'),
-            isFormData: any(named: 'isFormData'),
+        result.fold((_) => fail('expected Right, got Left'), (auth) {
+          expect(auth.data?.token, 'bearer_token_123456');
+          expect(auth.data?.name, 'Leen');
+        });
+        final captured = verify(
+          () => mockSecureStorage.write(
+            key: captureAny(named: 'key'),
+            value: captureAny(named: 'value'),
           ),
-        ).called(1);
+        ).captured;
+
+        expect(captured[0], CacheKeys.userKey);
+        expect(captured[1], contains('bearer_token_123456'));
+      },
+    );
+
+    test(
+      'Login with wrong credentials returns an error and never writes to secure storage',
+      () async {
+        when(
+          () => mockApi.post(EndPoints.login, data: any(named: 'data')),
+        ).thenAnswer(
+          (_) async => ApiResponse(
+            statusCode: 401,
+            error: ErrorModel(status: 401, errorMessage: 'Invalid credentials'),
+          ),
+        );
+
+        final result = await authService.logIn(loginParams, 'en');
+
+        expect(result.isLeft(), true);
+        result.fold(
+          (error) => expect(error.status, 401),
+          (_) => fail('expected Left, got Right'),
+        );
+
+        verifyNever(
+          () => mockSecureStorage.write(
+            key: any(named: 'key'),
+            value: any(named: 'value'),
+          ),
+        );
       },
     );
   });

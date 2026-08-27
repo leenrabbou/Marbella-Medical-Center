@@ -72,7 +72,7 @@ class Constant {
         return const Color(0xFFF97316);
 
       case 'cancelled':
-      case 'no_show':
+      case 'refused':
       case 'severe':
       case 'high':
       case 'entered-in-error':
@@ -492,7 +492,7 @@ class Constant {
         );
 
       case MessageLocalStatus.sent:
-        return message.isSeen == 1
+        return message.readAt != null
             ? const Icon(Icons.done_all, size: 15, color: Colors.blue)
             : Icon(Icons.check, size: 15, color: color);
     }

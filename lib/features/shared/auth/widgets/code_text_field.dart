@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CodeTextField extends StatelessWidget {
   const CodeTextField({
@@ -12,8 +13,8 @@ class CodeTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 68,
-      width: 54,
+      height: 68.h,
+      width: 54.w,
       child: TextFormField(
         controller: textController,
         onChanged: (value) {

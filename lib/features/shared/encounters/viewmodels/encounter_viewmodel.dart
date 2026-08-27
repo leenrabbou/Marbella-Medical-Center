@@ -35,7 +35,7 @@ class EncounterViewmodel extends ChangeNotifier {
   String? errorMessageDetailsFor(int id) => _errorMessageDetailsMap[id];
   EncounterModel? encounterDetailsFor(int id) => _encounterDetailsMap[id];
 
-  bool isLoadingAuditFor(int id) => _isLoadingAuditMap[id] ?? false;
+  bool isLoadingAuditFor(int id) => _isLoadingAuditMap[id] ?? true;
   String? errorMessageAuditFor(int id) => _errorMessageAuditMap[id];
   List<AuditModel>? encounterAuditFor(int id) => _encounterAuditsMap[id];
 
@@ -46,7 +46,8 @@ class EncounterViewmodel extends ChangeNotifier {
   bool get isLoading => _isLoadingMap.values.any((element) => element == true);
 
   String _getStatusKey(String? status) => status ?? 'all';
-  bool getHasMore(String? status) => _hasMoreMap[_getStatusKey(status)] ?? true;
+  bool getHasMore(String? status) =>
+      _hasMoreMap[_getStatusKey(status)] ?? false;
   bool getIsFetching(String? status) =>
       _isFetchingMap[_getStatusKey(status)] ?? false;
   int getCurrentPage(String? status) =>
@@ -55,7 +56,7 @@ class EncounterViewmodel extends ChangeNotifier {
 
   List<EncounterModel> getEncountersListByStatus(String? status) {
     switch (status) {
-      case 'arrived':
+      case 'arrived,in-progress':
         return arrivedEncounters;
       case null:
       default:

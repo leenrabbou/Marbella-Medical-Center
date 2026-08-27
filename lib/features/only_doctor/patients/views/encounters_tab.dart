@@ -193,8 +193,10 @@ class _EncountersTabState extends State<EncountersTab> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) =>
-                              EncounterDetailsView(encounter: encounter),
+                          builder: (_) => EncounterDetailsView(
+                            encounter: encounter,
+                            isFromPatientView: true,
+                          ),
                         ),
                       );
                     },
@@ -246,6 +248,7 @@ class _EncountersTabState extends State<EncountersTab> {
                                       MaterialPageRoute(
                                         builder: (_) => EncounterDetailsView(
                                           encounter: encounter,
+                                          isFromPatientView: true,
                                         ),
                                       ),
                                     );

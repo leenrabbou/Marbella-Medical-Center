@@ -24,7 +24,7 @@ class LabTestViewmodel extends ChangeNotifier {
       _labTestsByKey[_buildListKey(params)] ?? [];
 
   bool isLoadingFor(LabTestParams params) =>
-      _isLoadingMap[_buildListKey(params)] ?? false;
+      _isLoadingMap[_buildListKey(params)] ?? true;
 
   bool isLoadingMoreFor(LabTestParams params) =>
       _isLoadingMoreMap[_buildListKey(params)] ?? false;

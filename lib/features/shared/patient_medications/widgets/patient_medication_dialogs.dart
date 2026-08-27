@@ -24,6 +24,7 @@ class PatientMedicationDialogs {
     PatientMedicationModel? patientMedication, {
     int? patientId,
     int? encounterId,
+    required Future<void> Function()? onSuccess,
   }) async {
     final patientMedicationProvider = context
         .read<PatientMedicationViewmodel>();
@@ -555,6 +556,7 @@ class PatientMedicationDialogs {
                                             type: SnackbarType.success,
                                           );
                                         });
+                                        onSuccess?.call();
                                       } else if (patientMedicationProvider
                                               .medicationConflictInteractions !=
                                           null) {
@@ -725,8 +727,8 @@ class PatientMedicationDialogs {
           actions: [
             CustomButtonWidget(
               onPressed: () => Navigator.pop(dialogContext, 0),
-              height: 40,
-              width: 120,
+              height: 40.h,
+              width: 120.w,
               left: 0,
               right: 0,
               top: 5,
@@ -739,8 +741,8 @@ class PatientMedicationDialogs {
             ),
             CustomButtonWidget(
               onPressed: () => Navigator.pop(dialogContext, 1),
-              height: 40,
-              width: 160,
+              height: 40.w,
+              width: 160.w,
               left: 0,
               right: 0,
               top: 5,
@@ -766,8 +768,9 @@ class PatientMedicationDialogs {
 
   static void showDeletePatientMedicationDialog(
     BuildContext context,
-    PatientMedicationModel patientMedication,
-  ) {
+    PatientMedicationModel patientMedication, {
+    required Future<void> Function()? onSuccess,
+  }) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     showDialog(
@@ -857,6 +860,7 @@ class PatientMedicationDialogs {
                                   message: S().medication_deleted_successfully,
                                   type: SnackbarType.success,
                                 );
+                                onSuccess?.call();
                               } else {
                                 AppSnackbar.show(
                                   context,

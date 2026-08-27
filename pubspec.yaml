@@ -53,9 +53,11 @@ dependencies:
   file_picker: ^11.0.3
   permission_handler: ^11.3.1
   gal: ^2.3.3
-  screen_protector: ^1.5.3
+  # screen_protector: ^1.5.3
   flutter_local_notifications: ^19.2.1
   pusher_channels_flutter: ^2.6.0
+  url_launcher: ^6.3.2
+  screen_protector: ^1.5.3
 
 dev_dependencies:
   flutter_test:

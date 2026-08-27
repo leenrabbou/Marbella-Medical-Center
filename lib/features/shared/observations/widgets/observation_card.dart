@@ -21,9 +21,11 @@ class ObservationCard extends StatefulWidget {
     super.key,
     required this.observation,
     required this.isEditable,
+    required this.onSuccess,
   });
   final ObservationModel observation;
   final bool isEditable;
+  final Future<void> Function()? onSuccess;
 
   @override
   State<ObservationCard> createState() => _ObservationCardState();
@@ -125,6 +127,7 @@ class _ObservationCardState extends State<ObservationCard> {
                                         context,
                                         widget.observation,
                                         0,
+                                        widget.onSuccess,
                                       );
                                 } else if (value == 'audit') {
                                   Navigator.push(
@@ -137,7 +140,7 @@ class _ObservationCardState extends State<ObservationCard> {
                                     ),
                                   );
                                 } else if (value == 'delete') {
-                                  _showDeleteDialog(context);
+                                  _showDeleteDialog(context, widget.onSuccess);
                                 }
                               },
                               itemBuilder: (_) => [
@@ -290,7 +293,10 @@ class _ObservationCardState extends State<ObservationCard> {
     );
   }
 
-  void _showDeleteDialog(BuildContext context) {
+  void _showDeleteDialog(
+    BuildContext context,
+    Future<void> Function()? onSuccess,
+  ) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     showDialog(
@@ -378,6 +384,7 @@ class _ObservationCardState extends State<ObservationCard> {
                                 if (context.mounted) {
                                   Navigator.pop(context);
                                 }
+                                onSuccess?.call();
                               } else {
                                 AppSnackbar.show(
                                   context,

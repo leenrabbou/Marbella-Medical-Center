@@ -89,6 +89,7 @@ class _ObservationViewState extends State<ObservationView> {
                   context,
                   null,
                   widget.encounter.id,
+                  _fetchData,
                 );
               },
               backgroundColor: Theme.of(context).colorScheme.primary,
@@ -131,6 +132,7 @@ class _ObservationViewState extends State<ObservationView> {
                 return ObservationCard(
                   observation: observations[index],
                   isEditable: isEditable,
+                  onSuccess: _fetchData,
                 );
               },
             ),

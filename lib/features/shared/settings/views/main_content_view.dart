@@ -1,7 +1,7 @@
 ﻿import 'package:marbella/app/app_role.dart';
 import 'package:marbella/features/only_doctor/chat/Views/chats_shell_view.dart';
 import 'package:marbella/features/only_doctor/medications/views/medication_view.dart';
-import 'package:marbella/features/shared/encounters/views/only_nurse/encounters_view.dart';
+import 'package:marbella/features/shared/encounters/views/encounters_view.dart';
 import 'package:flutter/material.dart';
 import 'package:marbella/features/only_doctor/appointments/views/all_appointments_view.dart';
 import 'package:marbella/features/shared/notifications/views/notification_view.dart';
@@ -26,11 +26,11 @@ class MainContentView extends StatelessWidget {
       case 2:
         return role == AppRole.doctor ? AllAppointmentsView() : ScheduleView();
       case 3:
-        return role == AppRole.doctor ? ScheduleView() : SettingsView();
+        return role == AppRole.doctor ? ScheduleView() : NotificationsView();
       case 4:
         return role == AppRole.doctor
             ? PatientsView(isCurrent: false)
-            : Center(child: Text(S().page_not_found));
+            : SettingsView();
       case 5:
         return role == AppRole.doctor
             ? MedicationView()

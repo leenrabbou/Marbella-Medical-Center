@@ -15,6 +15,7 @@ class NurseDialogs {
   static Future<void> showAddNurseDialog(
     BuildContext context, {
     required int encounterId,
+    required Future<void> Function()? onSuccess,
   }) async {
     final provider = context.read<EncounterNursesViewmodel>();
 
@@ -383,6 +384,7 @@ class NurseDialogs {
                                               type: SnackbarType.success,
                                             );
                                           });
+                                      onSuccess?.call();
                                     } else {
                                       setState(() {
                                         isSubmitting = false;
@@ -431,8 +433,9 @@ class NurseDialogs {
   static void showDeleteDialog(
     BuildContext context,
     int encounterId,
-    int nurseId,
-  ) {
+    int nurseId, {
+    required Future<void> Function()? onSuccess,
+  }) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -519,6 +522,7 @@ class NurseDialogs {
                                   message: S().nurse_removed_successfully,
                                   type: SnackbarType.success,
                                 );
+                                onSuccess?.call();
                               } else {
                                 AppSnackbar.show(
                                   context,

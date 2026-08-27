@@ -51,26 +51,30 @@ class MedicationCard extends StatelessWidget {
               );
             },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 6.h),
-        padding: EdgeInsets.all(14.r),
+        margin: EdgeInsets.symmetric(vertical: 4.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 30.w : 10.w,
+          vertical: 8.h,
+        ),
         decoration: StyleWidget.cardDecoration(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 AppAvatar(
                   icon: Icons.medication_outlined,
                   size: isMobile
                       ? 150.r
                       : isFromDetailsView
-                      ? 64.r
-                      : 52.r,
+                      ? 85.r
+                      : 85.r,
                   imageUrl: medication.image?.url,
+                  isCircular: false,
                 ),
-                SizedBox(width: isMobile ? 14.w : 12.w),
+                SizedBox(width: 10.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,10 +86,10 @@ class MedicationCard extends StatelessWidget {
                           color: colorScheme.onSurface,
                         ),
                       ),
-                      SizedBox(height: 8.h),
+                      SizedBox(height: 4.h),
                       Wrap(
-                        spacing: 6.w,
-                        runSpacing: 6.h,
+                        spacing: 4.w,
+                        runSpacing: 4.h,
                         children: [
                           MedicationInfoChip(
                             icon: Icons.medication_liquid_outlined,
@@ -100,52 +104,40 @@ class MedicationCard extends StatelessWidget {
                             ),
                         ],
                       ),
+                      if (hasDescription) ...[                        
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 4.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: colorScheme.onSurface.withAlpha(0),
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    medication.description!,
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      color: colorScheme.onSurfaceVariant,
+                                      height: 1.4,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),
               ],
             ),
-
-            if (hasDescription) ...[
-              SizedBox(height: 12.h),
-              if (!isFromDetailsView)
-                Text(
-                  medication.description!,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                    height: 1.4,
-                  ),
-                )
-              else
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(12.r),
-                  decoration: BoxDecoration(
-                    color: colorScheme.onSurface.withAlpha(5),
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.notes, size: 18),
-                          SizedBox(width: 6.w),
-                          Text(
-                            medication.description!,
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: colorScheme.onSurfaceVariant,
-                              height: 1.4,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-            ],
           ],
         ),
       ),

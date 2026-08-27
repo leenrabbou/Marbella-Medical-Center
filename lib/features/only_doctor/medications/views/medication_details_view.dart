@@ -185,7 +185,9 @@ class _MedicationDetailsViewState extends State<MedicationDetailsView>
           builder: (context, child) {
             final isDrugTab = _tabController.index == 0;
             return Text(
-              isDrugTab ? 'إضافة تعارض دوائي' : 'إضافة تعارض مرضي',
+              isDrugTab
+                  ? S().add_drug_interaction
+                  : S().add_disease_interaction,
               style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
             );
           },
@@ -201,10 +203,13 @@ class _MedicationDetailsViewState extends State<MedicationDetailsView>
           padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: Column(
             children: [
-              MedicationCard(
-                medication: localeMedication,
-                showDescreption: true,
-                isFromDetailsView: true,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.w),
+                child: MedicationCard(
+                  medication: localeMedication,
+                  showDescreption: true,
+                  isFromDetailsView: true,
+                ),
               ),
               TabBar(
                 controller: _tabController,

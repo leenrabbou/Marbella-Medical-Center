@@ -13,11 +13,13 @@ class NurseCard extends StatelessWidget {
     required this.nurse,
     required this.encounterId,
     this.isEditable = false,
+    required this.onSuccess,
   });
 
   final EmployeeModel nurse;
   final int encounterId;
   final bool isEditable;
+  final Future<void> Function()? onSuccess;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,7 @@ class NurseCard extends StatelessWidget {
               nurse: nurse,
               encounterId: encounterId,
               isEditable: isEditable,
+              onSuccess: onSuccess,
             ),
           ),
         ),
@@ -128,6 +131,7 @@ class NurseCard extends StatelessWidget {
                           context,
                           encounterId,
                           nurse.id,
+                          onSuccess: onSuccess,
                         );
                       }
                     },

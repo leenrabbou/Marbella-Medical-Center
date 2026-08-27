@@ -38,7 +38,7 @@ class _EncountersViewState extends State<EncountersView> {
           context.read<AuthViewmodel>().userFromCache?.data?.token;
       params = EncounterParams(
         search: null,
-        status: 'arrived',
+        status: 'arrived,in-progress',
         patientId: null,
       );
       context.read<EncounterViewmodel>().refreshToFetchDataList(

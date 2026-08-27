@@ -37,61 +37,63 @@ class _SuccessState extends State<SuccessVerificationView> {
         children: [
           Padding(
             padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/config.png',
-                  width: isMobile ? 600.w : 500.w,
-                  height: isMobile ? 300.h : 450.h,
-                ),
-                SizedBox(height: 10.h),
-                Text(
-                  S().all_done,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: colorScheme.primary,
-                    fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/config.png',
+                    width: isMobile ? 600.w : 500.w,
+                    height: isMobile ? 300.h : 400.h,
                   ),
-                ),
-                SizedBox(height: 15.h),
-                Text(
-                  S().verified,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 15),
-                CustomButtonWidget(
-                  onPressed: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return HomeView();
-                        },
-                      ),
-                    );
-                  },
-                  height: 50,
-                  width: 500.w,
-                  left: 30.w,
-                  right: 30.w,
-                  top: 5.h,
-                  bottom: 0,
-                  textSize: 18,
-                  color: colorScheme.primary,
-                  elevation: 3,
-                  textColor: Colors.white,
-                  child: Text(
-                    S().go_to_home_page,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.white,
+                  SizedBox(height: 10.h),
+                  Text(
+                    S().all_done,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: colorScheme.primary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(height: 15.h),
+                  Text(
+                    S().verified,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                  CustomButtonWidget(
+                    onPressed: () async {
+                      await Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return HomeView();
+                          },
+                        ),
+                      );
+                    },
+                    height: 50,
+                    width: 500.w,
+                    left: 30.w,
+                    right: 30.w,
+                    top: 5.h,
+                    bottom: 0,
+                    textSize: 18,
+                    color: colorScheme.primary,
+                    elevation: 3,
+                    textColor: Colors.white,
+                    child: Text(
+                      S().go_to_home_page,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/features/shared/settings/models/intro_model.dart';
 import 'package:marbella/features/shared/settings/views/home_view.dart';
 import 'package:marbella/core/databases/cache/cache_keys.dart';
@@ -40,6 +41,7 @@ class _OnboardingViewState extends State<OnboardingView> {
   ];
   @override
   Widget build(BuildContext context) {
+    bool isMobile = DeviceInfo.isMobile(context);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     return Scaffold(
@@ -91,7 +93,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                     );
                   },
                   height: 40.h,
-                  width: 300.w,
+                  width: isMobile ? 400.w : 300.w,
                   left: 0.w,
                   right: 0.w,
                   top: 0.h,
@@ -130,7 +132,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                         );
                       },
                       height: 35.h,
-                      width: 100.w,
+                      width: isMobile ? 140.w : 100.w,
                       left: 0.w,
                       right: 0.w,
                       top: 0.h,
@@ -161,10 +163,15 @@ Widget buildIntro(
   required String title,
   required String description,
 }) {
+  bool isMobile = DeviceInfo.isMobile(context);
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      Image.asset(image, height: 300.h, width: 600.w),
+      Image.asset(
+        image,
+        height: isMobile ? 250.h : 300.h,
+        width: isMobile ? 750.w : 600.w,
+      ),
       SizedBox(height: 25.h),
       Text(
         title,

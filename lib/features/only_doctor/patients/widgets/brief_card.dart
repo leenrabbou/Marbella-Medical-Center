@@ -26,50 +26,66 @@ class BriefCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 20.h),
       decoration: StyleWidget.cardDecoration(context),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                title,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 30.h),
-              Text(
-                date,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(),
-              ),
-              SizedBox(height: 10.w),
-              Text(
-                text,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 30.w),
-              btnTtext == '—'
-                  ? SizedBox.shrink()
-                  : TextButton(
-                      onPressed: onTap,
-                      child: Text(
-                        btnTtext,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.bold,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 30.h),
+                Text(
+                  date,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                SizedBox(height: 10.w),
+                Text(
+                  text,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 30.w),
+                btnTtext == '—'
+                    ? const SizedBox.shrink()
+                    : TextButton(
+                        onPressed: onTap,
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          alignment: Alignment.centerLeft,
+                        ),
+                        child: Text(
+                          btnTtext,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                       ),
-                    ),
-            ],
+              ],
+            ),
           ),
+          SizedBox(width: 10.w),
           ClipRRect(
             borderRadius: BorderRadius.circular(16.r),
             child: Image.asset(
               imagePath,
-              height: isTablet ? 90.h : 60.h,
+              height: isTablet ? 92.h : 60.h,
               width: isTablet ? 88.w : 190.w,
               fit: BoxFit.cover,
             ),

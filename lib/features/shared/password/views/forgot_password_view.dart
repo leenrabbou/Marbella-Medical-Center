@@ -135,7 +135,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       children: [
         Text(
           S().forgot_password,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: colorScheme.primary,
             fontWeight: FontWeight.bold,
           ),
@@ -145,7 +145,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           S().we_will_send_you_reset_instructions,
           style: Theme.of(
             context,
-          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
         SizedBox(height: isMobile ? 10.h : 45.h),
         CustomTextField(
@@ -183,7 +183,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 )
               : Text(
                   S().reset_password,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),

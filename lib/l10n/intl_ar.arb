@@ -97,7 +97,7 @@
   "reset_successfully": "تمت إعادة تعيين كلمة المرور بنجاح.",
   "add_to_cart": "أضف إلى السلة",
   "verify_your_account": "تحقّق من حسابك",
-  "verified": "تم التحقق!",
+  "verified": "حسابك الآن موثق.",
   "phone_verified_successfully": "تم توثيق رقم هاتفك بنجاح.",
   "go_to_home_page": "الانتقال إلى الصفحة الرئيسية",
   "confirm": "تأكيد",
@@ -560,5 +560,13 @@
   "november": "نوفمبر",
   "december": "ديسمبر",
   "image": "صورة",
-  "notifications": "الإشعارات"
+  "notifications": "الإشعارات",
+  "add_drug_interaction": "إضافة تعارض دوائي",
+  "add_disease_interaction": "إضافة تعارض مرضي",
+  "discard_changes": "هل أنت متأكد أنك تريد التراجع عن التغييرات؟ سيتم فقدان أي تعديلات لم تقم بحفظها.",
+  "keep_editing": "متابعة التعديل",
+  "view_patient_info": "عرض معلومات المريض",
+  "session_expired_title": "انتهت صلاحية الجلسة",
+  "session_expired_message": "انتهت صلاحية جلستك. الرجاء تسجيل الدخول مجدداً للمتابعة.",
+  "ok": "حسناً"
 }

@@ -47,7 +47,7 @@ class PatientMedicationCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (_) => PatientMedicationDetailsView(
               patientMedication: patientMedication,
-              isEditable: isEditable,
+              isEditable: isEditable || _isActive,
               onDelete: onDelete,
               onEdit: onEdit,
             ),

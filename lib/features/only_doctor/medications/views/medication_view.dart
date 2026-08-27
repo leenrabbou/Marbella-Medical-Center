@@ -83,7 +83,7 @@ class _MedicationViewState extends State<MedicationView> {
             onRetry: _handleRefresh,
             noDataMsg: S().no_data,
             child: ListView.builder(
-              padding: EdgeInsets.all(20.r),
+              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 4.h),
               physics: AlwaysScrollableScrollPhysics(),
               itemCount: medications.length,
               itemBuilder: (BuildContext context, int index) {

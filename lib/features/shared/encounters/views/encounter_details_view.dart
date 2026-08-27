@@ -1,6 +1,8 @@
 import 'package:marbella/app/app_role.dart';
 import 'package:marbella/core/databases/api/end_points.dart';
+import 'package:marbella/core/helper/secure_screen_controller.dart';
 import 'package:marbella/features/only_doctor/audit/views/audit_view.dart';
+import 'package:marbella/features/only_doctor/patients/views/patient_info_view.dart';
 import 'package:marbella/features/shared/encounter_services/views/encounter_service_tab.dart';
 import 'package:marbella/features/shared/encounters/views/encounter_notes_tab.dart';
 import 'package:marbella/features/only_doctor/nurses/views/nurses_view.dart';
@@ -23,16 +25,21 @@ import 'package:marbella/generated/l10n.dart';
 import 'package:provider/provider.dart';
 
 class EncounterDetailsView extends StatefulWidget {
-  const EncounterDetailsView({super.key, required this.encounter});
+  const EncounterDetailsView({
+    super.key,
+    required this.encounter,
+    required this.isFromPatientView,
+  });
 
   final EncounterModel encounter;
+  final bool isFromPatientView;
 
   @override
   State<EncounterDetailsView> createState() => _EncounterDetailsViewState();
 }
 
 class _EncounterDetailsViewState extends State<EncounterDetailsView>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, SecureScreenMixin<EncounterDetailsView> {
   late TextEditingController reasonController;
   late TextEditingController notesController;
 
@@ -41,6 +48,7 @@ class _EncounterDetailsViewState extends State<EncounterDetailsView>
   late TabController _tabController;
 
   bool hasChanges = false;
+  bool edit = true;
 
   bool get isEditable => localeEncounter.status.toLowerCase() == 'in-progress';
   @override
@@ -94,6 +102,25 @@ class _EncounterDetailsViewState extends State<EncounterDetailsView>
         ),
         title: const SizedBox.shrink(),
         actions: [
+          if (role == AppRole.doctor && !widget.isFromPatientView)
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => PatientInfoView(
+                      patient: widget.encounter.patient,                      
+                    ),
+                  ),
+                );
+              },
+              child: Text(
+                S().view_patient_info,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
           if (role == AppRole.doctor)
             IconButton(
               onPressed: () {
@@ -111,7 +138,7 @@ class _EncounterDetailsViewState extends State<EncounterDetailsView>
             ),
         ],
       ),
-      bottomNavigationBar: hasChanges && isEditable
+      bottomNavigationBar: isEditable && edit
           ? SafeArea(child: _bottomActionsBar(colorScheme))
           : null,
 
@@ -214,7 +241,7 @@ class _EncounterDetailsViewState extends State<EncounterDetailsView>
         vertical: 7.h,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colorScheme.surface,
         boxShadow: [
           BoxShadow(
             blurRadius: 12,
@@ -228,14 +255,14 @@ class _EncounterDetailsViewState extends State<EncounterDetailsView>
           Expanded(
             child: CustomButtonWidget(
               onPressed: () {
-                Navigator.pop(context);
+                _discard();
               },
               height: isMobile ? 30.h : 40.h,
               left: 0,
               right: 0,
               top: 0,
               bottom: 0,
-              color: Colors.white,
+              color: colorScheme.surface,
               width: 0,
               textSize: 20,
               elevation: 0,
@@ -408,6 +435,7 @@ class _EncounterDetailsViewState extends State<EncounterDetailsView>
                           : () {
                               setState(() {
                                 hasChanges = false;
+                                edit = false;
                               });
                               _saveChanges('finished');
                               Navigator.pop(context);
@@ -436,6 +464,102 @@ class _EncounterDetailsViewState extends State<EncounterDetailsView>
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    if (confirm == true) {
+      setState(() {
+        localeEncounter = EncounterModel(
+          id: localeEncounter.id,
+          patient: localeEncounter.patient,
+          startTime: localeEncounter.startTime,
+          endTime: localeEncounter.endTime,
+          status: 'finished',
+          notes: localeEncounter.notes,
+          reason: localeEncounter.reason,
+          doctor: localeEncounter.doctor,
+        );
+      });
+    }
+  }
+
+  Future<void> _discard() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        bool isMobile = DeviceInfo.isMobile(context);
+        ColorScheme colorScheme = Theme.of(context).colorScheme;
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: colorScheme.surface,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              content: SizedBox(
+                width: DeviceInfo.width(context) * 0.3,
+                child: Text(
+                  S().discard_changes,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              actionsAlignment: MainAxisAlignment.spaceEvenly,
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomButtonWidget(
+                      onPressed: () {
+                        reasonController.clear();
+                        notesController.clear();
+                        Navigator.pop(context);
+                      },
+                      height: 40.h,
+                      width: isMobile ? 300.w : 140.w,
+                      left: 0,
+                      right: 0,
+                      top: 5,
+                      bottom: 0,
+                      textSize: 15,
+                      color: Theme.of(context).colorScheme.surface,
+                      textColor: colorScheme.primary,
+                      elevation: 0,
+                      child: Text(
+                        S().discard,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ),
+                    CustomButtonWidget(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      height: 40.h,
+                      width: isMobile ? 350.w : 140.w,
+                      left: 0,
+                      right: 0,
+                      top: 5,
+                      bottom: 0,
+                      textSize: 18,
+                      color: colorScheme.primary,
+                      elevation: 3,
+                      textColor: Colors.white,
+                      child: Text(
+                        S().keep_editing,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ],
                 ),

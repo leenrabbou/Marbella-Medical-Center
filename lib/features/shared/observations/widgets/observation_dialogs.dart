@@ -285,6 +285,7 @@ class ObservationDialogs {
     BuildContext context,
     ObservationModel? observation,
     int encounterId,
+    Future<void> Function()? onSuccess,
   ) async {
     final observationProvider = context.read<ObservationViewmodel>();
     final isEditMode = observation != null;
@@ -892,6 +893,7 @@ class ObservationDialogs {
                                               type: SnackbarType.success,
                                             );
                                           });
+                                      onSuccess?.call();
                                     } else {
                                       setState(() {
                                         isSubmitting = false;

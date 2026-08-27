@@ -60,23 +60,6 @@ class _ChatsViewState extends State<ChatsView> {
       appBar: AppBar(title: const Text("Messages")),
       body: Column(
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-          //   child: TextField(
-          //     decoration: InputDecoration(
-          //       hintText: "Search message...",
-          //       hintStyle: TextStyle(color: Colors.grey.shade400),
-          //       prefixIcon: const Icon(Icons.search, color: Colors.grey),
-          //       filled: true,
-          //       fillColor: colorScheme.surface,
-          //       contentPadding: const EdgeInsets.symmetric(vertical: 0),
-          //       border: OutlineInputBorder(
-          //         borderRadius: BorderRadius.circular(15),
-          //         borderSide: BorderSide.none,
-          //       ),
-          //     ),
-          //   ),
-          // ),
           Expanded(
             child: LiquidPullToRefresh(
               color: colorScheme.primary.withAlpha((0.3 * 255).toInt()),

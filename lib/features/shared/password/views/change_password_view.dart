@@ -102,9 +102,9 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
-                        'assets/change_pass.png',
+                        'assets/change_passord.png',
                         width: 600.w,
-                        height: 180.h,
+                        height: 160.h,
                       ),
                       _buildForm(context),
                     ],
@@ -149,7 +149,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
           S.of(context).change_your_password,
           style: Theme.of(
             context,
-          ).textTheme.titleMedium?.copyWith(color: colorScheme.primary),
+          ).textTheme.titleLarge?.copyWith(color: colorScheme.primary),
         ),
         SizedBox(height: 20.h),
         CustomTextField(
@@ -157,10 +157,10 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
           hint: S.of(context).enter_current_password,
           controller: _currentPasswordController,
           width: isMobile ? 1000.w : 500.w,
-          height: isMobile ? 70.h : 90.h,
+          height: isMobile ? 70.h : 100.h,
           left: 20.w,
           right: 20.w,
-          top: 0,
+          top: 10.h,
           bottom: 0,
           errorMsg: S().field_is_required,
           prefix: Icon(Icons.lock, color: colorScheme.primary),
@@ -175,7 +175,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
           hint: S().enter_new_password,
           controller: _newPasswordController,
           width: isMobile ? 1000.w : 500.w,
-          height: isMobile ? 70.h : 90.h,
+          height: isMobile ? 70.h : 100.h,
           left: 20.w,
           right: 20.w,
           top: 0,

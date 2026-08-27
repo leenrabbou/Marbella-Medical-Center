@@ -45,6 +45,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "أضف الوصف ...",
     ),
     "add_disease": MessageLookupByLibrary.simpleMessage("إضافة مرض"),
+    "add_disease_interaction": MessageLookupByLibrary.simpleMessage(
+      "إضافة تعارض مرضي",
+    ),
+    "add_drug_interaction": MessageLookupByLibrary.simpleMessage(
+      "إضافة تعارض دوائي",
+    ),
     "add_lab_test": MessageLookupByLibrary.simpleMessage("إضافة فحص مخبري"),
     "add_medication": MessageLookupByLibrary.simpleMessage("إضافة دواء"),
     "add_medication_form_hint": MessageLookupByLibrary.simpleMessage(
@@ -217,6 +223,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "diagnosis": MessageLookupByLibrary.simpleMessage("التشخيص"),
     "differential": MessageLookupByLibrary.simpleMessage("تشخيص تفريقي"),
     "discard": MessageLookupByLibrary.simpleMessage("تجاهل"),
+    "discard_changes": MessageLookupByLibrary.simpleMessage(
+      "هل أنت متأكد أنك تريد التراجع عن التغييرات؟ سيتم فقدان أي تعديلات لم تقم بحفظها.",
+    ),
     "disease": MessageLookupByLibrary.simpleMessage("المرض"),
     "display": MessageLookupByLibrary.simpleMessage("العرض"),
     "divorced": MessageLookupByLibrary.simpleMessage("مطلق"),
@@ -445,6 +454,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "january": MessageLookupByLibrary.simpleMessage("يناير"),
     "july": MessageLookupByLibrary.simpleMessage("يوليو"),
     "june": MessageLookupByLibrary.simpleMessage("يونيو"),
+    "keep_editing": MessageLookupByLibrary.simpleMessage("متابعة التعديل"),
     "kg": MessageLookupByLibrary.simpleMessage("كغ"),
     "lab_completed_at": MessageLookupByLibrary.simpleMessage("تاريخ الإكمال"),
     "lab_ordered_at": MessageLookupByLibrary.simpleMessage("تاريخ الطلب"),
@@ -685,6 +695,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "observations": MessageLookupByLibrary.simpleMessage("الملاحظات"),
     "october": MessageLookupByLibrary.simpleMessage("أكتوبر"),
+    "ok": MessageLookupByLibrary.simpleMessage("حسناً"),
     "onset_date": MessageLookupByLibrary.simpleMessage("تاريخ البداية"),
     "onset_label": MessageLookupByLibrary.simpleMessage("البداية"),
     "optional_note_hint": MessageLookupByLibrary.simpleMessage(
@@ -852,6 +863,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "تم تحديث الخدمة بنجاح.",
     ),
     "services": MessageLookupByLibrary.simpleMessage("الخدمات"),
+    "session_expired_message": MessageLookupByLibrary.simpleMessage(
+      "انتهت صلاحية جلستك. الرجاء تسجيل الدخول مجدداً للمتابعة.",
+    ),
+    "session_expired_title": MessageLookupByLibrary.simpleMessage(
+      "انتهت صلاحية الجلسة",
+    ),
     "set_new_password": MessageLookupByLibrary.simpleMessage(
       "تعيين كلمة مرور جديدة",
     ),
@@ -953,7 +970,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "verification_successful": MessageLookupByLibrary.simpleMessage(
       "تم التحقق بنجاح",
     ),
-    "verified": MessageLookupByLibrary.simpleMessage("تم التحقق!"),
+    "verified": MessageLookupByLibrary.simpleMessage("حسابك الآن موثق."),
     "verify_your_account": MessageLookupByLibrary.simpleMessage(
       "تحقّق من حسابك",
     ),
@@ -964,6 +981,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "view_details": MessageLookupByLibrary.simpleMessage("عرض التفاصيل"),
     "view_medication_plans_and_notes": MessageLookupByLibrary.simpleMessage(
       "عرض الخطط الدوائية والملاحظات",
+    ),
+    "view_patient_info": MessageLookupByLibrary.simpleMessage(
+      "عرض معلومات المريض",
     ),
     "visit_finished": MessageLookupByLibrary.simpleMessage("انتهت الزيارة"),
     "visit_reason": MessageLookupByLibrary.simpleMessage("سبب الزيارة"),

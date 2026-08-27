@@ -87,6 +87,7 @@ class _EncounterNotesTabState extends State<EncounterNotesTab> {
                   context,
                   null,
                   encounterId: widget.encounterId,
+                  onSuccess: _fetchData,
                 );
               },
               backgroundColor: Theme.of(context).colorScheme.primary,
@@ -127,12 +128,14 @@ class _EncounterNotesTabState extends State<EncounterNotesTab> {
                     EncounterNoteDialogs.showEncounterNoteDialog(
                       context,
                       notes[index],
+                      onSuccess: _fetchData,
                     );
                   },
                   onDelete: () {
                     EncounterNoteDialogs.showDeleteEncounterNoteDialog(
                       context,
                       notes[index],
+                      onSuccess: _fetchData,
                     );
                   },
                   isEditable: widget.isEditable && role == AppRole.doctor,

@@ -24,5 +24,16 @@ ThemeData getDarkMode(Color seedColor) {
         fontWeight: FontWeight.bold,
       ),
     ),
+    textTheme: TextTheme(
+      titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+
+      titleMedium: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+
+      bodyLarge: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+
+      bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+
+      bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+    ),
   );
 }

@@ -108,6 +108,7 @@ class _ConditionsViewState extends State<ConditionsView> {
                   null,
                   patientId: widget.patientId ?? widget.encounter?.patient.id,
                   encounterId: widget.encounterId ?? widget.encounter?.id,
+                  onSuccess: _fetchData,
                 );
               },
               backgroundColor: Theme.of(context).colorScheme.primary,
@@ -149,17 +150,22 @@ class _ConditionsViewState extends State<ConditionsView> {
               itemBuilder: (BuildContext context, int index) {
                 return ConditionCard(
                   condition: conditions[index],
-                  isEditable: isEditable && role == AppRole.doctor,
+                  isEditable:
+                      (isEditable ||
+                          conditions[index].clinicalStatus == "active") &&
+                      role == AppRole.doctor,
                   onEdit: () {
                     ConditionDialogs().showConditionDialog(
                       context,
                       conditions[index],
+                      onSuccess: _fetchData,
                     );
                   },
                   onDelete: () {
                     ConditionDialogs().showDeleteConditionDialog(
                       context,
                       conditions[index],
+                      onSuccess: _fetchData,
                     );
                   },
                 );

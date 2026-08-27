@@ -95,6 +95,7 @@ class _EncounterServiceTabState extends State<EncounterServiceTab> {
                 EncounterServiceDialogs.showAddEncounterServiceDialog(
                   context,
                   encounterId: widget.encounterId,
+                  onSuccess: _fetchData,
                 );
               },
               backgroundColor: Theme.of(context).colorScheme.primary,
@@ -135,12 +136,14 @@ class _EncounterServiceTabState extends State<EncounterServiceTab> {
                     EncounterServiceDialogs.showEditEncounterServiceDialog(
                       context,
                       services[index],
+                      onSuccess: _fetchData,
                     );
                   },
                   onDelete: () {
                     EncounterServiceDialogs.showDeleteEncounterServiceDialog(
                       context,
                       services[index],
+                      onSuccess: _fetchData,
                     );
                   },
                   isEditable: widget.isEditable,

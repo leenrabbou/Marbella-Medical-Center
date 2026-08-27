@@ -104,6 +104,7 @@ class _MedicationViewState extends State<PatientMedicationView> {
                   null,
                   patientId: widget.patientId,
                   encounterId: widget.encounterId,
+                  onSuccess: _fetchData,
                 );
               },
               backgroundColor: Theme.of(context).colorScheme.primary,
@@ -144,12 +145,14 @@ class _MedicationViewState extends State<PatientMedicationView> {
                     PatientMedicationDialogs.showPatientMedicationDialog(
                       context,
                       medications[index],
+                      onSuccess: _fetchData,
                     );
                   },
                   onDelete: () {
                     PatientMedicationDialogs.showDeletePatientMedicationDialog(
                       context,
                       medications[index],
+                      onSuccess: _fetchData,
                     );
                   },
                   isEditable: widget.isEditable,

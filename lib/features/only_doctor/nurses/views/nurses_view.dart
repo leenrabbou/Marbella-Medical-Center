@@ -69,6 +69,7 @@ class _NursesViewState extends State<NursesView> {
                 NurseDialogs.showAddNurseDialog(
                   context,
                   encounterId: widget.encounterId,
+                  onSuccess: _fetchData,
                 );
               },
               backgroundColor: Theme.of(context).colorScheme.primary,
@@ -104,6 +105,7 @@ class _NursesViewState extends State<NursesView> {
                   nurse: nurses[index],
                   encounterId: widget.encounterId,
                   isEditable: widget.isEditable,
+                  onSuccess: _fetchData,
                 );
               },
             ),

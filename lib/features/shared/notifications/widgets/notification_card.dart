@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/core/widgets/style_widget.dart';
 import 'package:marbella/features/shared/notifications/models/notification_model.dart';
 
@@ -20,23 +21,26 @@ class NotificationCardWidget extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final isUnread = !notification.isRead;
-
+    bool isMobile = DeviceInfo.isMobile(context);
     return Padding(
-      padding: EdgeInsets.only(bottom: 8.h),
+      padding: EdgeInsets.only(bottom: isMobile ? 5.h : 8.h),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(14.r),
           child: Container(
-            padding: EdgeInsets.all(12.w),
+            padding: EdgeInsets.symmetric(
+              horizontal: isMobile ? 30.w : 15.w,
+              vertical: isMobile ? 4.h : 4.h,
+            ),
             decoration: StyleWidget.cardDecoration(context),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  width: 35.r,
-                  height: 35.r,
+                  width: isMobile ? 100.r : 35.r,
+                  height: isMobile ? 100.r : 35.r,
                   decoration: BoxDecoration(
                     color: colorScheme.primary.withAlpha((0.15 * 255).toInt()),
                     shape: BoxShape.circle,
@@ -45,10 +49,10 @@ class NotificationCardWidget extends StatelessWidget {
                   child: Icon(
                     Icons.notifications,
                     color: colorScheme.primary,
-                    size: 20.sp,
+                    size: 20,
                   ),
                 ),
-                SizedBox(width: 12.w),
+                SizedBox(width: isMobile ? 20.w : 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +71,7 @@ class NotificationCardWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: 4.h),
+                      SizedBox(height: isMobile ? 2.h : 4.h),
                       Text(
                         notification.body(isArabic),
                         maxLines: 2,

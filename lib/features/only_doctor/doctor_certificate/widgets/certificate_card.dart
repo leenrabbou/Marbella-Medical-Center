@@ -46,7 +46,7 @@ class DoctorCertificateCard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.h),
       child: InkWell(
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(18.r),
         onTap: () => _openCertificateFile(context),
         child: Container(
           decoration: StyleWidget.cardDecoration(context),

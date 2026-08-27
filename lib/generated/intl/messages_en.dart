@@ -47,6 +47,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Add Description ...",
     ),
     "add_disease": MessageLookupByLibrary.simpleMessage("Add Disease"),
+    "add_disease_interaction": MessageLookupByLibrary.simpleMessage(
+      "Add Condition Interaction",
+    ),
+    "add_drug_interaction": MessageLookupByLibrary.simpleMessage(
+      "Add Drug Interaction",
+    ),
     "add_lab_test": MessageLookupByLibrary.simpleMessage("Add Lab Test"),
     "add_medication": MessageLookupByLibrary.simpleMessage("Add Medication"),
     "add_medication_form_hint": MessageLookupByLibrary.simpleMessage(
@@ -223,6 +229,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "diagnosis": MessageLookupByLibrary.simpleMessage("Diagnosis"),
     "differential": MessageLookupByLibrary.simpleMessage("Differential"),
     "discard": MessageLookupByLibrary.simpleMessage("Discard"),
+    "discard_changes": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to discard your changes? Any unsaved edits will be lost",
+    ),
     "disease": MessageLookupByLibrary.simpleMessage("Disease"),
     "display": MessageLookupByLibrary.simpleMessage("Display"),
     "divorced": MessageLookupByLibrary.simpleMessage("Divorced"),
@@ -445,6 +454,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "january": MessageLookupByLibrary.simpleMessage("January"),
     "july": MessageLookupByLibrary.simpleMessage("July"),
     "june": MessageLookupByLibrary.simpleMessage("June"),
+    "keep_editing": MessageLookupByLibrary.simpleMessage("Keep editing"),
     "kg": MessageLookupByLibrary.simpleMessage("kg"),
     "lab_completed_at": MessageLookupByLibrary.simpleMessage("Completed At"),
     "lab_ordered_at": MessageLookupByLibrary.simpleMessage("Ordered At"),
@@ -697,6 +707,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "observations": MessageLookupByLibrary.simpleMessage("Observations"),
     "october": MessageLookupByLibrary.simpleMessage("October"),
+    "ok": MessageLookupByLibrary.simpleMessage("OK"),
     "onset_date": MessageLookupByLibrary.simpleMessage("Onset Date"),
     "onset_label": MessageLookupByLibrary.simpleMessage("Onset"),
     "optional_note_hint": MessageLookupByLibrary.simpleMessage(
@@ -870,6 +881,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Service updated successfully.",
     ),
     "services": MessageLookupByLibrary.simpleMessage("Services"),
+    "session_expired_message": MessageLookupByLibrary.simpleMessage(
+      "Your session has expired. Please log in again to continue.",
+    ),
+    "session_expired_title": MessageLookupByLibrary.simpleMessage(
+      "Session Expired",
+    ),
     "set_new_password": MessageLookupByLibrary.simpleMessage(
       "Set New Password",
     ),
@@ -975,7 +992,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "verification_successful": MessageLookupByLibrary.simpleMessage(
       "Verification successful",
     ),
-    "verified": MessageLookupByLibrary.simpleMessage("Verified!"),
+    "verified": MessageLookupByLibrary.simpleMessage(
+      "Your account is now verified.",
+    ),
     "verify_your_account": MessageLookupByLibrary.simpleMessage(
       "Verify Your Account",
     ),
@@ -988,6 +1007,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "view_details": MessageLookupByLibrary.simpleMessage("View Details"),
     "view_medication_plans_and_notes": MessageLookupByLibrary.simpleMessage(
       "View Medication Plans & Notes",
+    ),
+    "view_patient_info": MessageLookupByLibrary.simpleMessage(
+      "View Patient Info",
     ),
     "visit_finished": MessageLookupByLibrary.simpleMessage("Visit Finished"),
     "visit_reason": MessageLookupByLibrary.simpleMessage("Visit Reason"),

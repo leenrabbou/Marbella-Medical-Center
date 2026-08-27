@@ -1,5 +1,5 @@
-import 'dart:typed_data';
 import 'package:marbella/core/helper/device_info.dart';
+import 'package:marbella/core/helper/secure_screen_controller.dart';
 import 'package:marbella/features/only_doctor/lab_tests/view/lab_test_tab.dart';
 import 'package:marbella/features/shared/observations/viewmodels/observation_viewmodel.dart';
 import 'package:marbella/features/shared/patient_medications/views/patient_medication_view.dart';
@@ -21,15 +21,14 @@ import 'package:marbella/generated/l10n.dart';
 import 'package:provider/provider.dart';
 
 class PatientInfoView extends StatefulWidget {
-  const PatientInfoView({super.key, required this.patient, this.img});
+  const PatientInfoView({super.key, required this.patient});
   final PatientModel patient;
-  final Uint8List? img;
   @override
   State<PatientInfoView> createState() => _PatientInfoViewState();
 }
 
 class _PatientInfoViewState extends State<PatientInfoView>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, SecureScreenMixin<PatientInfoView> {
   late PatientModel localPatient;
   late final TabController _tabController;
   final Set<int> _visitedTabs = {0};
@@ -44,6 +43,7 @@ class _PatientInfoViewState extends State<PatientInfoView>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _fetchEncounterData();
       _fetchAppointmentData();
+
       _fetchObservationsData();
     });
   }
@@ -126,9 +126,12 @@ class _PatientInfoViewState extends State<PatientInfoView>
       _token,
       localPatient.id,
     );
+
     await _fetchEncounterData();
     await _fetchAppointmentData();
-    _fetchObservationsData();
+
+    await _fetchObservationsData();
+
     if (mounted) {
       setState(() {
         localPatient =
@@ -201,10 +204,7 @@ class _PatientInfoViewState extends State<PatientInfoView>
           height: 50,
           child: Column(
             children: [
-              PatientHeaderWidget(
-                patient: localPatient,
-                initialImgBytes: widget.img,
-              ),
+              PatientHeaderWidget(patient: localPatient),
               SizedBox(height: 10.h),
               _buildTabBar(colorScheme),
               Expanded(
@@ -259,7 +259,7 @@ class _PatientInfoViewState extends State<PatientInfoView>
         icon: const Icon(Icons.arrow_back_ios, size: 15),
       ),
       title: const SizedBox.shrink(),
-      actions: [
+      actions: [        
         Tooltip(
           message: S().appointments,
           child: IconButton(
@@ -268,7 +268,7 @@ class _PatientInfoViewState extends State<PatientInfoView>
           ),
         ),
         Tooltip(
-          message: S().appointments,
+          message: S().labs_tests,
           child: IconButton(
             onPressed: _openLabTests,
             icon: const Icon(Icons.note_add_outlined),
@@ -314,13 +314,17 @@ class _PatientInfoViewState extends State<PatientInfoView>
             .map(
               (t) => Tab(
                 height: isMobile ? 20.h : 32.h,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(t.icon, size: 16),
-                    SizedBox(width: 5.w),
-                    Text(t.label),
-                  ],
+                child: Semantics(
+                  label: t.label,
+                  excludeSemantics: true,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(t.icon, size: 16),
+                      SizedBox(width: 5.w),
+                      Text(t.label),
+                    ],
+                  ),
                 ),
               ),
             )

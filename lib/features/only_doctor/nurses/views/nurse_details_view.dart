@@ -13,11 +13,13 @@ class NurseDetailsView extends StatelessWidget {
     required this.nurse,
     required this.encounterId,
     this.isEditable = false,
+    required this.onSuccess,
   });
 
   final EmployeeModel nurse;
   final int encounterId;
   final bool isEditable;
+  final Future<void> Function()? onSuccess;
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +40,12 @@ class NurseDetailsView extends StatelessWidget {
         actions: [
           if (isEditable)
             IconButton(
-              onPressed: () =>
-                  NurseDialogs.showDeleteDialog(context, encounterId, nurse.id),
+              onPressed: () => NurseDialogs.showDeleteDialog(
+                context,
+                encounterId,
+                nurse.id,
+                onSuccess: onSuccess,
+              ),
               icon: const Icon(
                 Icons.person_remove_outlined,
                 color: Colors.redAccent,

@@ -83,7 +83,7 @@ class _ScheduleViewState extends State<ScheduleView> {
             onRetry: _handleRefresh,
             noDataMsg: S().no_schedule_subtitle,
             child: ListView(
-              padding: EdgeInsets.only(bottom: 20),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               children: weekDays.keys.map((dayKey) {
                 final dayList = grouped[dayKey] ?? [];
                 return ScheduleCard(

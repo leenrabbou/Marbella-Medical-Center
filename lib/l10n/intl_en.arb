@@ -97,7 +97,7 @@
   "reset_successfully": "Your password has been reset successfully.",
   "add_to_cart": "Add to Cart",
   "verify_your_account": "Verify Your Account",
-  "verified": "Verified!",
+  "verified": "Your account is now verified.",
   "phone_verified_successfully": "Your phone number has been successfully verified.",
   "go_to_home_page": "Go to Home Page",
   "confirm": "Confirm",
@@ -560,5 +560,13 @@
   "november": "November",
   "december": "December",
   "image": "Image",
-  "notifications": "Notifications"
+  "notifications": "Notifications",
+  "add_drug_interaction": "Add Drug Interaction",
+  "add_disease_interaction": "Add Condition Interaction",
+  "discard_changes": "Are you sure you want to discard your changes? Any unsaved edits will be lost",
+  "keep_editing": "Keep editing",
+  "view_patient_info": "View Patient Info",
+  "session_expired_title": "Session Expired",
+  "session_expired_message": "Your session has expired. Please log in again to continue.",
+  "ok": "OK"
 }

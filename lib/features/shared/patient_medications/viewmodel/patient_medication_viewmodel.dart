@@ -29,7 +29,7 @@ class PatientMedicationViewmodel extends ChangeNotifier {
   final Map<int, String?> _errorMessageDetailsMap = {};
   final Map<int, PatientMedicationModel> _patientMedicationDetailsMap = {};
 
-  bool isLoadingDetailsFor(int id) => _isLoadingDetailsMap[id] ?? false;
+  bool isLoadingDetailsFor(int id) => _isLoadingDetailsMap[id] ?? true;
   String? errorMessageDetailsFor(int id) => _errorMessageDetailsMap[id];
   PatientMedicationModel? patientMedicationDetailsFor(int id) =>
       _patientMedicationDetailsMap[id];
@@ -47,7 +47,7 @@ class PatientMedicationViewmodel extends ChangeNotifier {
     PatientMedicationsParams params,
   ) => _medicationsByKey[_buildKey(params)] ?? [];
   bool isLoadingFor(PatientMedicationsParams params) =>
-      _isLoadingMap[_buildKey(params)] ?? false;
+      _isLoadingMap[_buildKey(params)] ?? true;
   String? errorMessageFor(PatientMedicationsParams params) =>
       _errorMessageMap[_buildKey(params)];
   bool getListSuccessfullyFor(PatientMedicationsParams params) =>

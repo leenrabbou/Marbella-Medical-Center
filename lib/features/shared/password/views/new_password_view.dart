@@ -159,7 +159,7 @@ class _NewPasswordViewState extends State<NewPasswordView> {
       children: [
         Text(
           S().set_new_password,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: colorScheme.primary,
             fontWeight: FontWeight.bold,
           ),
@@ -177,7 +177,7 @@ class _NewPasswordViewState extends State<NewPasswordView> {
           hint: S().enter_new_password,
           controller: _passwordController,
           width: isMobile ? 850.w : 500.w,
-          height: isMobile ? 75.h : 110.h,
+          height: isMobile ? 75.h : 100.h,
           left: 20.w,
           right: 20.w,
           top: 0,
@@ -227,7 +227,7 @@ class _NewPasswordViewState extends State<NewPasswordView> {
                 )
               : Text(
                   S().reset_password,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),

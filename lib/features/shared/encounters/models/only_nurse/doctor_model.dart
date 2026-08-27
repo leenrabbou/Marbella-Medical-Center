@@ -13,7 +13,7 @@ class DoctorModel {
   final String brief;
   final int ratingAvg;
   final String phoneNumber;
-  final String phoneNumberVerifiedAt;
+  final String? phoneNumberVerifiedAt;
   final int age;
   final String ssn;
   final String? address;

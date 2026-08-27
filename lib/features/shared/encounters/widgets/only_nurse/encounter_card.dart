@@ -28,7 +28,7 @@ class EncounterCard extends StatelessWidget {
     bool isMobile = DeviceInfo.isMobile(context);
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: isMobile ? 40.w : 30.w,
+        horizontal: isMobile ? 40.w : 15.w,
         vertical: isMobile ? 3.h : 4.h,
       ),
       child: Material(
@@ -41,13 +41,19 @@ class EncounterCard extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => EncounterDetailsView(encounter: encounter),
+                    builder: (_) => EncounterDetailsView(
+                      encounter: encounter,
+                      isFromPatientView: false,
+                    ),
                   ),
                 );
               },
           child: Container(
             decoration: StyleWidget.cardDecoration(context),
-            padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 8.h),
+            padding: EdgeInsets.symmetric(
+              horizontal: isMobile ? 30.w : 15.w,
+              vertical: 8.h,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

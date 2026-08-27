@@ -180,7 +180,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       children: [
         Text(
           S().reset_password,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: colorScheme.primary,
             fontWeight: FontWeight.bold,
           ),
@@ -190,17 +190,17 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
           S().enter_code_sent_to_whatsapp,
           style: Theme.of(
             context,
-          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 5),
         Text(
           widget.phone,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
             color: colorScheme.onSurface.withAlpha((0.5 * 255).toInt()),
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 15.h),
+        SizedBox(height: 25.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -216,11 +216,20 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
         SizedBox(height: 15.h),
         Center(
           child: TextButton(
-            onPressed: _canResend ? () async {} : null,
+            onPressed: _canResend
+                ? () async {
+                    final locale = Localizations.localeOf(context).languageCode;
+                    await context.read<PasswordViewmodel>().forgetPassword(
+                      widget.phone,
+                      locale,
+                    );
+                    _startTimer();
+                  }
+                : null,
             child: _canResend
                 ? Text(
                     S().resend_code,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: colorScheme.primary,
                     ),
                   )
@@ -228,7 +237,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     "${S().resend_code} (${_remainingSeconds}s)",
                     style: Theme.of(
                       context,
-                    ).textTheme.titleLarge?.copyWith(color: Colors.grey),
+                    ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
                   ),
           ),
         ),

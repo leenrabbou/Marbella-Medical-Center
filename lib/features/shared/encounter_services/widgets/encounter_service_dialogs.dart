@@ -20,6 +20,7 @@ class EncounterServiceDialogs {
   static Future<void> showAddEncounterServiceDialog(
     BuildContext context, {
     required int encounterId,
+    required Future<void> Function()? onSuccess,
   }) async {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
@@ -405,6 +406,7 @@ class EncounterServiceDialogs {
                                               type: SnackbarType.success,
                                             );
                                           });
+                                      onSuccess?.call();
                                     } else {
                                       setState(() {
                                         isSubmitting = false;
@@ -452,8 +454,9 @@ class EncounterServiceDialogs {
 
   static Future<void> showEditEncounterServiceDialog(
     BuildContext context,
-    EncounterServiceModel encounterService,
-  ) async {
+    EncounterServiceModel encounterService, {
+    required Future<void> Function()? onSuccess,
+  }) async {
     final encounterServiceProvider = context.read<EncounterServiceViewmodel>();
 
     final noteController = TextEditingController();
@@ -669,6 +672,7 @@ class EncounterServiceDialogs {
                                               type: SnackbarType.success,
                                             );
                                           });
+                                      onSuccess?.call();
                                     } else {
                                       setState(() {
                                         isSubmitting = false;
@@ -717,8 +721,9 @@ class EncounterServiceDialogs {
 
   static void showDeleteEncounterServiceDialog(
     BuildContext context,
-    EncounterServiceModel encounterService,
-  ) {
+    EncounterServiceModel encounterService, {
+    required Future<void> Function()? onSuccess,
+  }) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -812,6 +817,7 @@ class EncounterServiceDialogs {
                                   message: S().service_deleted_successfully,
                                   type: SnackbarType.success,
                                 );
+                                onSuccess?.call();
                               } else {
                                 AppSnackbar.show(
                                   context,

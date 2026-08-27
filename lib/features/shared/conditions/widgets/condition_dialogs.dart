@@ -23,6 +23,7 @@ class ConditionDialogs {
     ConditionModel? condition, {
     int? patientId,
     int? encounterId,
+    Future<void> Function()? onSuccess,
   }) async {
     final conditionProvider = context.read<ConditionViewmodel>();
     final isEditMode = condition != null;
@@ -53,16 +54,17 @@ class ConditionDialogs {
       "inactive",
       "remission",
       "resolved",
+      "unknown",
     ];
-
     final verificationStatuses = [
       "provisional",
       "differential",
       "confirmed",
       "refuted",
       "entered-in-error",
+      "unconfirmed",
+      "unknown",
     ];
-
     bool isSubmitting = false;
     String? localErrorMessage;
 
@@ -521,6 +523,7 @@ class ConditionDialogs {
                                     if (!context.mounted) return;
 
                                     if (success) {
+                                      Navigator.pop(context);
                                       AppSnackbar.show(
                                         context,
                                         message: isEditMode
@@ -528,7 +531,7 @@ class ConditionDialogs {
                                             : S().condition_added,
                                         type: SnackbarType.success,
                                       );
-                                      Navigator.pop(context);
+                                      onSuccess?.call();
                                     } else {
                                       setState(() {
                                         isSubmitting = false;
@@ -580,8 +583,9 @@ class ConditionDialogs {
 
   void showDeleteConditionDialog(
     BuildContext context,
-    ConditionModel condition,
-  ) {
+    ConditionModel condition, {
+    Future<void> Function()? onSuccess,
+  }) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -665,6 +669,12 @@ class ConditionDialogs {
 
                               if (dialogContext.mounted) {
                                 Navigator.pop(dialogContext);
+                              }
+
+                              if (!context.mounted) return;
+
+                              if (success) {
+                                onSuccess?.call();
                               }
 
                               if (success) {

@@ -213,7 +213,7 @@ class _SettingsPageState extends State<SettingsView> {
               ),
               SizedBox(height: 5.h),
               _buildSettingContainer(
-                height: 100.h,
+                height: 120.h,
                 onTap: null,
                 child: Padding(
                   padding: const EdgeInsets.all(15),

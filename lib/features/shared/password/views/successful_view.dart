@@ -46,11 +46,10 @@ class SuccessfulView extends StatelessWidget {
                       SizedBox(height: 10.h),
                       Text(
                         S().all_done,
-                        style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(
-                              color: colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       SizedBox(height: 15.h),
                       Text(
@@ -83,7 +82,7 @@ class SuccessfulView extends StatelessWidget {
                         textColor: Colors.white,
                         child: Text(
                           S().go_to_login_page,
-                          style: Theme.of(context).textTheme.bodyLarge
+                          style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

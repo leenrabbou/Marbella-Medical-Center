@@ -181,13 +181,18 @@ class _ProfileViewState extends State<ProfileView> {
                   profileProvider.profileData!.lastName.length) %
               Constant.listColors.length];
     bool isMobile = DeviceInfo.isMobile(context);
+    final role = context.read<AppRole>();
     return Column(
       children: [
         AppAvatar(
-          size: isMobile ? 220.r : 100.r,
+          size: isMobile ? 300.r : 100.r,
           fallbackAsset: profileProvider.profileData!.gender == "male"
-              ? "assets/doc_male.png"
-              : "assets/doc_female.png",
+              ? role == AppRole.doctor
+                    ? "assets/doc_male.png"
+                    : "assets/n_m.png"
+              : role == AppRole.doctor
+              ? "assets/doc_female.png"
+              : "assets/n_f.png",
           color: avatarColor,
         ),
         SizedBox(height: isMobile ? 5.h : 10.h),

@@ -1,5 +1,4 @@
-﻿import 'dart:typed_data';
-import 'package:marbella/core/widgets/app_avatar.dart';
+﻿import 'package:marbella/core/widgets/app_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:marbella/core/helper/constant.dart';
@@ -8,13 +7,8 @@ import 'package:marbella/generated/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PatientHeaderWidget extends StatefulWidget {
-  const PatientHeaderWidget({
-    super.key,
-    required this.patient,
-    this.initialImgBytes,
-  });
+  const PatientHeaderWidget({super.key, required this.patient});
   final PatientModel patient;
-  final Uint8List? initialImgBytes;
   @override
   State<PatientHeaderWidget> createState() => _PatientHeaderWidgetState();
 }
@@ -46,7 +40,7 @@ class _PatientHeaderWidgetState extends State<PatientHeaderWidget> {
                 widget.patient.familyName.substring(0, 1),
             fallbackAsset: widget.patient.gender == "male"
                 ? "assets/p_male.png"
-                : "assets/p_female.png",
+                : "assets/pat_f.png",
             color: avatarColor,
           ),
           SizedBox(width: 14.w),
@@ -126,52 +120,60 @@ class _PatientHeaderWidgetState extends State<PatientHeaderWidget> {
     ColorScheme colorScheme,
     VoidCallback onTap,
   ) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(
-            color: colorScheme.onSurface.withAlpha((0.05 * 255).toInt()),
+    return Semantics(
+      button: true,
+      label: '${S().phone_label} $phone',
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            borderRadius: BorderRadius.circular(12.r),
+            border: Border.all(
+              color: colorScheme.onSurface.withAlpha((0.05 * 255).toInt()),
+            ),
           ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: color.withAlpha((0.1 * 255).toInt()),
-                borderRadius: BorderRadius.circular(12.r),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: color.withAlpha((0.1 * 255).toInt()),
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Icon(
+                  Icons.phone_android_outlined,
+                  size: 18,
+                  color: color,
+                ),
               ),
-              child: Icon(Icons.phone_android_outlined, size: 18, color: color),
-            ),
-            SizedBox(width: 12.w),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  S().phone_label,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w400,
+              SizedBox(width: 12.w),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    S().phone_label,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
-                ),
-                SizedBox(height: 3.h),
-                Text(
-                  phone,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: color,
-                    fontWeight: FontWeight.w600,
+                  SizedBox(height: 3.h),
+                  Text(
+                    phone,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: color,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(width: 10.w),
-            Icon(Icons.arrow_forward_ios_rounded, size: 12, color: color),
-          ],
+                ],
+              ),
+              SizedBox(width: 10.w),
+              Icon(Icons.arrow_forward_ios_rounded, size: 12, color: color),
+            ],
+          ),
         ),
       ),
     );

@@ -93,8 +93,10 @@ class OverviewTab extends StatelessWidget {
                   ? Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) =>
-                            EncounterDetailsView(encounter: lastEncounter),
+                        builder: (_) => EncounterDetailsView(
+                          encounter: lastEncounter,
+                          isFromPatientView: true,
+                        ),
                       ),
                     )
                   : null;

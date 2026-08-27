@@ -32,7 +32,10 @@ class ApiServices {
     dio.interceptors.add(
       InterceptorsWrapper(
         onError: (DioException error, handler) {
-          if (error.response?.statusCode == 401) {
+          final hadAuthHeader =
+              error.requestOptions.headers['Authorization'] != null;
+
+          if (error.response?.statusCode == 401 && hadAuthHeader) {
             onUnauthorized?.call();
           }
           return handler.next(error);

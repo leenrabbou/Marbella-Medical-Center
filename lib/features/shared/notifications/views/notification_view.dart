@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:marbella/core/helper/device_info.dart';
 import 'package:marbella/core/widgets/state_widget.dart';
 import 'package:marbella/features/shared/auth/viewmodels/auth_viewmodel.dart';
 import 'package:marbella/features/shared/notifications/viewmodel/notification_viewmodel.dart';
@@ -45,6 +46,7 @@ class _NotificationsViewState extends State<NotificationsView> {
     final notifications = provider.notifications;
     final isLoading = provider.isLoading;
     final errorMessage = provider.errorMessage;
+    bool isMobile = DeviceInfo.isMobile(context);
 
     return Scaffold(
       appBar: AppBar(title: Text(S().notifications)),
@@ -60,7 +62,10 @@ class _NotificationsViewState extends State<NotificationsView> {
           onRetry: _fetch,
           noDataMsg: S().no_data,
           child: ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+            padding: EdgeInsets.symmetric(
+              horizontal: isMobile ? 40.w : 15.w,
+              vertical: 4.h,
+            ),
             itemCount: notifications.length,
             itemBuilder: (context, index) {
               final notification = notifications[index];

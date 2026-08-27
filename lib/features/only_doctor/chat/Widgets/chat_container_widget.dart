@@ -94,16 +94,18 @@ class ChatContainerWidget extends StatelessWidget {
                                 : Icon(Icons.picture_as_pdf_outlined, size: 15),
                             SizedBox(width: 4.w),
                           ],
-                          Text(
-                            chat.lastMessage!.body,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
-                                  color: colorScheme.onSurface.withAlpha(
-                                    (0.6 * 255).toInt(),
+                          Flexible(
+                            child: Text(
+                              chat.lastMessage!.body,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(
+                                    color: colorScheme.onSurface.withAlpha(
+                                      (0.6 * 255).toInt(),
+                                    ),
                                   ),
-                                ),
+                            ),
                           ),
                         ],
                       ),

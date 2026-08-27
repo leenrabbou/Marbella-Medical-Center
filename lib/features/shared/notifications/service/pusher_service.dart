@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:marbella/core/databases/api/api_services.dart';
+import 'package:marbella/features/only_doctor/chat/Models/conversation_model.dart';
 import 'package:marbella/features/only_doctor/chat/Models/message_model.dart';
 import 'package:marbella/features/only_doctor/chat/viewmodel/chat_viewmodel.dart';
 import 'package:marbella/features/shared/notifications/models/notification_model.dart';
@@ -16,8 +17,8 @@ class PusherService {
 
   Future<void> initPusher(int userId, {ChatViewmodel? chatViewmodel}) async {
     bool isArabic = LocalizationViewmodel.isArabic();
-    final String notificationsChannel = 'user.$userId';
-    final String messagesChannel = 'user.$userId.messages';
+    final String notificationsChannel = 'User.$userId';
+    final String messagesChannel = 'User.$userId.Message';
 
     try {
       await pusher.init(
@@ -55,11 +56,41 @@ class PusherService {
                 parsedData['message'] ?? parsedData,
               );
               chatViewmodel?.receiveIncomingMessage(conversationId, message);
+
+              if (message.isSender != 1) {
+                ConversationModel? conversation;
+                if (chatViewmodel != null) {
+                  for (final c in chatViewmodel.conversations) {
+                    if (c.id == conversationId) {
+                      conversation = c;
+                      break;
+                    }
+                  }
+                }
+
+                final senderName = conversation != null
+                    ? '${conversation.patient.givenName} ${conversation.patient.familyName}'
+                          .trim()
+                    : (isArabic ? 'رسالة جديدة' : 'New Message');
+
+                final bodyText = message.attachments.isNotEmpty
+                    ? (isArabic ? 'أرسل مرفق' : 'Sent an attachment')
+                    : message.body;
+
+                await NotificationService(
+                  apiService: apiService,
+                ).showNotification(
+                  id: notificationID,
+                  title: senderName,
+                  body: bodyText,
+                );
+                notificationID++;
+              }
               return;
             }
 
             if (event.channelName == notificationsChannel &&
-                event.eventName == 'notifications') {
+                event.eventName == 'notification') {
               NotificationModel receivedNotification =
                   NotificationModel.fromJson(parsedData);
 

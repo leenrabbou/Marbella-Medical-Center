@@ -16,6 +16,7 @@ class EncounterNoteDialogs {
   static Future<void> showEncounterNoteDialog(
     BuildContext context,
     EncounterNoteModel? note, {
+    required Future<void> Function()? onSuccess,
     int? encounterId,
   }) async {
     final noteProvider = context.read<EncounterNoteViewmodel>();
@@ -308,6 +309,7 @@ class EncounterNoteDialogs {
                                                 type: SnackbarType.success,
                                               );
                                             });
+                                        onSuccess?.call();
                                       } else {
                                         setState(() {
                                           isSubmitting = false;
@@ -361,8 +363,9 @@ class EncounterNoteDialogs {
 
   static void showDeleteEncounterNoteDialog(
     BuildContext context,
-    EncounterNoteModel note,
-  ) {
+    EncounterNoteModel note, {
+    required Future<void> Function()? onSuccess,
+  }) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -452,6 +455,7 @@ class EncounterNoteDialogs {
                                   message: S().note_deleted_successfully,
                                   type: SnackbarType.success,
                                 );
+                                onSuccess?.call();
                               } else {
                                 AppSnackbar.show(
                                   context,

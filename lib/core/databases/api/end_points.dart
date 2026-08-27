@@ -1,6 +1,6 @@
 class EndPoints {
-  static const String baseUrl = "http://192.168.1.102:8000/api/";
-
+  static const String baseUrl =
+      "https://ccms-production-9e50.up.railway.app/api/";
   static const String login = "login";
   static const String getProfile = "employee/me/profile";
   static const String getSchedule = "employee/me/schedule";
