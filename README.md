@@ -38,25 +38,23 @@ The project follows a **feature-based architecture with MVVM-style separation**,
 
 <div align="center">
 
-<i>Scroll horizontally to browse all screens</i>
-
-</div>
-
-<div style="display:flex; flex-direction:row; overflow-x:auto; overflow-y:hidden; gap:20px; padding:20px 8px; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; white-space:nowrap; justify-content:flex-start;">
-
-<img src="screenshots/Screenshot 2026-08-18 174636.png" width="420" alt="Marbella Application Screenshot" style="flex:0 0 auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" />
-<img src="screenshots/Screenshot 2026-08-18 185557.png" width="420" alt="Marbella Application Screenshot" style="flex:0 0 auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" />
-<img src="screenshots/Screenshot 2026-08-18 200832.png" width="420" alt="Marbella Application Screenshot" style="flex:0 0 auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" />
-<img src="screenshots/Screenshot 2026-08-18 202726.png" width="420" alt="Marbella Application Screenshot" style="flex:0 0 auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" />
-<img src="screenshots/Screenshot 2026-08-18 203610.png" width="420" alt="Marbella Application Screenshot" style="flex:0 0 auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" />
-<img src="screenshots/Screenshot 2026-08-18 203649.png" width="420" alt="Marbella Application Screenshot" style="flex:0 0 auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" />
-<img src="screenshots/Screenshot 2026-08-18 204024.png" width="420" alt="Marbella Application Screenshot" style="flex:0 0 auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" />
-<img src="screenshots/Screenshot 2026-08-18 231247.png" width="420" alt="Marbella Application Screenshot" style="flex:0 0 auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" />
-<img src="screenshots/Screenshot 2026-08-18 203247.png" width="420" alt="Marbella Application Screenshot" style="flex:0 0 auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" />
-
-</div>
-
-<div align="center">
+<table>
+  <tr>
+    <td align="center"><img src="screenshots/Screenshot 2026-08-18 174636.png" width="360" alt="Marbella Application Screenshot" style="border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" /></td>
+    <td align="center"><img src="screenshots/Screenshot 2026-08-18 185557.png" width="360" alt="Marbella Application Screenshot" style="border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" /></td>
+    <td align="center"><img src="screenshots/Screenshot 2026-08-18 200832.png" width="360" alt="Marbella Application Screenshot" style="border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" /></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="screenshots/Screenshot 2026-08-18 202726.png" width="360" alt="Marbella Application Screenshot" style="border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" /></td>
+    <td align="center"><img src="screenshots/Screenshot 2026-08-18 203610.png" width="360" alt="Marbella Application Screenshot" style="border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" /></td>
+    <td align="center"><img src="screenshots/Screenshot 2026-08-18 203649.png" width="360" alt="Marbella Application Screenshot" style="border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" /></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="screenshots/Screenshot 2026-08-18 204024.png" width="360" alt="Marbella Application Screenshot" style="border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" /></td>
+    <td align="center"><img src="screenshots/Screenshot 2026-08-18 231247.png" width="360" alt="Marbella Application Screenshot" style="border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" /></td>
+    <td align="center"><img src="screenshots/Screenshot 2026-08-18 203247.png" width="360" alt="Marbella Application Screenshot" style="border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" /></td>
+  </tr>
+</table>
 
 _Additional application screens are available in the [`screenshots/`](./screenshots) directory._
 
